@@ -1,0 +1,12 @@
+# Com.Auth0.FGA.Model.CheckRequestParams
+
+## Properties
+
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**TupleKey** | [**TupleKey**](TupleKey.md) |  | [optional] 
+**AuthorizationModelId** | **string** |  | [optional] 
+**Trace** | **bool** | Defaults to false. Making it true has performance implications. | [optional] [readonly] 
+
+[[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
+
