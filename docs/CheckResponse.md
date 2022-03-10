@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.CheckResponse
+# Auth0.Fga.Model.CheckResponse
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.Assertion
+# Auth0.Fga.Model.Assertion
 
 ## Properties
 

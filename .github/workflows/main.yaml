@@ -31,12 +31,12 @@ jobs:
         env:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
-          args: src/Com.Auth0.FGA/
+          args: src/Auth0.Fga/
 
       - uses: actions/upload-artifact@v2
         with:
           name: nuget-package
-          path: src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.*.nupkg
+          path: src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg
 
   publish:
     runs-on: ubuntu-latest
@@ -63,10 +63,10 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: nuget-package
-          path: src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.*.nupkg
+          path: src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg
 
       - name: Publish
-        run: dotnet nuget push src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.*.nupkg
+        run: dotnet nuget push src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg
 
   create-release:
     runs-on: ubuntu-latest

@@ -54,18 +54,18 @@ You can install it using:
 
 * The [dotnet CLI](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-dotnet-cli)
 ```powershell
-dotnet add package Com.Auth0.FGA
+dotnet add package Auth0.Fga
 ```
 
 * The [Package Manager Console](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-powershell) inside Visual Studio:
 
 ```powershell
-Install-Package Com.Auth0.FGA
+Install-Package Auth0.Fga
 ```
 
 * [Visual Studio](https://docs.microsoft.com/en-us/nuget/consume-packages/install-use-packages-visual-studio), [Visual Studio for Mac](https://docs.microsoft.com/en-us/visualstudio/mac/nuget-walkthrough) and [IntelliJ Rider](https://www.jetbrains.com/help/rider/Using_NuGet.html)
 
-Search for and install `Com.Auth0.FGA` in each of their respective package manager UIs.
+Search for and install `Auth0.Fga` in each of their respective package manager UIs.
 
 
 ## Getting Started
@@ -73,10 +73,10 @@ Search for and install `Com.Auth0.FGA` in each of their respective package manag
 ### Initializing the API Client
 
 ```csharp
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example {
     public class Example {
@@ -88,7 +88,7 @@ namespace Example {
                     ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
                     ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
                 };
-                var auth0FgaApi = new (configuration);
+                var auth0FgaApi = new Auth0FgaApi(configuration);
                 var response = auth0FgaApi.ReadAuthorizationModels();
                 Debug.WriteLine(response.AuthorizationModelIds);
             } catch (ApiException e) {

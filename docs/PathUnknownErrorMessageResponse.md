@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.PathUnknownErrorMessageResponse
+# Auth0.Fga.Model.PathUnknownErrorMessageResponse
 
 ## Properties
 

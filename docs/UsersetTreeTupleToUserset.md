@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.UsersetTreeTupleToUserset
+# Auth0.Fga.Model.UsersetTreeTupleToUserset
 
 ## Properties
 

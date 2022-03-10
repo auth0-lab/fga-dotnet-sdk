@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.WriteTokenIssuersResponse
+# Auth0.Fga.Model.WriteTokenIssuersResponse
 
 ## Properties
 

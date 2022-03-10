@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ValidationErrorMessageResponse
+# Auth0.Fga.Model.ValidationErrorMessageResponse
 
 ## Properties
 

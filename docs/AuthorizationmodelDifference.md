@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.AuthorizationmodelDifference
+# Auth0.Fga.Model.AuthorizationmodelDifference
 
 ## Properties
 

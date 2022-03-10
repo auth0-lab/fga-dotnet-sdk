@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ResourceExhaustedErrorMessageResponse
+# Auth0.Fga.Model.ResourceExhaustedErrorMessageResponse
 
 ## Properties
 

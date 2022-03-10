@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ObjectRelation
+# Auth0.Fga.Model.ObjectRelation
 
 ## Properties
 

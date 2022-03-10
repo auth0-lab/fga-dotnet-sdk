@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ResourceExhaustedErrorCode
+# Auth0.Fga.Model.ResourceExhaustedErrorCode
 - no_resource_exhausted_error: no error  - rate_limit_exceeded: operation failed due to exceeding rate limit.  - auth_rate_limit_exceeded: rate limit error during authentication.
 
 ## Properties

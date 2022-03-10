@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.AuthorizationmodelTupleToUserset
+# Auth0.Fga.Model.AuthorizationmodelTupleToUserset
 
 ## Properties
 

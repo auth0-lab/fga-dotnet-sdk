@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Api.Auth0FgaApi
+# Auth0.Fga.Api.Auth0FgaApi
 
 All URIs are relative to *https://api.us1.fga.dev*
 
@@ -32,10 +32,10 @@ The check API will return whether the user has a certain relationship with an ob
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -113,10 +113,10 @@ The DELETE token-issuers API will remove the specified 3rd party token issuer as
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -193,10 +193,10 @@ The expand API will return all users (including user and userset) that have cert
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -274,10 +274,10 @@ The POST read API will return the tuples for a certain store that matches a quer
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -355,10 +355,10 @@ The GET assertions API will return, for a given authorization model id, all the 
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -436,10 +436,10 @@ The GET authorization-models by ID API will return a particular version of autho
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -517,10 +517,10 @@ The GET authorization-models API will return all the IDs of the authorization mo
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -600,10 +600,10 @@ The GET settings API will return the store's settings, including environment tag
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -679,10 +679,10 @@ The POST write API will update the tuples for a certain store.  Tuples and type 
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -760,10 +760,10 @@ The POST assertions API will add new assertions for an authorization model id, o
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -842,10 +842,10 @@ The POST authorization-model API will update the authorization model for a certa
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -923,10 +923,10 @@ The PATCH settings API will update the environment tag to differentiate between 
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {
@@ -1004,10 +1004,10 @@ The POST token-issuers API will configure FGA so that tokens issued by the speci
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
-using Com.Auth0.FGA.Api;
-using Com.Auth0.FGA.Client;
-using Com.Auth0.FGA.Configuration;
-using Com.Auth0.FGA.Model;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
 
 namespace Example
 {

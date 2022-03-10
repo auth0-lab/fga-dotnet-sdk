@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.UsersetTreeDifference
+# Auth0.Fga.Model.UsersetTreeDifference
 
 ## Properties
 

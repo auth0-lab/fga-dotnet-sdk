@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ReadSettingsResponse
+# Auth0.Fga.Model.ReadSettingsResponse
 
 ## Properties
 

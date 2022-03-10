@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.Computed
+# Auth0.Fga.Model.Computed
 
 ## Properties
 

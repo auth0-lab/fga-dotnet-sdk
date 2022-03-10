@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.Node
+# Auth0.Fga.Model.Node
 
 ## Properties
 

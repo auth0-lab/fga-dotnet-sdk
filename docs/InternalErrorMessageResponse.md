@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.InternalErrorMessageResponse
+# Auth0.Fga.Model.InternalErrorMessageResponse
 
 ## Properties
 

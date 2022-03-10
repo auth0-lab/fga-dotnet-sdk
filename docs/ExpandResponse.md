@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.ExpandResponse
+# Auth0.Fga.Model.ExpandResponse
 
 ## Properties
 

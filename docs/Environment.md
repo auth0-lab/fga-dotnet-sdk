@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.Environment
+# Auth0.Fga.Model.Environment
 
 ## Properties
 

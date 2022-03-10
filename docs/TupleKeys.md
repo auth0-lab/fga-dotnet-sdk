@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.TupleKeys
+# Auth0.Fga.Model.TupleKeys
 
 ## Properties
 

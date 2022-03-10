@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TargetFramework>net6.0</TargetFramework>
+    <AssemblyName>Auth0.Fga</AssemblyName>
+    <PackageId>Auth0.Fga</PackageId>
+    <OutputType>Library</OutputType>
+    <Authors>Auth0 FGA Team</Authors>
+    <Company>Auth0 Lab</Company>
+    <AssemblyTitle>Auth0 FGA SDK for .NET</AssemblyTitle>
+    <Description>.NET SDK for Auth0 Fine Grained Authorization (FGA)</Description>
+    <Copyright>Auth0® Inc.</Copyright>
+    <RootNamespace>Auth0.Fga</RootNamespace>
+    <Version>0.2.0</Version>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Auth0.Fga.xml</DocumentationFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/auth0-lab/fga-dotnet-sdk.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageReleaseNotes>https://github.com/auth0-lab/fga-dotnet-sdk/blob/main/CHANGELOG.md</PackageReleaseNotes>
+    <PackageTags>authorization;fga;fine-grained-authorization;auth0-fga;auth0-fine-grained-authorization;auth0-fga-api-client;sandcastle;zanzibar</PackageTags>
+    <Nullable>annotations</Nullable>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Models" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.WriteAssertionsRequestParams
+# Auth0.Fga.Model.WriteAssertionsRequestParams
 
 ## Properties
 

@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.UsersetTree
+# Auth0.Fga.Model.UsersetTree
 A UsersetTree contains the result of an Expansion.
 
 ## Properties

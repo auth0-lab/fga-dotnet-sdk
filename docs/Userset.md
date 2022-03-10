@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.Userset
+# Auth0.Fga.Model.Userset
 
 ## Properties
 

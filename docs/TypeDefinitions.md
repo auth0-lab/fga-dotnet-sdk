@@ -1,4 +1,4 @@
-# Com.Auth0.FGA.Model.TypeDefinitions
+# Auth0.Fga.Model.TypeDefinitions
 
 ## Properties
 
