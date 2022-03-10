@@ -66,7 +66,7 @@ jobs:
           path: src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.*.nupkg
 
       - name: Publish
-        run: dotnet nuget push src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.$($env:GITHUB_REF -replace "refs/tags/v").nupkg
+        run: dotnet nuget push src/Com.Auth0.FGA/bin/Release/Com.Auth0.FGA.*.nupkg
 
   create-release:
     runs-on: ubuntu-latest
