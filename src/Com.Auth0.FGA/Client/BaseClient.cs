@@ -53,7 +53,7 @@ public class BaseClient : IDisposable {
     }
 
     /// <summary>
-    ///
+    /// Handles calling the API
     /// </summary>
     /// <param name="requestBuilder"></param>
     /// <param name="additionalHeaders"></param>
@@ -70,7 +70,23 @@ public class BaseClient : IDisposable {
     }
 
     /// <summary>
-    ///
+    /// Handles calling the API for requests that are expected to return no content
+    /// </summary>
+    /// <param name="requestBuilder"></param>
+    /// <param name="additionalHeaders"></param>
+    /// <param name="apiName"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    public async Task SendRequestAsync(RequestBuilder requestBuilder,
+        IDictionary<string, string>? additionalHeaders = null,
+        string? apiName = null, CancellationToken cancellationToken = default) {
+        var request = requestBuilder.BuildRequest();
+
+        await this.SendRequestAsync(request, additionalHeaders, apiName, cancellationToken);
+    }
+
+    /// <summary>
+    /// Handles calling the API
     /// </summary>
     /// <param name="request"></param>
     /// <param name="additionalHeaders"></param>
@@ -99,6 +115,35 @@ public class BaseClient : IDisposable {
 
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken).ConfigureAwait(false) ??
                 throw new Auth0FgaError();
+        }
+    }
+
+    /// <summary>
+    /// Handles calling the API for requests that are expected to return no content
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="additionalHeaders"></param>
+    /// <param name="apiName"></param>
+    /// <param name="cancellationToken"></param>
+    /// <returns></returns>
+    /// <exception cref="ApiException"></exception>
+    /// <exception cref="InvalidOperationException"></exception>
+    public async Task SendRequestAsync(HttpRequestMessage request,
+        IDictionary<string, string>? additionalHeaders = null,
+        string? apiName = null, CancellationToken cancellationToken = default) {
+        if (additionalHeaders != null) {
+            foreach (var header in additionalHeaders) {
+                if (header.Value != null) {
+                    request.Headers.Add(header.Key, header.Value);
+                }
+            }
+        }
+
+        var response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+        {
+            if (!response.IsSuccessStatusCode) {
+                throw await ApiException.CreateSpecificExceptionAsync(response, request, apiName).ConfigureAwait(false);
+            }
         }
     }
 

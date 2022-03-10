@@ -97,13 +97,12 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 <a name="deletetokenissuer"></a>
 # **DeleteTokenIssuer**
-> Object DeleteTokenIssuer (string id)
+> void DeleteTokenIssuer (string id)
 
 Remove 3rd party token issuer for Auth0 FGA read and write operations
 
@@ -138,8 +137,7 @@ namespace Example
             try
             {
                 // Remove 3rd party token issuer for Auth0 FGA read and write operations
-                Object response = await auth0FgaApi.DeleteTokenIssuer(id);
-                Debug.WriteLine(response);
+                auth0FgaApi.DeleteTokenIssuer(id);
             }
             catch (ApiException  e)
             {
@@ -161,7 +159,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Object**
+void (empty response body)
 
 ### HTTP request headers
 
@@ -172,7 +170,6 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
 | **204** | A successful response. |  -  |
 | **400** | Request failed due to invalid input. |  -  |
 | **401** | Request failed due to authentication errors. |  -  |
@@ -180,7 +177,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -262,7 +258,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -344,7 +339,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -426,7 +420,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -508,7 +501,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -592,7 +584,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -672,7 +663,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -754,13 +744,12 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
 <a name="writeassertions"></a>
 # **WriteAssertions**
-> Object WriteAssertions (string authorizationModelId, WriteAssertionsRequestParams body)
+> void WriteAssertions (string authorizationModelId, WriteAssertionsRequestParams body)
 
 Upsert assertions for an authorization model ID
 
@@ -796,8 +785,7 @@ namespace Example
             try
             {
                 // Upsert assertions for an authorization model ID
-                Object response = await auth0FgaApi.WriteAssertions(authorizationModelId, body);
-                Debug.WriteLine(response);
+                auth0FgaApi.WriteAssertions(authorizationModelId, body);
             }
             catch (ApiException  e)
             {
@@ -820,7 +808,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-**Object**
+void (empty response body)
 
 ### HTTP request headers
 
@@ -831,7 +819,6 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
 | **204** | A successful response. |  -  |
 | **400** | Request failed due to invalid input. |  -  |
 | **401** | Request failed due to authentication errors. |  -  |
@@ -839,7 +826,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -914,7 +900,6 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
 | **201** | A successful response. |  -  |
 | **400** | Request failed due to invalid input. |  -  |
 | **401** | Request failed due to authentication errors. |  -  |
@@ -922,7 +907,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1004,7 +988,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
@@ -1079,7 +1062,6 @@ Name | Type | Description  | Notes
 ### HTTP response details
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
 | **201** | A successful response. |  -  |
 | **400** | Request failed due to invalid input. |  -  |
 | **401** | Request failed due to authentication errors. |  -  |
@@ -1087,7 +1069,6 @@ Name | Type | Description  | Notes
 | **404** | Request failed due to incorrect path. |  -  |
 | **429** | Request failed due to too many requests. |  -  |
 | **500** | Request failed due to internal server error. |  -  |
-| **0** | An unexpected error response. |  -  |
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 

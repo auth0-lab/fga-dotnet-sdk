@@ -89,8 +89,8 @@ public class Auth0FgaApi : IDisposable {
     /// <exception cref="Exceptions.ApiException">Thrown when fails to make API call</exception>
     /// <param name="id">Id of token issuer to be removed</param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-    /// <returns>Task of Object</returns>
-    public async Task<Object> DeleteTokenIssuer(string id, CancellationToken cancellationToken = default) {
+    /// <returns>Task of void</returns>
+    public async Task DeleteTokenIssuer(string id, CancellationToken cancellationToken = default) {
         var pathParams = new Dictionary<string, string> { { "store_id", _configuration.StoreId } };
 
         if (id != null) {
@@ -106,7 +106,7 @@ public class Auth0FgaApi : IDisposable {
             QueryParameters = queryParams
         };
 
-        return await this._apiClient.SendRequestAsync<Object>(requestBuilder,
+        await this._apiClient.SendRequestAsync(requestBuilder,
             "DeleteTokenIssuer", cancellationToken);
     }
 
@@ -300,8 +300,8 @@ public class Auth0FgaApi : IDisposable {
     /// <param name="authorizationModelId"></param>
     /// <param name="body"></param>
     /// <param name="cancellationToken">Cancellation Token to cancel the request.</param>
-    /// <returns>Task of Object</returns>
-    public async Task<Object> WriteAssertions(string authorizationModelId, WriteAssertionsRequestParams body, CancellationToken cancellationToken = default) {
+    /// <returns>Task of void</returns>
+    public async Task WriteAssertions(string authorizationModelId, WriteAssertionsRequestParams body, CancellationToken cancellationToken = default) {
         var pathParams = new Dictionary<string, string> { { "store_id", _configuration.StoreId } };
 
         if (authorizationModelId != null) {
@@ -318,7 +318,7 @@ public class Auth0FgaApi : IDisposable {
             QueryParameters = queryParams
         };
 
-        return await this._apiClient.SendRequestAsync<Object>(requestBuilder,
+        await this._apiClient.SendRequestAsync(requestBuilder,
             "WriteAssertions", cancellationToken);
     }
 

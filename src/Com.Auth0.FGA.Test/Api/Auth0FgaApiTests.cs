@@ -801,8 +801,7 @@ namespace Com.Auth0.FGA.Test.Api {
                     ItExpr.IsAny<CancellationToken>()
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new Object()),
+                    StatusCode = HttpStatusCode.NoContent,
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
@@ -811,7 +810,7 @@ namespace Com.Auth0.FGA.Test.Api {
             var body = new WriteAssertionsRequestParams(assertions: new List<Assertion>() {
                 new(new TupleKey("repo:auth0/express-jwt", "reader", "anne"), true)
             });
-            var response = await auth0FgaApi.WriteAssertions(authorizationModelId, body);
+            await auth0FgaApi.WriteAssertions(authorizationModelId, body);
 
             mockHandler.Protected().Verify(
                 "SendAsync",
@@ -1010,14 +1009,13 @@ namespace Com.Auth0.FGA.Test.Api {
                     ItExpr.IsAny<CancellationToken>()
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new Object()),
+                    StatusCode = HttpStatusCode.NoContent,
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var response = await auth0FgaApi.DeleteTokenIssuer(issuerId);
+            await auth0FgaApi.DeleteTokenIssuer(issuerId);
 
             mockHandler.Protected().Verify(
                 "SendAsync",
