@@ -66,7 +66,7 @@ jobs:
           path: src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg
 
       - name: Publish
-        run: dotnet nuget push src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg
+        run: dotnet nuget push src/Auth0.Fga/bin/Release/Auth0.Fga.*.nupkg --api-key ${NUGET_AUTH_TOKEN}
         env:
           NUGET_AUTH_TOKEN: ${{secrets.NUGET_AUTH_TOKEN}}
 
