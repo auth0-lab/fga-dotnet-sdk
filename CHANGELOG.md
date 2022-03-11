@@ -1,9 +1,17 @@
 # Changelog
 
+## v0.2.1
+
+### [0.2.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.2.0...v0.2.1) (2022-03-11)
+
+#### Changes
+chore(ci): add logo and enable auto-publish to nuget
+
 ## v0.2.0
 
 ### [0.2.0](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.1.1...v0.2.0) (2022-03-10)
 
+#### Changes
 Project name is now `Auth0.Fga`
 
 ## v0.1.1
