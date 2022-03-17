@@ -1,11 +1,9 @@
-# Auth0.Fga.Model.Assertion
+# Auth0.Fga.Model.TupleOperation
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**TupleKey** | [**TupleKey**](TupleKey.md) |  | [optional] 
-**Expectation** | **bool** |  | 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
 

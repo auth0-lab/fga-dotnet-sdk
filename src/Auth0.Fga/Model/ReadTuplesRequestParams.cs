@@ -20,41 +20,34 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// Assertion
+    /// ReadTuplesRequestParams
     /// </summary>
-    [DataContract(Name = "Assertion")]
-    public partial class Assertion : IEquatable<Assertion>, IValidatableObject {
+    [DataContract(Name = "ReadTuplesRequestParams")]
+    public partial class ReadTuplesRequestParams : IEquatable<ReadTuplesRequestParams>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Assertion" /> class.
+        /// Initializes a new instance of the <see cref="ReadTuplesRequestParams" /> class.
         /// </summary>
-        [JsonConstructor]
-        protected Assertion() {
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="Assertion" /> class.
-        /// </summary>
-        /// <param name="tupleKey">tupleKey.</param>
-        /// <param name="expectation">expectation (required).</param>
-        public Assertion(TupleKey? tupleKey = default(TupleKey), bool expectation = default(bool)) {
-            this.Expectation = expectation;
-            this.TupleKey = tupleKey;
+        /// <param name="pageSize">pageSize.</param>
+        /// <param name="continuationToken">continuationToken.</param>
+        public ReadTuplesRequestParams(int pageSize = default(int), string? continuationToken = default(string)) {
+            this.PageSize = pageSize;
+            this.ContinuationToken = continuationToken;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets TupleKey
+        /// Gets or Sets PageSize
         /// </summary>
-        [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
-        [JsonPropertyName("tuple_key")]
-        public TupleKey TupleKey { get; set; }
+        [DataMember(Name = "page_size", EmitDefaultValue = false)]
+        [JsonPropertyName("page_size")]
+        public int PageSize { get; set; }
 
         /// <summary>
-        /// Gets or Sets Expectation
+        /// Gets or Sets ContinuationToken
         /// </summary>
-        [DataMember(Name = "expectation", IsRequired = true, EmitDefaultValue = true)]
-        [JsonPropertyName("expectation")]
-        public bool Expectation { get; set; }
+        [DataMember(Name = "continuation_token", EmitDefaultValue = false)]
+        [JsonPropertyName("continuation_token")]
+        public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,11 +65,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a Assertion from the JSON string presentation of the object
+        /// Builds a ReadTuplesRequestParams from the JSON string presentation of the object
         /// </summary>
-        /// <returns>Assertion</returns>
-        public static Assertion FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<Assertion>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>ReadTuplesRequestParams</returns>
+        public static ReadTuplesRequestParams FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<ReadTuplesRequestParams>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -85,27 +78,27 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as Assertion);
+            return this.Equals(input as ReadTuplesRequestParams);
         }
 
         /// <summary>
-        /// Returns true if Assertion instances are equal
+        /// Returns true if ReadTuplesRequestParams instances are equal
         /// </summary>
-        /// <param name="input">Instance of Assertion to be compared</param>
+        /// <param name="input">Instance of ReadTuplesRequestParams to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Assertion input) {
+        public bool Equals(ReadTuplesRequestParams input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.TupleKey == input.TupleKey ||
-                    (this.TupleKey != null &&
-                    this.TupleKey.Equals(input.TupleKey))
+                    this.PageSize == input.PageSize ||
+                    this.PageSize.Equals(input.PageSize)
                 ) &&
                 (
-                    this.Expectation == input.Expectation ||
-                    this.Expectation.Equals(input.Expectation)
+                    this.ContinuationToken == input.ContinuationToken ||
+                    (this.ContinuationToken != null &&
+                    this.ContinuationToken.Equals(input.ContinuationToken))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -118,10 +111,10 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.TupleKey != null) {
-                    hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
+                hashCode = (hashCode * 9923) + this.PageSize.GetHashCode();
+                if (this.ContinuationToken != null) {
+                    hashCode = (hashCode * 9923) + this.ContinuationToken.GetHashCode();
                 }
-                hashCode = (hashCode * 9923) + this.Expectation.GetHashCode();
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();
                 }

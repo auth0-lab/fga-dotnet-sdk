@@ -59,7 +59,7 @@ public class Configuration {
     ///     Version of the package.
     /// </summary>
     /// <value>Version of the package.</value>
-    public const string Version = "0.2.1";
+    public const string Version = "0.2.2";
 
     #endregion Constants
 
@@ -84,7 +84,7 @@ public class Configuration {
         if (string.IsNullOrEmpty(Environment)) {
             Environment = DefaultEnvironment;
         }
-        UserAgent = "auth0-fga-sdk (dotnet) 0.2.1";
+        UserAgent = "auth0-fga-sdk {sdkId}/{packageVersion}".Replace("{sdkId}", "dotnet").Replace("{packageVersion}", "0.2.2");
         DefaultHeaders ??= new Dictionary<string, string>();
 
         if (!DefaultHeaders.ContainsKey("User-Agent")) {

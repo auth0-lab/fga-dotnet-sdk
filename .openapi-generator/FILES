@@ -41,6 +41,7 @@ docs/PathUnknownErrorMessageResponse.md
 docs/ReadAssertionsResponse.md
 docs/ReadAuthorizationModelResponse.md
 docs/ReadAuthorizationModelsResponse.md
+docs/ReadChangesResponse.md
 docs/ReadRequestParams.md
 docs/ReadResponse.md
 docs/ReadSettingsResponse.md
@@ -49,8 +50,10 @@ docs/ResourceExhaustedErrorMessageResponse.md
 docs/Status.md
 docs/TokenIssuer.md
 docs/Tuple.md
+docs/TupleChange.md
 docs/TupleKey.md
 docs/TupleKeys.md
+docs/TupleOperation.md
 docs/TypeDefinition.md
 docs/TypeDefinitions.md
 docs/Users.md
@@ -117,6 +120,7 @@ src/Auth0.Fga/Model/PathUnknownErrorMessageResponse.cs
 src/Auth0.Fga/Model/ReadAssertionsResponse.cs
 src/Auth0.Fga/Model/ReadAuthorizationModelResponse.cs
 src/Auth0.Fga/Model/ReadAuthorizationModelsResponse.cs
+src/Auth0.Fga/Model/ReadChangesResponse.cs
 src/Auth0.Fga/Model/ReadRequestParams.cs
 src/Auth0.Fga/Model/ReadResponse.cs
 src/Auth0.Fga/Model/ReadSettingsResponse.cs
@@ -125,8 +129,10 @@ src/Auth0.Fga/Model/ResourceExhaustedErrorMessageResponse.cs
 src/Auth0.Fga/Model/Status.cs
 src/Auth0.Fga/Model/TokenIssuer.cs
 src/Auth0.Fga/Model/Tuple.cs
+src/Auth0.Fga/Model/TupleChange.cs
 src/Auth0.Fga/Model/TupleKey.cs
 src/Auth0.Fga/Model/TupleKeys.cs
+src/Auth0.Fga/Model/TupleOperation.cs
 src/Auth0.Fga/Model/TypeDefinition.cs
 src/Auth0.Fga/Model/TypeDefinitions.cs
 src/Auth0.Fga/Model/Users.cs

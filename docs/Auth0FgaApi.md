@@ -11,6 +11,7 @@ Method | HTTP request | Description
 [**ReadAssertions**](Auth0FgaApi.md#readassertions) | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID
 [**ReadAuthorizationModel**](Auth0FgaApi.md#readauthorizationmodel) | **GET** /stores/{store_id}/authorization-models/{id} | Return a particular version of an authorization model
 [**ReadAuthorizationModels**](Auth0FgaApi.md#readauthorizationmodels) | **GET** /stores/{store_id}/authorization-models | Return all the authorization model IDs for a particular store
+[**ReadChanges**](Auth0FgaApi.md#readchanges) | **GET** /stores/{store_id}/changes | Return a list of all the tuple changes
 [**ReadSettings**](Auth0FgaApi.md#readsettings) | **GET** /stores/{store_id}/settings | Return store settings, including the environment tag
 [**Write**](Auth0FgaApi.md#write) | **POST** /stores/{store_id}/write | Add or delete tuples from the store
 [**WriteAssertions**](Auth0FgaApi.md#writeassertions) | **PUT** /stores/{store_id}/assertions/{authorization_model_id} | Upsert assertions for an authorization model ID
@@ -21,11 +22,11 @@ Method | HTTP request | Description
 
 <a name="check"></a>
 # **Check**
-> CheckResponse Check (CheckRequestParams body)
+> CheckResponse Check (CheckRequestParams _params)
 
 Check whether a user is authorized to access an object
 
-The check API will return whether the user has a certain relationship with an object in a certain store. Path parameter `store_id` as well as body parameter `object`, `relation` and `user` are all required. The response will return whether the relationship exists in the field `allowed`.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **25** check requests per second (RPS). ## Example In order to check if user `anne@auth0.com` has an owner relationship with object document:2021-budget, a check API call should be fired with the following body ```json {   \"tuple_key\": {     \"user\": \"anne@auth0.com\",     \"relation\": \"owner\"     \"object\": \"document:2021-budget\"   } } ``` Auth0 FGA's response will include `{ \"allowed\": true }` if there is a relationship and `{ \"allowed\": false }` if there isn't.
+The check API will return whether the user has a certain relationship with an object in a certain store. Path parameter `store_id` as well as body parameter `object`, `relation` and `user` are all required. The response will return whether the relationship exists in the field `allowed`.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **300** check requests per second (RPS). ## Example In order to check if user `anne@auth0.com` has an owner relationship with object document:2021-budget, a check API call should be fired with the following body ```json {   \"tuple_key\": {     \"user\": \"anne@auth0.com\",     \"relation\": \"owner\",     \"object\": \"document:2021-budget\"   } } ``` Auth0 FGA's response will include `{ \"allowed\": true }` if there is a relationship and `{ \"allowed\": false }` if there isn't.
 
 ### Example
 ```csharp
@@ -51,12 +52,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new CheckRequestParams(); // CheckRequestParams | 
+            var _params = new CheckRequestParams(); // CheckRequestParams | 
 
             try
             {
                 // Check whether a user is authorized to access an object
-                CheckResponse response = await auth0FgaApi.Check(body);
+                CheckResponse response = await auth0FgaApi.Check(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -75,7 +76,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**CheckRequestParams**](CheckRequestParams.md)|  | 
+ **_params** | [**CheckRequestParams**](CheckRequestParams.md)|  | 
 
 ### Return type
 
@@ -182,7 +183,7 @@ void (empty response body)
 
 <a name="expand"></a>
 # **Expand**
-> ExpandResponse Expand (ExpandRequestParams body)
+> ExpandResponse Expand (ExpandRequestParams _params)
 
 Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship
 
@@ -212,12 +213,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new ExpandRequestParams(); // ExpandRequestParams | 
+            var _params = new ExpandRequestParams(); // ExpandRequestParams | 
 
             try
             {
                 // Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship
-                ExpandResponse response = await auth0FgaApi.Expand(body);
+                ExpandResponse response = await auth0FgaApi.Expand(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -236,7 +237,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**ExpandRequestParams**](ExpandRequestParams.md)|  | 
+ **_params** | [**ExpandRequestParams**](ExpandRequestParams.md)|  | 
 
 ### Return type
 
@@ -263,11 +264,11 @@ Name | Type | Description  | Notes
 
 <a name="read"></a>
 # **Read**
-> ReadResponse Read (ReadRequestParams body)
+> ReadResponse Read (ReadRequestParams _params)
 
 Get tuples from the store that matches a query, without following userset rewrite rules
 
-The POST read API will return the tuples for a certain store that matches a query filter specified in the body. Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. It is different from the `/stores/{store_id}/expand` API in that only read returns relationship tuples that are stored in the system and satisfy the query. It does not expand or traverse the graph by taking the authorization model into account.Path parameter `store_id` is required.  In the body: 1. Object is mandatory. An object can be a full object (e.g., `type:object_id`) or type only (e.g., `type:`). 2. User is mandatory in the case the object is type only. ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **5** read requests per second (RPS). ## Examples ### Query for all objects in a type definition To query for all objects that `bob@auth0.com` has `reader` relationship in the document type definition, call read API with body of ```json {  \"tuple_key\": {      \"user\": \"bob@auth0.com\",      \"relation\": \"reader\",      \"object\": \"document:\"   } } ``` The API will return tuples and an optional continuation token, something like ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `bob@auth0.com` has a `reader` relationship with 1 document `document:2021-budget`. ### Query for all users with particular relationships for a particular document To query for all users that have `reader` relationship with `document:2021-budget`, call read API with body of  ```json {   \"tuple_key\": {      \"object\": \"document:2021-budget\",      \"relation\": \"reader\"    } } ``` The API will return something like  ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `document:2021-budget` has 1 `reader` (`bob@auth0.com`).  Note that the API will not return writers such as `anne@auth0.com` even when all writers are readers.  This is because only direct relationship are returned for the READ API. ### Query for all users with all relationships for a particular document To query for all users that have any relationship with `document:2021-budget`, call read API with body of  ```json {   \"tuple_key\": {       \"object\": \"document:2021-budget\"    } } ``` The API will return something like  ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-05T13:42:12.356Z\"     },     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `document:2021-budget` has 1 `reader` (`bob@auth0.com`) and 1 `writer` (`anne@auth0.com`). 
+The POST read API will return the tuples for a certain store that matches a query filter specified in the body. Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. It is different from the `/stores/{store_id}/expand` API in that only read returns relationship tuples that are stored in the system and satisfy the query. It does not expand or traverse the graph by taking the authorization model into account.Path parameter `store_id` is required.  In the body: 1. Object is mandatory. An object can be a full object (e.g., `type:object_id`) or type only (e.g., `type:`). 2. User is mandatory in the case the object is type only. ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **25** read requests per second (RPS). ## Examples ### Query for all objects in a type definition To query for all objects that `bob@auth0.com` has `reader` relationship in the document type definition, call read API with body of ```json {  \"tuple_key\": {      \"user\": \"bob@auth0.com\",      \"relation\": \"reader\",      \"object\": \"document:\"   } } ``` The API will return tuples and an optional continuation token, something like ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `bob@auth0.com` has a `reader` relationship with 1 document `document:2021-budget`. ### Query for all users with particular relationships for a particular document To query for all users that have `reader` relationship with `document:2021-budget`, call read API with body of  ```json {   \"tuple_key\": {      \"object\": \"document:2021-budget\",      \"relation\": \"reader\"    } } ``` The API will return something like  ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `document:2021-budget` has 1 `reader` (`bob@auth0.com`).  Note that the API will not return writers such as `anne@auth0.com` even when all writers are readers.  This is because only direct relationship are returned for the READ API. ### Query for all users with all relationships for a particular document To query for all users that have any relationship with `document:2021-budget`, call read API with body of  ```json {   \"tuple_key\": {       \"object\": \"document:2021-budget\"    } } ``` The API will return something like  ```json {   \"tuples\": [     {       \"key\": {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-05T13:42:12.356Z\"     },     {       \"key\": {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       },       \"timestamp\": \"2021-10-06T15:32:11.128Z\"     }   ] } ``` This means that `document:2021-budget` has 1 `reader` (`bob@auth0.com`) and 1 `writer` (`anne@auth0.com`). 
 
 ### Example
 ```csharp
@@ -293,12 +294,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new ReadRequestParams(); // ReadRequestParams | 
+            var _params = new ReadRequestParams(); // ReadRequestParams | 
 
             try
             {
                 // Get tuples from the store that matches a query, without following userset rewrite rules
-                ReadResponse response = await auth0FgaApi.Read(body);
+                ReadResponse response = await auth0FgaApi.Read(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -317,7 +318,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**ReadRequestParams**](ReadRequestParams.md)|  | 
+ **_params** | [**ReadRequestParams**](ReadRequestParams.md)|  | 
 
 ### Return type
 
@@ -587,6 +588,91 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
+<a name="readchanges"></a>
+# **ReadChanges**
+> ReadChangesResponse ReadChanges (string? type = null, int? pageSize = null, string? continuationToken = null)
+
+Return a list of all the tuple changes
+
+The GET changes API will return a paginated list of tuple changes (additions and deletions) that occurred in a given store, sorted by ascending time. The response will include a continuation token that is used to get the next set of changes. If there are no changes after the provided continuation token, the same token will be returned in order for it to be used when new changes are recorded. If the store never had any tuples added or removed, this token will be empty. You can use the `type` parameter to only get the list of tuple changes that affect objects of that type. Each store has a limit of **5** requests per second (RPS).
+
+### Example
+```csharp
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Net.Http;
+using Auth0.Fga.Api;
+using Auth0.Fga.Client;
+using Auth0.Fga.Configuration;
+using Auth0.Fga.Model;
+
+namespace Example
+{
+    public class ReadChangesExample
+    {
+        public static void Main()
+        {
+            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
+            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
+            var configuration = new Configuration(storeId, environment) {
+                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
+                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            };
+            HttpClient httpClient = new HttpClient();
+            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var type = "type_example";  // string? |  (optional) 
+            var pageSize = 56;  // int? |  (optional) 
+            var continuationToken = "continuationToken_example";  // string? |  (optional) 
+
+            try
+            {
+                // Return a list of all the tuple changes
+                ReadChangesResponse response = await auth0FgaApi.ReadChanges(type, pageSize, continuationToken);
+                Debug.WriteLine(response);
+            }
+            catch (ApiException  e)
+            {
+                Debug.Print("Exception when calling Auth0FgaApi.ReadChanges: " + e.Message );
+                Debug.Print("Status Code: "+ e.ErrorCode);
+                Debug.Print(e.StackTrace);
+            }
+        }
+    }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+
+ **type** | **string?**|  | [optional] 
+ **pageSize** | **int?**|  | [optional] 
+ **continuationToken** | **string?**|  | [optional] 
+
+### Return type
+
+[**ReadChangesResponse**](ReadChangesResponse.md)
+
+### HTTP request headers
+
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+| **200** | A successful response. |  -  |
+| **400** | Request failed due to invalid input. |  -  |
+| **401** | Request failed due to authentication errors. |  -  |
+| **403** | Request failed due to forbidden permission. |  -  |
+| **404** | Request failed due to incorrect path. |  -  |
+| **429** | Request failed due to too many requests. |  -  |
+| **500** | Request failed due to internal server error. |  -  |
+
+[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
+
 <a name="readsettings"></a>
 # **ReadSettings**
 > ReadSettingsResponse ReadSettings ()
@@ -668,11 +754,11 @@ Name | Type | Description  | Notes
 
 <a name="write"></a>
 # **Write**
-> Object Write (WriteRequestParams body)
+> Object Write (WriteRequestParams _params)
 
 Add or delete tuples from the store
 
-The POST write API will update the tuples for a certain store.  Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. Path parameter `store_id` is required.  In the body, `writes` adds new tuples while `deletes` remove existing tuples.  `lock_tuple` is reserved for future use.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each write API call allows at most **10** tuples. - Each store has a limit of **50000** tuples. - Each store has a limit of **3** write requests per second (RPS). ## Example ### Adding relationships To add `anne@auth0.com` as a `writer` for `document:2021-budget`, call write API with the following  ```json {   \"writes\": {     \"tuple_keys\": [       {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` ### Removing relationships To remove `bob@auth0.com` as a `reader` for `document:2021-budget`, call write API with the following  ```json {   \"deletes\": {     \"tuple_keys\": [       {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` 
+The POST write API will update the tuples for a certain store.  Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. Path parameter `store_id` is required.  In the body, `writes` adds new tuples while `deletes` remove existing tuples.  `lock_tuple` is reserved for future use.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each write API call allows at most **10** tuples. - Each store has a limit of **50000** tuples. - Each store has a limit of **20** write requests per second (RPS). ## Example ### Adding relationships To add `anne@auth0.com` as a `writer` for `document:2021-budget`, call write API with the following  ```json {   \"writes\": {     \"tuple_keys\": [       {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` ### Removing relationships To remove `bob@auth0.com` as a `reader` for `document:2021-budget`, call write API with the following  ```json {   \"deletes\": {     \"tuple_keys\": [       {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` 
 
 ### Example
 ```csharp
@@ -698,12 +784,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new WriteRequestParams(); // WriteRequestParams | 
+            var _params = new WriteRequestParams(); // WriteRequestParams | 
 
             try
             {
                 // Add or delete tuples from the store
-                Object response = await auth0FgaApi.Write(body);
+                Object response = await auth0FgaApi.Write(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -722,7 +808,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**WriteRequestParams**](WriteRequestParams.md)|  | 
+ **_params** | [**WriteRequestParams**](WriteRequestParams.md)|  | 
 
 ### Return type
 
@@ -749,7 +835,7 @@ Name | Type | Description  | Notes
 
 <a name="writeassertions"></a>
 # **WriteAssertions**
-> void WriteAssertions (string authorizationModelId, WriteAssertionsRequestParams body)
+> void WriteAssertions (string authorizationModelId, WriteAssertionsRequestParams _params)
 
 Upsert assertions for an authorization model ID
 
@@ -780,12 +866,12 @@ namespace Example
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
             var authorizationModelId = "authorizationModelId_example";  // string | 
-            var body = new WriteAssertionsRequestParams(); // WriteAssertionsRequestParams | 
+            var _params = new WriteAssertionsRequestParams(); // WriteAssertionsRequestParams | 
 
             try
             {
                 // Upsert assertions for an authorization model ID
-                auth0FgaApi.WriteAssertions(authorizationModelId, body);
+                auth0FgaApi.WriteAssertions(authorizationModelId, _params);
             }
             catch (ApiException  e)
             {
@@ -804,7 +890,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **authorizationModelId** | **string**|  | 
- **body** | [**WriteAssertionsRequestParams**](WriteAssertionsRequestParams.md)|  | 
+ **_params** | [**WriteAssertionsRequestParams**](WriteAssertionsRequestParams.md)|  | 
 
 ### Return type
 
@@ -831,7 +917,7 @@ void (empty response body)
 
 <a name="writeauthorizationmodel"></a>
 # **WriteAuthorizationModel**
-> WriteAuthorizationModelResponse WriteAuthorizationModel (TypeDefinitions body)
+> WriteAuthorizationModelResponse WriteAuthorizationModel (TypeDefinitions typeDefinitions)
 
 Create a new authorization model
 
@@ -861,12 +947,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new TypeDefinitions(); // TypeDefinitions | 
+            var typeDefinitions = new TypeDefinitions(); // TypeDefinitions | 
 
             try
             {
                 // Create a new authorization model
-                WriteAuthorizationModelResponse response = await auth0FgaApi.WriteAuthorizationModel(body);
+                WriteAuthorizationModelResponse response = await auth0FgaApi.WriteAuthorizationModel(typeDefinitions);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -885,7 +971,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**TypeDefinitions**](TypeDefinitions.md)|  | 
+ **typeDefinitions** | [**TypeDefinitions**](TypeDefinitions.md)|  | 
 
 ### Return type
 
@@ -912,7 +998,7 @@ Name | Type | Description  | Notes
 
 <a name="writesettings"></a>
 # **WriteSettings**
-> WriteSettingsResponse WriteSettings (WriteSettingsRequestParams body)
+> WriteSettingsResponse WriteSettings (WriteSettingsRequestParams _params)
 
 Update the environment tag for a store
 
@@ -942,12 +1028,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new WriteSettingsRequestParams(); // WriteSettingsRequestParams | 
+            var _params = new WriteSettingsRequestParams(); // WriteSettingsRequestParams | 
 
             try
             {
                 // Update the environment tag for a store
-                WriteSettingsResponse response = await auth0FgaApi.WriteSettings(body);
+                WriteSettingsResponse response = await auth0FgaApi.WriteSettings(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -966,7 +1052,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**WriteSettingsRequestParams**](WriteSettingsRequestParams.md)|  | 
+ **_params** | [**WriteSettingsRequestParams**](WriteSettingsRequestParams.md)|  | 
 
 ### Return type
 
@@ -993,7 +1079,7 @@ Name | Type | Description  | Notes
 
 <a name="writetokenissuer"></a>
 # **WriteTokenIssuer**
-> WriteTokenIssuersResponse WriteTokenIssuer (WriteTokenIssuersRequestParams body)
+> WriteTokenIssuersResponse WriteTokenIssuer (WriteTokenIssuersRequestParams _params)
 
 Add 3rd party token issuer for Auth0 FGA read and write operations
 
@@ -1023,12 +1109,12 @@ namespace Example
             };
             HttpClient httpClient = new HttpClient();
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var body = new WriteTokenIssuersRequestParams(); // WriteTokenIssuersRequestParams | 
+            var _params = new WriteTokenIssuersRequestParams(); // WriteTokenIssuersRequestParams | 
 
             try
             {
                 // Add 3rd party token issuer for Auth0 FGA read and write operations
-                WriteTokenIssuersResponse response = await auth0FgaApi.WriteTokenIssuer(body);
+                WriteTokenIssuersResponse response = await auth0FgaApi.WriteTokenIssuer(_params);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -1047,7 +1133,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **body** | [**WriteTokenIssuersRequestParams**](WriteTokenIssuersRequestParams.md)|  | 
+ **_params** | [**WriteTokenIssuersRequestParams**](WriteTokenIssuersRequestParams.md)|  | 
 
 ### Return type
 

@@ -20,25 +20,27 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// Assertion
+    /// TupleChange
     /// </summary>
-    [DataContract(Name = "Assertion")]
-    public partial class Assertion : IEquatable<Assertion>, IValidatableObject {
+    [DataContract(Name = "TupleChange")]
+    public partial class TupleChange : IEquatable<TupleChange>, IValidatableObject {
+
         /// <summary>
-        /// Initializes a new instance of the <see cref="Assertion" /> class.
+        /// Gets or Sets Operation
         /// </summary>
-        [JsonConstructor]
-        protected Assertion() {
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
+        [DataMember(Name = "operation", EmitDefaultValue = false)]
+        [JsonPropertyName("operation")]
+        public TupleOperation? Operation { get; set; }
         /// <summary>
-        /// Initializes a new instance of the <see cref="Assertion" /> class.
+        /// Initializes a new instance of the <see cref="TupleChange" /> class.
         /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
-        /// <param name="expectation">expectation (required).</param>
-        public Assertion(TupleKey? tupleKey = default(TupleKey), bool expectation = default(bool)) {
-            this.Expectation = expectation;
+        /// <param name="operation">operation.</param>
+        /// <param name="timestamp">timestamp.</param>
+        public TupleChange(TupleKey? tupleKey = default(TupleKey), TupleOperation? operation = default(TupleOperation?), DateTime timestamp = default(DateTime)) {
             this.TupleKey = tupleKey;
+            this.Operation = operation;
+            this.Timestamp = timestamp;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -50,11 +52,11 @@ namespace Auth0.Fga.Model {
         public TupleKey TupleKey { get; set; }
 
         /// <summary>
-        /// Gets or Sets Expectation
+        /// Gets or Sets Timestamp
         /// </summary>
-        [DataMember(Name = "expectation", IsRequired = true, EmitDefaultValue = true)]
-        [JsonPropertyName("expectation")]
-        public bool Expectation { get; set; }
+        [DataMember(Name = "timestamp", EmitDefaultValue = false)]
+        [JsonPropertyName("timestamp")]
+        public DateTime Timestamp { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,11 +74,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a Assertion from the JSON string presentation of the object
+        /// Builds a TupleChange from the JSON string presentation of the object
         /// </summary>
-        /// <returns>Assertion</returns>
-        public static Assertion FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<Assertion>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>TupleChange</returns>
+        public static TupleChange FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<TupleChange>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -85,15 +87,15 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as Assertion);
+            return this.Equals(input as TupleChange);
         }
 
         /// <summary>
-        /// Returns true if Assertion instances are equal
+        /// Returns true if TupleChange instances are equal
         /// </summary>
-        /// <param name="input">Instance of Assertion to be compared</param>
+        /// <param name="input">Instance of TupleChange to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Assertion input) {
+        public bool Equals(TupleChange input) {
             if (input == null) {
                 return false;
             }
@@ -104,8 +106,13 @@ namespace Auth0.Fga.Model {
                     this.TupleKey.Equals(input.TupleKey))
                 ) &&
                 (
-                    this.Expectation == input.Expectation ||
-                    this.Expectation.Equals(input.Expectation)
+                    this.Operation == input.Operation ||
+                    this.Operation.Equals(input.Operation)
+                ) &&
+                (
+                    this.Timestamp == input.Timestamp ||
+                    (this.Timestamp != null &&
+                    this.Timestamp.Equals(input.Timestamp))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -121,7 +128,10 @@ namespace Auth0.Fga.Model {
                 if (this.TupleKey != null) {
                     hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
                 }
-                hashCode = (hashCode * 9923) + this.Expectation.GetHashCode();
+                hashCode = (hashCode * 9923) + this.Operation.GetHashCode();
+                if (this.Timestamp != null) {
+                    hashCode = (hashCode * 9923) + this.Timestamp.GetHashCode();
+                }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();
                 }

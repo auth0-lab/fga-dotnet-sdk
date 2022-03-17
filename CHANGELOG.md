@@ -1,5 +1,13 @@
 # Changelog
 
+## v0.2.2
+
+### [0.2.2](https://github.com/auth0-lab/fga-go-sdk/compare/v0.2.1...v0.2.2) (2022-03-17)
+
+#### Changes
+- chore: fix user agent header format
+- feat: add support for the Watch API
+
 ## v0.2.1
 
 ### [0.2.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.2.0...v0.2.1) (2022-03-11)

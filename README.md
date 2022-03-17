@@ -22,6 +22,7 @@ Warning: This SDK comes with no SLAs and is not production-ready!
     - [Delete Tuples](#delete-tuples)
     - [Expand](#expand)
     - [Read](#read)
+    - [Read Changes (Watch)](#read-changes-watch)
   - [API Endpoints](#api-endpoints)
   - [Models](#models)
 - [Contributing](#contributing)
@@ -120,6 +121,8 @@ In the playground environment, you do not need to provide a client id and client
 
 #### Write Authorization Model
 
+[API Documentation](https://docs.fga.dev/api/service#/Store Models/auth0_fga_WriteAuthorizationModel)
+
 > Note: To learn how to build your authorization model, check the Docs at https://docs.fga.dev/
 
 > Note: The Auth0 FGA Playground, Dashboard and Documentation use a friendly syntax which gets translated to the API syntax seen below. Learn more about [the Auth0 FGA configuration language](https://docs.fga.dev/modeling/configuration-language).
@@ -142,6 +145,8 @@ var response = await auth0FgaApi.WriteAuthorizationModel(body);
 
 #### Read a Single Authorization Model
 
+[API Documentation](https://docs.fga.dev/api/service#/Store Models/auth0_fga_ReadAuthorizationModel)
+
 ```csharp
 string authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"; // Assuming `1uHxCSuTP0VKPYSnkq1pbb1jeZw` is an id of an existing model
 var response = await auth0FgaApi.ReadAuthorizationModel(authorizationModelId);
@@ -152,6 +157,8 @@ var response = await auth0FgaApi.ReadAuthorizationModel(authorizationModelId);
 
 #### Read Authorization Model IDs
 
+[API Documentation](https://docs.fga.dev/api/service#/Store Models/auth0_fga_ReadAuthorizationModels)
+
 ```csharp
 var response = await auth0FgaApi.ReadAuthorizationModels();
 
@@ -159,6 +166,8 @@ var response = await auth0FgaApi.ReadAuthorizationModels();
 ```
 
 #### Check
+
+[API Documentation](https://docs.fga.dev/api/service#/Tuples/auth0_fga_Check)
 
 ```csharp
 var body =
@@ -169,6 +178,8 @@ var response = await auth0FgaApi.Check(body);
 
 #### Write Tuples
 
+[API Documentation](https://docs.fga.dev/api/service#/Tuples/auth0_fga_Write)
+
 ```csharp
 var body = new WriteRequestParams(new TupleKeys(new List<TupleKey>
     {new("repo:auth0/express-jwt", "reader", "anne")}));
@@ -176,6 +187,8 @@ var response = await auth0FgaApi.Write(body);
 ```
 
 #### Delete Tuples
+
+[API Documentation](https://docs.fga.dev/api/service#/Tuples/auth0_fga_Write)
 
 ```csharp
 var body = new WriteRequestParams(new TupleKeys(new List<TupleKey> { }),
@@ -185,6 +198,8 @@ var response = await auth0FgaApi.Write(body);
 
 #### Expand
 
+[API Documentation](https://docs.fga.dev/api/service#/Debugging/auth0_fga_Expand)
+
 ```csharp
 var body = new ExpandRequestParams(new TupleKey("repo:auth0/express-jwt", "reader"));
 var response = await auth0FgaApi.Expand(body);
@@ -193,6 +208,8 @@ var response = await auth0FgaApi.Expand(body);
 ```
 
 #### Read
+
+[API Documentation](https://docs.fga.dev/api/service#/Tuples/auth0_fga_Read)
 
 ```csharp
 // Find if a relationship tuple stating that a certain user is an admin on a certain workspace
@@ -223,6 +240,24 @@ var response = await auth0FgaApi.Read(body);
 // response = {"tuples":[{"key":{"user":"...","relation":"...","object":"..."},"timestamp":"..."}]}
 ```
 
+#### Read Changes (Watch)
+
+[API Documentation](https://docs.fga.dev/api/service#/Tuples/auth0_fga_ReadChanges)
+
+```csharp
+var type = 'workspace';
+var pageSize = 25;
+var continuationToken = 'eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==';
+
+var response = await auth0FgaApi.ReadChanges(type, pageSize, continuationToken);
+
+// response.continuation_token = ...
+// response.changes = [
+//   { tuple_key: { user, relation, object }, operation: "write", timestamp: ... },
+//   { tuple_key: { user, relation, object }, operation: "delete", timestamp: ... }
+// ]
+```
+
 
 ### API Endpoints
 
@@ -235,6 +270,7 @@ var response = await auth0FgaApi.Read(body);
 | [**ReadAssertions**](docs/Auth0FgaApi.md#readassertions) | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID |
 | [**ReadAuthorizationModel**](docs/Auth0FgaApi.md#readauthorizationmodel) | **GET** /stores/{store_id}/authorization-models/{id} | Return a particular version of an authorization model |
 | [**ReadAuthorizationModels**](docs/Auth0FgaApi.md#readauthorizationmodels) | **GET** /stores/{store_id}/authorization-models | Return all the authorization model IDs for a particular store |
+| [**ReadChanges**](docs/Auth0FgaApi.md#readchanges) | **GET** /stores/{store_id}/changes | Return a list of all the tuple changes |
 | [**ReadSettings**](docs/Auth0FgaApi.md#readsettings) | **GET** /stores/{store_id}/settings | Return store settings, including the environment tag |
 | [**Write**](docs/Auth0FgaApi.md#write) | **POST** /stores/{store_id}/write | Add or delete tuples from the store |
 | [**WriteAssertions**](docs/Auth0FgaApi.md#writeassertions) | **PUT** /stores/{store_id}/assertions/{authorization_model_id} | Upsert assertions for an authorization model ID |
@@ -271,6 +307,7 @@ var response = await auth0FgaApi.Read(body);
  - [Model.ReadAssertionsResponse](docs/ReadAssertionsResponse.md)
  - [Model.ReadAuthorizationModelResponse](docs/ReadAuthorizationModelResponse.md)
  - [Model.ReadAuthorizationModelsResponse](docs/ReadAuthorizationModelsResponse.md)
+ - [Model.ReadChangesResponse](docs/ReadChangesResponse.md)
  - [Model.ReadRequestParams](docs/ReadRequestParams.md)
  - [Model.ReadResponse](docs/ReadResponse.md)
  - [Model.ReadSettingsResponse](docs/ReadSettingsResponse.md)
@@ -279,8 +316,10 @@ var response = await auth0FgaApi.Read(body);
  - [Model.Status](docs/Status.md)
  - [Model.TokenIssuer](docs/TokenIssuer.md)
  - [Model.Tuple](docs/Tuple.md)
+ - [Model.TupleChange](docs/TupleChange.md)
  - [Model.TupleKey](docs/TupleKey.md)
  - [Model.TupleKeys](docs/TupleKeys.md)
+ - [Model.TupleOperation](docs/TupleOperation.md)
  - [Model.TypeDefinition](docs/TypeDefinition.md)
  - [Model.TypeDefinitions](docs/TypeDefinitions.md)
  - [Model.Users](docs/Users.md)
@@ -302,7 +341,7 @@ var response = await auth0FgaApi.Read(body);
 
 ## Contributing
 
-### Issue Reporting
+### Issues
 
 If you have found a bug or if you have a feature request, please report them at this repository [issues](https://github.com/auth0-lab/fga-dotnet-sdk/issues) section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/responsible-disclosure-policy) details the procedure for disclosing security issues.
 

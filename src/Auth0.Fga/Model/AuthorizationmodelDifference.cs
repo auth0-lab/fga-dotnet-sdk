@@ -27,25 +27,10 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizationmodelDifference" /> class.
         /// </summary>
-        [JsonConstructor]
-        protected AuthorizationmodelDifference() {
-            this.AdditionalProperties = new Dictionary<string, object>();
-        }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizationmodelDifference" /> class.
-        /// </summary>
-        /// <param name="_base">_base (required).</param>
-        /// <param name="subtract">subtract (required).</param>
+        /// <param name="_base">_base.</param>
+        /// <param name="subtract">subtract.</param>
         public AuthorizationmodelDifference(Userset? _base = default(Userset), Userset? subtract = default(Userset)) {
-            // to ensure "_base" is required (not null)
-            if (_base == null) {
-                throw new ArgumentNullException("_base is a required property for AuthorizationmodelDifference and cannot be null");
-            }
             this.Base = _base;
-            // to ensure "subtract" is required (not null)
-            if (subtract == null) {
-                throw new ArgumentNullException("subtract is a required property for AuthorizationmodelDifference and cannot be null");
-            }
             this.Subtract = subtract;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -53,14 +38,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Gets or Sets Base
         /// </summary>
-        [DataMember(Name = "base", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "base", EmitDefaultValue = false)]
         [JsonPropertyName("base")]
         public Userset Base { get; set; }
 
         /// <summary>
         /// Gets or Sets Subtract
         /// </summary>
-        [DataMember(Name = "subtract", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "subtract", EmitDefaultValue = false)]
         [JsonPropertyName("subtract")]
         public Userset Subtract { get; set; }
 

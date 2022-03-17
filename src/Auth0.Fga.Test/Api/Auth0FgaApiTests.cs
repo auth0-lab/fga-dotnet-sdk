@@ -785,6 +785,53 @@ namespace Auth0.Fga.Test.Api {
         }
 
         /// <summary>
+        /// Test ReadChanges
+        /// </summary>
+        [Fact]
+        public async Task ReadChangesTest() {
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req =>
+                        req.RequestUri.ToString()
+                            .StartsWith($"{_config.BasePath}/stores/{_config.StoreId}/changes") &&
+                        req.Method == HttpMethod.Get),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage() {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = Utils.CreateJsonStringContent(new ReadChangesResponse() {
+                        Changes = new List<TupleChange>() {
+                            new(new TupleKey("repo:auth0/express-jwt", "reader", "anne"), TupleOperation.Write, DateTime.Now),
+                        },
+                        ContinuationToken = "eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ=="
+                    }),
+                });
+
+            var httpClient = new HttpClient(mockHandler.Object);
+            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
+
+            var type = "repo";
+            var pageSize = 25;
+            var continuationToken = "eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==";
+            var response = await auth0FgaApi.ReadChanges(type, pageSize, continuationToken);
+
+            mockHandler.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri.ToString()
+                        .StartsWith($"{_config.BasePath}/stores/{_config.StoreId}/changes") &&
+                    req.Method == HttpMethod.Get),
+                ItExpr.IsAny<CancellationToken>()
+            );
+
+            Assert.IsType<ReadChangesResponse>(response);
+            Assert.Single(response.Changes);
+        }
+
+        /// <summary>
         /// Test WriteAssertions
         /// </summary>
         [Fact]
