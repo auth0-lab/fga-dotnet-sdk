@@ -41,13 +41,13 @@ internal static class EnvironmentConfiguration {
         new() {
             {
                 "default",
-                new Auth0FgaEnvironmentConfiguration("https", "api.us.fga.dev",
+                new Auth0FgaEnvironmentConfiguration("https", "api.us1.fga.dev",
                     "fga.us.auth0.com",
                     "https://api.us1.fga.dev/")
             },
             {
                 "us",
-                new Auth0FgaEnvironmentConfiguration("https", "api.us.fga.dev",
+                new Auth0FgaEnvironmentConfiguration("https", "api.us1.fga.dev",
                     "fga.us.auth0.com",
                     "https://api.us1.fga.dev/")
             },
