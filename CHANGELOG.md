@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.2.4
+
+### [0.2.4](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.2.3...v0.2.4) (2022-04-05)
+
+#### Changes
+- fix: resolve error parsing expand due to issue in Users & Nodes models response
+
 ## v0.2.3
 
 ### [0.2.3](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.2.2...v0.2.3) (2022-04-04)

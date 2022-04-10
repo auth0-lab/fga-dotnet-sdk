@@ -27,6 +27,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Users" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Users() {
+            AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Users" /> class.
+        /// </summary>
         /// <param name="users">users.</param>
         public Users(List<string>? users = default(List<string>)) {
             this._Users = users;

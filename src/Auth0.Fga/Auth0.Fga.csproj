@@ -12,7 +12,7 @@
     <Description>.NET SDK for Auth0 Fine Grained Authorization (FGA)</Description>
     <Copyright>Auth0® Inc.</Copyright>
     <RootNamespace>Auth0.Fga</RootNamespace>
-    <Version>0.2.3</Version>
+    <Version>0.2.4</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Auth0.Fga.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/auth0-lab/fga-dotnet-sdk.git</RepositoryUrl>

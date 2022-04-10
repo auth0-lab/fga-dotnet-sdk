@@ -711,6 +711,8 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public async Task ExpandTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var jsonResponse =
+                "{\"tree\":{\"root\":{\"name\":\"repo:auth0/express-jwt#admin\", \"union\":{\"nodes\":[{\"name\":\"repo:auth0/express-jwt#admin\", \"leaf\":{\"users\":{\"users\":[\"team:auth0/iam#member\"]}}}, {\"name\":\"repo:auth0/express-jwt#admin\", \"leaf\":{\"tupleToUserset\":{\"tupleset\":\"repo:auth0/express-jwt#owner\", \"computed\":[{\"userset\":\"org:auth0#repo_admin\"}]}}}]}}}}";
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -721,7 +723,7 @@ namespace Auth0.Fga.Test.Api {
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new ExpandResponse()),
+                    Content = new StringContent(jsonResponse, Encoding.UTF8, "application/json"),
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
