@@ -7,3 +7,9 @@ project:
   name: github.com/auth0-lab/fga-dotnet-sdk
   link: fga.dev
   url: github.com/auth0-lab/fga-dotnet-sdk
+
+paths:
+  only:
+    - ./src/Auth0.Fga
+  exclude:
+    - ./src/Auth0.Fga.Test
