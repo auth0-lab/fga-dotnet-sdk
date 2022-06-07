@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -21,18 +19,18 @@ internal static class EnvironmentConfiguration {
     public static readonly string DefaultEnvironment = "default";
 
     public class Auth0FgaEnvironmentConfiguration {
-        public Auth0FgaEnvironmentConfiguration(string scheme, string host, string apiIssuer, string apiAudience,
+        public Auth0FgaEnvironmentConfiguration(string apiScheme, string apiHost, string apiTokenIssuer, string apiAudience,
             bool allowNoAuth = false) {
-            Scheme = scheme;
-            Host = host;
-            ApiIssuer = apiIssuer;
+            ApiScheme = apiScheme;
+            ApiHost = apiHost;
+            ApiTokenIssuer = apiTokenIssuer;
             ApiAudience = apiAudience;
             AllowNoAuth = allowNoAuth;
         }
 
-        public string Scheme { get; }
-        public string Host { get; }
-        public string ApiIssuer { get; }
+        public string ApiScheme { get; }
+        public string ApiHost { get; }
+        public string ApiTokenIssuer { get; }
         public string ApiAudience { get; }
         public bool AllowNoAuth { get; }
     }
@@ -70,8 +68,9 @@ internal static class EnvironmentConfiguration {
     public static Auth0FgaEnvironmentConfiguration Get(string environment) {
         try {
             return EnvironmentConfigurations[environment];
-        } catch (KeyNotFoundException) {
-            throw new Auth0FgaInvalidEnvironmentError(environment);
+        }
+        catch (KeyNotFoundException) {
+            throw new FgaInvalidEnvironmentError(environment);
         }
     }
 }

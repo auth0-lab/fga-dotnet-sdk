@@ -6,20 +6,20 @@
     <AssemblyName>Auth0.Fga</AssemblyName>
     <PackageId>Auth0.Fga</PackageId>
     <OutputType>Library</OutputType>
-    <Authors>Auth0 FGA Team</Authors>
-    <Company>Auth0 Lab</Company>
+    <Authors>Auth0</Authors>
+    <Company>Auth0</Company>
     <AssemblyTitle>Auth0 FGA SDK for .NET</AssemblyTitle>
     <Description>.NET SDK for Auth0 Fine Grained Authorization (FGA)</Description>
     <Copyright>Auth0® Inc.</Copyright>
     <RootNamespace>Auth0.Fga</RootNamespace>
-    <Version>0.2.4</Version>
+    <Version>0.3.0</Version>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Auth0.Fga.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/auth0-lab/fga-dotnet-sdk.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageReleaseNotes>https://github.com/auth0-lab/fga-dotnet-sdk/blob/main/CHANGELOG.md</PackageReleaseNotes>
-    <PackageTags>authorization;fga;fine-grained-authorization;auth0-fga;auth0-fine-grained-authorization;auth0-fga-api-client;sandcastle;zanzibar</PackageTags>
-    <PackageIcon>Auth0FGAIcon.png</PackageIcon>
+    <PackageTags>auth0-fga;authorization;fga;fine-grained-authorization;rebac;zanzibar</PackageTags>
+    <PackageIcon>FGAIcon.png</PackageIcon>
     <Nullable>annotations</Nullable>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <Folder Include="Models" />
-    <None Include="../../assets/Auth0FGAIcon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../assets/FGAIcon.png" Pack="true" Visible="false" PackagePath="" />
   </ItemGroup>
 
 </Project>

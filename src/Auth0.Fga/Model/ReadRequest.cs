@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,38 +18,31 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// WriteRequestParams
+    /// ReadRequest
     /// </summary>
-    [DataContract(Name = "WriteRequestParams")]
-    public partial class WriteRequestParams : IEquatable<WriteRequestParams>, IValidatableObject {
+    [DataContract(Name = "Read_request")]
+    public partial class ReadRequest : IEquatable<ReadRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteRequestParams" /> class.
+        /// Initializes a new instance of the <see cref="ReadRequest" /> class.
         /// </summary>
-        /// <param name="writes">writes.</param>
-        /// <param name="deletes">deletes.</param>
+        /// <param name="tupleKey">tupleKey.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
-        /// <param name="lockTuple">lockTuple.</param>
-        public WriteRequestParams(TupleKeys? writes = default(TupleKeys), TupleKeys? deletes = default(TupleKeys), string? authorizationModelId = default(string), Tuple? lockTuple = default(Tuple)) {
-            this.Writes = writes;
-            this.Deletes = deletes;
+        /// <param name="pageSize">pageSize.</param>
+        /// <param name="continuationToken">continuationToken.</param>
+        public ReadRequest(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string), int pageSize = default(int), string? continuationToken = default(string)) {
+            this.TupleKey = tupleKey;
             this.AuthorizationModelId = authorizationModelId;
-            this.LockTuple = lockTuple;
+            this.PageSize = pageSize;
+            this.ContinuationToken = continuationToken;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Writes
+        /// Gets or Sets TupleKey
         /// </summary>
-        [DataMember(Name = "writes", EmitDefaultValue = false)]
-        [JsonPropertyName("writes")]
-        public TupleKeys Writes { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Deletes
-        /// </summary>
-        [DataMember(Name = "deletes", EmitDefaultValue = false)]
-        [JsonPropertyName("deletes")]
-        public TupleKeys Deletes { get; set; }
+        [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
+        [JsonPropertyName("tuple_key")]
+        public TupleKey TupleKey { get; set; }
 
         /// <summary>
         /// Gets or Sets AuthorizationModelId
@@ -61,11 +52,18 @@ namespace Auth0.Fga.Model {
         public string AuthorizationModelId { get; set; }
 
         /// <summary>
-        /// Gets or Sets LockTuple
+        /// Gets or Sets PageSize
         /// </summary>
-        [DataMember(Name = "lock_tuple", EmitDefaultValue = false)]
-        [JsonPropertyName("lock_tuple")]
-        public Tuple LockTuple { get; set; }
+        [DataMember(Name = "page_size", EmitDefaultValue = false)]
+        [JsonPropertyName("page_size")]
+        public int PageSize { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ContinuationToken
+        /// </summary>
+        [DataMember(Name = "continuation_token", EmitDefaultValue = false)]
+        [JsonPropertyName("continuation_token")]
+        public string ContinuationToken { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -83,11 +81,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a WriteRequestParams from the JSON string presentation of the object
+        /// Builds a ReadRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>WriteRequestParams</returns>
-        public static WriteRequestParams FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<WriteRequestParams>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>ReadRequest</returns>
+        public static ReadRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<ReadRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -96,28 +94,23 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as WriteRequestParams);
+            return this.Equals(input as ReadRequest);
         }
 
         /// <summary>
-        /// Returns true if WriteRequestParams instances are equal
+        /// Returns true if ReadRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of WriteRequestParams to be compared</param>
+        /// <param name="input">Instance of ReadRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(WriteRequestParams input) {
+        public bool Equals(ReadRequest input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Writes == input.Writes ||
-                    (this.Writes != null &&
-                    this.Writes.Equals(input.Writes))
-                ) &&
-                (
-                    this.Deletes == input.Deletes ||
-                    (this.Deletes != null &&
-                    this.Deletes.Equals(input.Deletes))
+                    this.TupleKey == input.TupleKey ||
+                    (this.TupleKey != null &&
+                    this.TupleKey.Equals(input.TupleKey))
                 ) &&
                 (
                     this.AuthorizationModelId == input.AuthorizationModelId ||
@@ -125,9 +118,13 @@ namespace Auth0.Fga.Model {
                     this.AuthorizationModelId.Equals(input.AuthorizationModelId))
                 ) &&
                 (
-                    this.LockTuple == input.LockTuple ||
-                    (this.LockTuple != null &&
-                    this.LockTuple.Equals(input.LockTuple))
+                    this.PageSize == input.PageSize ||
+                    this.PageSize.Equals(input.PageSize)
+                ) &&
+                (
+                    this.ContinuationToken == input.ContinuationToken ||
+                    (this.ContinuationToken != null &&
+                    this.ContinuationToken.Equals(input.ContinuationToken))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -140,17 +137,15 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.Writes != null) {
-                    hashCode = (hashCode * 9923) + this.Writes.GetHashCode();
-                }
-                if (this.Deletes != null) {
-                    hashCode = (hashCode * 9923) + this.Deletes.GetHashCode();
+                if (this.TupleKey != null) {
+                    hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
                 }
                 if (this.AuthorizationModelId != null) {
                     hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();
                 }
-                if (this.LockTuple != null) {
-                    hashCode = (hashCode * 9923) + this.LockTuple.GetHashCode();
+                hashCode = (hashCode * 9923) + this.PageSize.GetHashCode();
+                if (this.ContinuationToken != null) {
+                    hashCode = (hashCode * 9923) + this.ContinuationToken.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

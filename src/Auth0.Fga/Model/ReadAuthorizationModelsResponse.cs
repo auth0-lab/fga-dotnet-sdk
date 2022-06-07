@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -27,20 +25,20 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadAuthorizationModelsResponse" /> class.
         /// </summary>
-        /// <param name="authorizationModelIds">authorizationModelIds.</param>
+        /// <param name="authorizationModels">authorizationModels.</param>
         /// <param name="continuationToken">continuationToken.</param>
-        public ReadAuthorizationModelsResponse(List<string>? authorizationModelIds = default(List<string>), string? continuationToken = default(string)) {
-            this.AuthorizationModelIds = authorizationModelIds;
+        public ReadAuthorizationModelsResponse(List<AuthorizationModel>? authorizationModels = default(List<AuthorizationModel>), string? continuationToken = default(string)) {
+            this.AuthorizationModels = authorizationModels;
             this.ContinuationToken = continuationToken;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets AuthorizationModelIds
+        /// Gets or Sets AuthorizationModels
         /// </summary>
-        [DataMember(Name = "authorization_model_ids", EmitDefaultValue = false)]
-        [JsonPropertyName("authorization_model_ids")]
-        public List<string> AuthorizationModelIds { get; set; }
+        [DataMember(Name = "authorization_models", EmitDefaultValue = false)]
+        [JsonPropertyName("authorization_models")]
+        public List<AuthorizationModel> AuthorizationModels { get; set; }
 
         /// <summary>
         /// Gets or Sets ContinuationToken
@@ -92,10 +90,10 @@ namespace Auth0.Fga.Model {
             }
             return
                 (
-                    this.AuthorizationModelIds == input.AuthorizationModelIds ||
-                    this.AuthorizationModelIds != null &&
-                    input.AuthorizationModelIds != null &&
-                    this.AuthorizationModelIds.SequenceEqual(input.AuthorizationModelIds)
+                    this.AuthorizationModels == input.AuthorizationModels ||
+                    this.AuthorizationModels != null &&
+                    input.AuthorizationModels != null &&
+                    this.AuthorizationModels.SequenceEqual(input.AuthorizationModels)
                 ) &&
                 (
                     this.ContinuationToken == input.ContinuationToken ||
@@ -113,8 +111,8 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.AuthorizationModelIds != null) {
-                    hashCode = (hashCode * 9923) + this.AuthorizationModelIds.GetHashCode();
+                if (this.AuthorizationModels != null) {
+                    hashCode = (hashCode * 9923) + this.AuthorizationModels.GetHashCode();
                 }
                 if (this.ContinuationToken != null) {
                     hashCode = (hashCode * 9923) + this.ContinuationToken.GetHashCode();

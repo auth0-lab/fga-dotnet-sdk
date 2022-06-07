@@ -5,28 +5,24 @@ All URIs are relative to *https://api.us1.fga.dev*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**Check**](Auth0FgaApi.md#check) | **POST** /stores/{store_id}/check | Check whether a user is authorized to access an object
-[**DeleteTokenIssuer**](Auth0FgaApi.md#deletetokenissuer) | **DELETE** /stores/{store_id}/settings/token-issuers/{id} | Remove 3rd party token issuer for Auth0 FGA read and write operations
 [**Expand**](Auth0FgaApi.md#expand) | **POST** /stores/{store_id}/expand | Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship
 [**Read**](Auth0FgaApi.md#read) | **POST** /stores/{store_id}/read | Get tuples from the store that matches a query, without following userset rewrite rules
 [**ReadAssertions**](Auth0FgaApi.md#readassertions) | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID
 [**ReadAuthorizationModel**](Auth0FgaApi.md#readauthorizationmodel) | **GET** /stores/{store_id}/authorization-models/{id} | Return a particular version of an authorization model
 [**ReadAuthorizationModels**](Auth0FgaApi.md#readauthorizationmodels) | **GET** /stores/{store_id}/authorization-models | Return all the authorization model IDs for a particular store
 [**ReadChanges**](Auth0FgaApi.md#readchanges) | **GET** /stores/{store_id}/changes | Return a list of all the tuple changes
-[**ReadSettings**](Auth0FgaApi.md#readsettings) | **GET** /stores/{store_id}/settings | Return store settings, including the environment tag
 [**Write**](Auth0FgaApi.md#write) | **POST** /stores/{store_id}/write | Add or delete tuples from the store
 [**WriteAssertions**](Auth0FgaApi.md#writeassertions) | **PUT** /stores/{store_id}/assertions/{authorization_model_id} | Upsert assertions for an authorization model ID
 [**WriteAuthorizationModel**](Auth0FgaApi.md#writeauthorizationmodel) | **POST** /stores/{store_id}/authorization-models | Create a new authorization model
-[**WriteSettings**](Auth0FgaApi.md#writesettings) | **PATCH** /stores/{store_id}/settings | Update the environment tag for a store
-[**WriteTokenIssuer**](Auth0FgaApi.md#writetokenissuer) | **POST** /stores/{store_id}/settings/token-issuers | Add 3rd party token issuer for Auth0 FGA read and write operations
 
 
 <a name="check"></a>
 # **Check**
-> CheckResponse Check (CheckRequestParams _params)
+> CheckResponse Check (CheckRequest body)
 
 Check whether a user is authorized to access an object
 
-The check API will return whether the user has a certain relationship with an object in a certain store. Path parameter `store_id` as well as body parameter `object`, `relation` and `user` are all required. The response will return whether the relationship exists in the field `allowed`.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **300** check requests per second (RPS). ## Example In order to check if user `anne@auth0.com` has an owner relationship with object document:2021-budget, a check API call should be fired with the following body ```json {   \"tuple_key\": {     \"user\": \"anne@auth0.com\",     \"relation\": \"owner\",     \"object\": \"document:2021-budget\"   } } ``` Auth0 FGA's response will include `{ \"allowed\": true }` if there is a relationship and `{ \"allowed\": false }` if there isn't.
+The check API will return whether the user has a certain relationship with an object in a certain store. Path parameter `store_id` as well as the body parameter `tuple_key` with specified `object`, `relation` and `user` subfields are all required. Optionally, a `contextual_tuples` object may also be included in the body of the request. This object contains one field `tuple_keys`, which is an array of tuple keys. The response will return whether the relationship exists in the field `allowed`.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each store has a limit of **300** check requests per second (RPS). ## Example In order to check if user `anne@auth0.com` has a `can_read` relationship with object `document:2021-budget` given the following contextual tuple ```json {   \"user\": \"anne@auth0.com\",   \"relation\": \"member\",   \"object\": \"time_slot:office_hours\" } ``` a check API call should be fired with the following body: ```json {   \"tuple_key\": {     \"user\": \"anne@auth0.com\",     \"relation\": \"can_read\",     \"object\": \"document:2021-budget\"   },   \"contextual_tuples\": {     \"tuple_keys\": [       {         \"user\": \"anne@auth0.com\",         \"relation\": \"member\",         \"object\": \"time_slot:office_hours\"       }     ]   } } ``` Auth0 FGA's response will include `{ \"allowed\": true }` if there is a relationship and `{ \"allowed\": false }` if there isn't.
 
 ### Example
 ```csharp
@@ -44,20 +40,21 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new CheckRequestParams(); // CheckRequestParams | 
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
+            var body = new CheckRequest(); // CheckRequest | 
 
             try
             {
                 // Check whether a user is authorized to access an object
-                CheckResponse response = await auth0FgaApi.Check(_params);
+                CheckResponse response = await auth0FgaApi.Check(body);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -76,7 +73,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **_params** | [**CheckRequestParams**](CheckRequestParams.md)|  | 
+ **body** | [**CheckRequest**](CheckRequest.md)|  | 
 
 ### Return type
 
@@ -101,89 +98,9 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-<a name="deletetokenissuer"></a>
-# **DeleteTokenIssuer**
-> void DeleteTokenIssuer (string id)
-
-Remove 3rd party token issuer for Auth0 FGA read and write operations
-
-The DELETE token-issuers API will remove the specified 3rd party token issuer as a token issuer that is allowed by Auth0 FGA. The specified id is the id associated with the issuer url that is to be removed. ## Example To remove the 3rd party token issuer `https://example.issuer.com` (which has the id `0ujsszwN8NRY24YaXiTIE2VWDTS`), call DELETE token-issuers API with the path parameter id `0ujsszwN8NRY24YaXiTIE2VWDTS`.
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Auth0.Fga.Api;
-using Auth0.Fga.Client;
-using Auth0.Fga.Configuration;
-using Auth0.Fga.Model;
-
-namespace Example
-{
-    public class DeleteTokenIssuerExample
-    {
-        public static void Main()
-        {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
-            };
-            HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var id = "id_example";  // string | Id of token issuer to be removed
-
-            try
-            {
-                // Remove 3rd party token issuer for Auth0 FGA read and write operations
-                auth0FgaApi.DeleteTokenIssuer(id);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling Auth0FgaApi.DeleteTokenIssuer: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **id** | **string**| Id of token issuer to be removed | 
-
-### Return type
-
-void (empty response body)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **204** | A successful response. |  -  |
-| **400** | Request failed due to invalid input. |  -  |
-| **401** | Request failed due to authentication errors. |  -  |
-| **403** | Request failed due to forbidden permission. |  -  |
-| **404** | Request failed due to incorrect path. |  -  |
-| **429** | Request failed due to too many requests. |  -  |
-| **500** | Request failed due to internal server error. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
 <a name="expand"></a>
 # **Expand**
-> ExpandResponse Expand (ExpandRequestParams _params)
+> ExpandResponse Expand (ExpandRequest body)
 
 Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship
 
@@ -205,20 +122,21 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new ExpandRequestParams(); // ExpandRequestParams | 
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
+            var body = new ExpandRequest(); // ExpandRequest | 
 
             try
             {
                 // Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship
-                ExpandResponse response = await auth0FgaApi.Expand(_params);
+                ExpandResponse response = await auth0FgaApi.Expand(body);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -237,7 +155,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **_params** | [**ExpandRequestParams**](ExpandRequestParams.md)|  | 
+ **body** | [**ExpandRequest**](ExpandRequest.md)|  | 
 
 ### Return type
 
@@ -264,7 +182,7 @@ Name | Type | Description  | Notes
 
 <a name="read"></a>
 # **Read**
-> ReadResponse Read (ReadRequestParams _params)
+> ReadResponse Read (ReadRequest body)
 
 Get tuples from the store that matches a query, without following userset rewrite rules
 
@@ -286,20 +204,21 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new ReadRequestParams(); // ReadRequestParams | 
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
+            var body = new ReadRequest(); // ReadRequest | 
 
             try
             {
                 // Get tuples from the store that matches a query, without following userset rewrite rules
-                ReadResponse response = await auth0FgaApi.Read(_params);
+                ReadResponse response = await auth0FgaApi.Read(body);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -318,7 +237,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **_params** | [**ReadRequestParams**](ReadRequestParams.md)|  | 
+ **body** | [**ReadRequest**](ReadRequest.md)|  | 
 
 ### Return type
 
@@ -367,14 +286,15 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var authorizationModelId = "authorizationModelId_example";  // string | 
 
             try
@@ -448,14 +368,15 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var id = "id_example";  // string | 
 
             try
@@ -529,14 +450,15 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var pageSize = 56;  // int? |  (optional) 
             var continuationToken = "continuationToken_example";  // string? |  (optional) 
 
@@ -612,14 +534,15 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var type = "type_example";  // string? |  (optional) 
             var pageSize = 56;  // int? |  (optional) 
             var continuationToken = "continuationToken_example";  // string? |  (optional) 
@@ -673,92 +596,13 @@ Name | Type | Description  | Notes
 
 [[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
 
-<a name="readsettings"></a>
-# **ReadSettings**
-> ReadSettingsResponse ReadSettings ()
-
-Return store settings, including the environment tag
-
-The GET settings API will return the store's settings, including environment tag and an array of Auth0 FGA's allowed 3rd party token issuers. The environment tag is used to differentiate between development, staging, and production environments.   Path parameter `store_id` is required. ## Example GET settings API's response looks like: ```json {   \"environment\":\"STAGING\",   \"token_issuers\":[     {       \"id\":\"0ujsszwN8NRY24YaXiTIE2VWDTS\",       \"issuer_url\":\"https://example.issuer.com\"     }   ] } ``` In the above response, the store is configured as STAGING and there is one allowed 3rd party token issuer `https://example.issuer.com`.
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Auth0.Fga.Api;
-using Auth0.Fga.Client;
-using Auth0.Fga.Configuration;
-using Auth0.Fga.Model;
-
-namespace Example
-{
-    public class ReadSettingsExample
-    {
-        public static void Main()
-        {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
-            };
-            HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-
-            try
-            {
-                // Return store settings, including the environment tag
-                ReadSettingsResponse response = await auth0FgaApi.ReadSettings();
-                Debug.WriteLine(response);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling Auth0FgaApi.ReadSettings: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
-
-### Return type
-
-[**ReadSettingsResponse**](ReadSettingsResponse.md)
-
-### HTTP request headers
-
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
-| **400** | Request failed due to invalid input. |  -  |
-| **401** | Request failed due to authentication errors. |  -  |
-| **403** | Request failed due to forbidden permission. |  -  |
-| **404** | Request failed due to incorrect path. |  -  |
-| **429** | Request failed due to too many requests. |  -  |
-| **500** | Request failed due to internal server error. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
 <a name="write"></a>
 # **Write**
-> Object Write (WriteRequestParams _params)
+> Object Write (WriteRequest body)
 
 Add or delete tuples from the store
 
-The POST write API will update the tuples for a certain store.  Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. Path parameter `store_id` is required.  In the body, `writes` adds new tuples while `deletes` remove existing tuples.  `lock_tuple` is reserved for future use.  ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each write API call allows at most **10** tuples. - Each store has a limit of **50000** tuples. - Each store has a limit of **20** write requests per second (RPS). ## Example ### Adding relationships To add `anne@auth0.com` as a `writer` for `document:2021-budget`, call write API with the following  ```json {   \"writes\": {     \"tuple_keys\": [       {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` ### Removing relationships To remove `bob@auth0.com` as a `reader` for `document:2021-budget`, call write API with the following  ```json {   \"deletes\": {     \"tuple_keys\": [       {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` 
+The POST write API will update the tuples for a certain store.  Tuples and type definitions allow Auth0 FGA to determine whether a relationship exists between an object and an user. Path parameter `store_id` is required.  In the body, `writes` adds new tuples while `deletes` removes existing tuples. ## [Limits](https://docs.fga.dev/intro/dashboard#limitations) - Each write API call allows at most **10** tuples. - Each store has a limit of **50000** tuples. - Each store has a limit of **20** write requests per second (RPS). ## Example ### Adding relationships To add `anne@auth0.com` as a `writer` for `document:2021-budget`, call write API with the following  ```json {   \"writes\": {     \"tuple_keys\": [       {         \"user\": \"anne@auth0.com\",         \"relation\": \"writer\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` ### Removing relationships To remove `bob@auth0.com` as a `reader` for `document:2021-budget`, call write API with the following  ```json {   \"deletes\": {     \"tuple_keys\": [       {         \"user\": \"bob@auth0.com\",         \"relation\": \"reader\",         \"object\": \"document:2021-budget\"       }     ]   } } ``` 
 
 ### Example
 ```csharp
@@ -776,20 +620,21 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new WriteRequestParams(); // WriteRequestParams | 
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
+            var body = new WriteRequest(); // WriteRequest | 
 
             try
             {
                 // Add or delete tuples from the store
-                Object response = await auth0FgaApi.Write(_params);
+                Object response = await auth0FgaApi.Write(body);
                 Debug.WriteLine(response);
             }
             catch (ApiException  e)
@@ -808,7 +653,7 @@ namespace Example
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
- **_params** | [**WriteRequestParams**](WriteRequestParams.md)|  | 
+ **body** | [**WriteRequest**](WriteRequest.md)|  | 
 
 ### Return type
 
@@ -835,7 +680,7 @@ Name | Type | Description  | Notes
 
 <a name="writeassertions"></a>
 # **WriteAssertions**
-> void WriteAssertions (string authorizationModelId, WriteAssertionsRequestParams _params)
+> void WriteAssertions (string authorizationModelId, WriteAssertionsRequest body)
 
 Upsert assertions for an authorization model ID
 
@@ -857,21 +702,22 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var authorizationModelId = "authorizationModelId_example";  // string | 
-            var _params = new WriteAssertionsRequestParams(); // WriteAssertionsRequestParams | 
+            var body = new WriteAssertionsRequest(); // WriteAssertionsRequest | 
 
             try
             {
                 // Upsert assertions for an authorization model ID
-                auth0FgaApi.WriteAssertions(authorizationModelId, _params);
+                auth0FgaApi.WriteAssertions(authorizationModelId, body);
             }
             catch (ApiException  e)
             {
@@ -890,7 +736,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
 
  **authorizationModelId** | **string**|  | 
- **_params** | [**WriteAssertionsRequestParams**](WriteAssertionsRequestParams.md)|  | 
+ **body** | [**WriteAssertionsRequest**](WriteAssertionsRequest.md)|  | 
 
 ### Return type
 
@@ -939,14 +785,15 @@ namespace Example
     {
         public static void Main()
         {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
+            // See https://github.com/auth0-lab/fga-dotnet-sdk#getting-your-store-id-client-id-and-client-secret
+            var environment = Environment.GetEnvironmentVariable(("AUTH0_FGA_ENVIRONMENT"), // can be = "us"/"staging"/"playground"
+            var configuration = new Configuration(environment) {
+                StoreId = Environment.GetEnvironmentVariable(("AUTH0_FGA_STORE_ID"),
+                ClientId = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_ID"), // Required for all environments except playground
+                ClientSecret = Environment.GetEnvironmentVariable(("AUTH0_FGA_CLIENT_SECRET"), // Required for all environments except playground
             };
             HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
+            var auth0FgaApi = new Auth0FgaApi(configuration, httpClient);
             var typeDefinitions = new TypeDefinitions(); // TypeDefinitions | 
 
             try
@@ -976,168 +823,6 @@ Name | Type | Description  | Notes
 ### Return type
 
 [**WriteAuthorizationModelResponse**](WriteAuthorizationModelResponse.md)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **201** | A successful response. |  -  |
-| **400** | Request failed due to invalid input. |  -  |
-| **401** | Request failed due to authentication errors. |  -  |
-| **403** | Request failed due to forbidden permission. |  -  |
-| **404** | Request failed due to incorrect path. |  -  |
-| **429** | Request failed due to too many requests. |  -  |
-| **500** | Request failed due to internal server error. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-<a name="writesettings"></a>
-# **WriteSettings**
-> WriteSettingsResponse WriteSettings (WriteSettingsRequestParams _params)
-
-Update the environment tag for a store
-
-The PATCH settings API will update the environment tag to differentiate between development, staging, and production environments. Path parameter `store_id` is required. The response will return the updated environment tag as well as other configuration settings.  ## Example To update store's environment tag to `STAGING`, call PATCH settings API with the following with the body:  ```json {\"environment\": \"STAGING\"} ``` 
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Auth0.Fga.Api;
-using Auth0.Fga.Client;
-using Auth0.Fga.Configuration;
-using Auth0.Fga.Model;
-
-namespace Example
-{
-    public class WriteSettingsExample
-    {
-        public static void Main()
-        {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
-            };
-            HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new WriteSettingsRequestParams(); // WriteSettingsRequestParams | 
-
-            try
-            {
-                // Update the environment tag for a store
-                WriteSettingsResponse response = await auth0FgaApi.WriteSettings(_params);
-                Debug.WriteLine(response);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling Auth0FgaApi.WriteSettings: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **_params** | [**WriteSettingsRequestParams**](WriteSettingsRequestParams.md)|  | 
-
-### Return type
-
-[**WriteSettingsResponse**](WriteSettingsResponse.md)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-
-### HTTP response details
-| Status code | Description | Response headers |
-|-------------|-------------|------------------|
-| **200** | A successful response. |  -  |
-| **400** | Request failed due to invalid input. |  -  |
-| **401** | Request failed due to authentication errors. |  -  |
-| **403** | Request failed due to forbidden permission. |  -  |
-| **404** | Request failed due to incorrect path. |  -  |
-| **429** | Request failed due to too many requests. |  -  |
-| **500** | Request failed due to internal server error. |  -  |
-
-[[Back to top]](#) [[Back to API list]](../README.md#api-endpoints) [[Back to Model list]](../README.md#models) [[Back to README]](../README.md)
-
-<a name="writetokenissuer"></a>
-# **WriteTokenIssuer**
-> WriteTokenIssuersResponse WriteTokenIssuer (WriteTokenIssuersRequestParams _params)
-
-Add 3rd party token issuer for Auth0 FGA read and write operations
-
-The POST token-issuers API will configure FGA so that tokens issued by the specified 3rd party token issuer will be allowed for Auth0 FGA's read and write operations. Otherwise, only tokens issued by Auth0 FGA's issuer (`fga.us.auth0.com`) will be accepted. ## Example To allow tokens issued by the 3rd party token issuer `https://example.issuer.com` for Auth0 FGA's read and write operations: 1. In the 3rd party issuer, configure Auth0 FGA API with the following audience in its issuer configuration: `https://api.us1.fga.dev`. 2. Call POST token-issuers API with the body: `{\"issuer_url\": \"https://example.issuer.com\"}`  The response will be the id that is associated with the token issuer: ```json {   \"id\":\"0ujsszwN8NRY24YaXiTIE2VWDTS\" } ``` 
-
-### Example
-```csharp
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Net.Http;
-using Auth0.Fga.Api;
-using Auth0.Fga.Client;
-using Auth0.Fga.Configuration;
-using Auth0.Fga.Model;
-
-namespace Example
-{
-    public class WriteTokenIssuerExample
-    {
-        public static void Main()
-        {
-            var storeId = Environment.GetEnvironmentVariable("AUTH0_FGA_STORE_ID");
-            var environment = Environment.GetEnvironmentVariable("AUTH0_FGA_ENVIRONMENT")
-            var configuration = new Configuration(storeId, environment) {
-                ClientId = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_ID"),
-                ClientSecret = Environment.GetEnvironmentVariable("AUTH0_FGA_CLIENT_SECRET"),
-            };
-            HttpClient httpClient = new HttpClient();
-            var auth0FgaApi = new Auth0FgaApi(config, httpClient);
-            var _params = new WriteTokenIssuersRequestParams(); // WriteTokenIssuersRequestParams | 
-
-            try
-            {
-                // Add 3rd party token issuer for Auth0 FGA read and write operations
-                WriteTokenIssuersResponse response = await auth0FgaApi.WriteTokenIssuer(_params);
-                Debug.WriteLine(response);
-            }
-            catch (ApiException  e)
-            {
-                Debug.Print("Exception when calling Auth0FgaApi.WriteTokenIssuer: " + e.Message );
-                Debug.Print("Status Code: "+ e.ErrorCode);
-                Debug.Print(e.StackTrace);
-            }
-        }
-    }
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
-
- **_params** | [**WriteTokenIssuersRequestParams**](WriteTokenIssuersRequestParams.md)|  | 
-
-### Return type
-
-[**WriteTokenIssuersResponse**](WriteTokenIssuersResponse.md)
 
 ### HTTP request headers
 

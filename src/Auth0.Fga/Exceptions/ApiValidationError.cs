@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -17,13 +15,17 @@ using Auth0.Fga.Exceptions.Parsers;
 
 namespace Auth0.Fga.Exceptions;
 
-public class Auth0FgaApiValidationError : Auth0FgaApiError {
-    public Auth0FgaApiValidationError(HttpResponseMessage response, HttpRequestMessage request, string? apiName,
+/// <summary>
+/// FGA API Validation Error - Corresponding to HTTP Error Codes 400 and 422
+/// </summary>
+public class FgaApiValidationError : FgaApiError {
+    /// <inheritdoc />
+    public FgaApiValidationError(HttpResponseMessage response, HttpRequestMessage request, string? apiName,
         ApiErrorParser? apiError = null) : base(response, request, apiName, apiError) {
     }
 
-    internal new static async Task<Auth0FgaApiValidationError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
-        return new Auth0FgaApiValidationError(response, request, apiName,
+    internal new static async Task<FgaApiValidationError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
+        return new FgaApiValidationError(response, request, apiName,
             await ApiErrorParser.Parse(response).ConfigureAwait(false));
     }
 }

@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -13,9 +11,8 @@
 //
 
 
-using System.Web;
-
 using Auth0.Fga.Exceptions;
+using System.Web;
 
 namespace Auth0.Fga.Client;
 
@@ -37,7 +34,7 @@ public class RequestBuilder {
 
     public string BuildPathString() {
         if (PathTemplate == null) {
-            throw new Auth0FgaRequiredParamError("RequestBuilder.BuildUri", nameof(PathTemplate));
+            throw new FgaRequiredParamError("RequestBuilder.BuildUri", nameof(PathTemplate));
         }
 
         var path = PathTemplate;
@@ -46,7 +43,7 @@ public class RequestBuilder {
         }
 
         foreach (var parameter in PathParameters) {
-            path = path.Replace("{" + parameter.Key + "}", parameter.Value);
+            path = path.Replace("{" + parameter.Key + "}", HttpUtility.UrlEncode(parameter.Value));
         }
 
         return path;
@@ -67,7 +64,7 @@ public class RequestBuilder {
 
     public Uri BuildUri() {
         if (BasePath == null) {
-            throw new Auth0FgaRequiredParamError("RequestBuilder.BuildUri", nameof(BasePath));
+            throw new FgaRequiredParamError("RequestBuilder.BuildUri", nameof(BasePath));
         }
         var uriString = $"{BasePath}";
 
@@ -79,7 +76,7 @@ public class RequestBuilder {
 
     public HttpRequestMessage BuildRequest() {
         if (Method == null) {
-            throw new Auth0FgaRequiredParamError("RequestBuilder.BuildRequest", nameof(Method));
+            throw new FgaRequiredParamError("RequestBuilder.BuildRequest", nameof(Method));
         }
         return new HttpRequestMessage() { RequestUri = BuildUri(), Method = Method, Content = Body };
     }

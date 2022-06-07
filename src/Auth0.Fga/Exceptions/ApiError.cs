@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -13,15 +11,14 @@
 //
 
 
+using Auth0.Fga.Exceptions.Parsers;
 using System.Net;
 using System.Net.Http.Headers;
 using System.Text.Json.Serialization;
 
-using Auth0.Fga.Exceptions.Parsers;
-
 namespace Auth0.Fga.Exceptions;
 
-public class Auth0FgaApiError : ApiException {
+public class FgaApiError : ApiException {
     /// <summary>
     /// The name of the API endpoint.
     /// </summary>
@@ -83,38 +80,38 @@ public class Auth0FgaApiError : ApiException {
     public HttpStatusCode StatusCode { get; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Auth0FgaApiError"/> class.
+    /// Initializes a new instance of the <see cref="FgaApiError"/> class.
     /// </summary>
-    public Auth0FgaApiError() {
+    public FgaApiError() {
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="RateLimitApiException"/> class with a specified error message.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
-    public Auth0FgaApiError(string message) : base(message) {
+    public FgaApiError(string message) : base(message) {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Auth0FgaApiError"/> class with a specified error message
+    /// Initializes a new instance of the <see cref="FgaApiError"/> class with a specified error message
     /// and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or a null
     /// reference if no inner exception is specified.</param>
-    public Auth0FgaApiError(string message, Exception innerException)
+    public FgaApiError(string message, Exception innerException)
         : base(message, innerException) {
     }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Auth0FgaApiError"/> class with a specified error message
+    /// Initializes a new instance of the <see cref="FgaApiError"/> class with a specified error message
     /// and a reference to the inner exception that is the cause of this exception.
     /// </summary>
     /// <param name="statusCode"><see cref="HttpStatusCode"/>code of the failing API call.</param>
     /// <param name="message">The error message that explains the reason for the exception.</param>
     /// <param name="innerException">The exception that is the cause of the current exception, or a null
     /// reference if no inner exception is specified.</param>
-    public Auth0FgaApiError(HttpStatusCode statusCode, string message, Exception innerException)
+    public FgaApiError(HttpStatusCode statusCode, string message, Exception innerException)
         : base(message, innerException) {
         StatusCode = statusCode;
     }
@@ -124,7 +121,7 @@ public class Auth0FgaApiError : ApiException {
     /// </summary>
     /// <param name="statusCode"><see cref="HttpStatusCode"/>code of the failing API call.</param>
     /// <param name="apiError">Optional <see cref="ApiErrorParser"/> of the failing API call.</param>
-    public Auth0FgaApiError(HttpStatusCode statusCode, ApiErrorParser? apiError = null)
+    public FgaApiError(HttpStatusCode statusCode, ApiErrorParser? apiError = null)
         : this(apiError == null ? statusCode.ToString() : apiError.Message) {
         StatusCode = statusCode;
         ApiError = apiError ?? new ApiErrorParser();
@@ -137,7 +134,7 @@ public class Auth0FgaApiError : ApiException {
     /// <param name="request"></param>
     /// <param name="apiName"></param>
     /// <param name="apiError">Optional <see cref="ApiErrorParser"/> of the failing API call.</param>
-    public Auth0FgaApiError(HttpResponseMessage response, HttpRequestMessage request, string? apiName, ApiErrorParser? apiError = null)
+    public FgaApiError(HttpResponseMessage response, HttpRequestMessage request, string? apiName, ApiErrorParser? apiError = null)
         : this(apiError == null ? response.StatusCode.ToString() : apiError.Message) {
         StatusCode = response.StatusCode;
         ApiError = apiError ?? new ApiErrorParser();
@@ -151,7 +148,7 @@ public class Auth0FgaApiError : ApiException {
         ResponseHeaders = response.Headers;
     }
 
-    internal static async Task<Auth0FgaApiError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
-        return new Auth0FgaApiError(response, request, apiName, await ApiErrorParser.Parse(response).ConfigureAwait(false));
+    internal static async Task<FgaApiError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
+        return new FgaApiError(response, request, apiName, await ApiErrorParser.Parse(response).ConfigureAwait(false));
     }
 }

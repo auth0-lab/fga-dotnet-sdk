@@ -1,11 +1,12 @@
-# Auth0.Fga.Model.AuthorizationmodelTupleToUserset
+# Auth0.Fga.Model.WriteRequest
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Tupleset** | [**ObjectRelation**](ObjectRelation.md) |  | [optional] 
-**ComputedUserset** | [**ObjectRelation**](ObjectRelation.md) |  | [optional] 
+**Writes** | [**TupleKeys**](TupleKeys.md) |  | [optional] 
+**Deletes** | [**TupleKeys**](TupleKeys.md) |  | [optional] 
+**AuthorizationModelId** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
 

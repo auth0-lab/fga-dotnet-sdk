@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,34 +18,36 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// ExpandRequestParams
+    /// WriteAssertionsRequest
     /// </summary>
-    [DataContract(Name = "ExpandRequestParams")]
-    public partial class ExpandRequestParams : IEquatable<ExpandRequestParams>, IValidatableObject {
+    [DataContract(Name = "WriteAssertions_request")]
+    public partial class WriteAssertionsRequest : IEquatable<WriteAssertionsRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ExpandRequestParams" /> class.
+        /// Initializes a new instance of the <see cref="WriteAssertionsRequest" /> class.
         /// </summary>
-        /// <param name="tupleKey">tupleKey.</param>
-        /// <param name="authorizationModelId">authorizationModelId.</param>
-        public ExpandRequestParams(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string)) {
-            this.TupleKey = tupleKey;
-            this.AuthorizationModelId = authorizationModelId;
+        [JsonConstructor]
+        protected WriteAssertionsRequest() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteAssertionsRequest" /> class.
+        /// </summary>
+        /// <param name="assertions">assertions (required).</param>
+        public WriteAssertionsRequest(List<Assertion>? assertions = default(List<Assertion>)) {
+            // to ensure "assertions" is required (not null)
+            if (assertions == null) {
+                throw new ArgumentNullException("assertions is a required property for WriteAssertionsRequest and cannot be null");
+            }
+            this.Assertions = assertions;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets TupleKey
+        /// Gets or Sets Assertions
         /// </summary>
-        [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
-        [JsonPropertyName("tuple_key")]
-        public TupleKey TupleKey { get; set; }
-
-        /// <summary>
-        /// Gets or Sets AuthorizationModelId
-        /// </summary>
-        [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
-        [JsonPropertyName("authorization_model_id")]
-        public string AuthorizationModelId { get; set; }
+        [DataMember(Name = "assertions", IsRequired = true, EmitDefaultValue = false)]
+        [JsonPropertyName("assertions")]
+        public List<Assertion> Assertions { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,11 +65,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a ExpandRequestParams from the JSON string presentation of the object
+        /// Builds a WriteAssertionsRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>ExpandRequestParams</returns>
-        public static ExpandRequestParams FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<ExpandRequestParams>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>WriteAssertionsRequest</returns>
+        public static WriteAssertionsRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<WriteAssertionsRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -78,28 +78,24 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as ExpandRequestParams);
+            return this.Equals(input as WriteAssertionsRequest);
         }
 
         /// <summary>
-        /// Returns true if ExpandRequestParams instances are equal
+        /// Returns true if WriteAssertionsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of ExpandRequestParams to be compared</param>
+        /// <param name="input">Instance of WriteAssertionsRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ExpandRequestParams input) {
+        public bool Equals(WriteAssertionsRequest input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.TupleKey == input.TupleKey ||
-                    (this.TupleKey != null &&
-                    this.TupleKey.Equals(input.TupleKey))
-                ) &&
-                (
-                    this.AuthorizationModelId == input.AuthorizationModelId ||
-                    (this.AuthorizationModelId != null &&
-                    this.AuthorizationModelId.Equals(input.AuthorizationModelId))
+                    this.Assertions == input.Assertions ||
+                    this.Assertions != null &&
+                    input.Assertions != null &&
+                    this.Assertions.SequenceEqual(input.Assertions)
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -112,11 +108,8 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.TupleKey != null) {
-                    hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
-                }
-                if (this.AuthorizationModelId != null) {
-                    hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();
+                if (this.Assertions != null) {
+                    hashCode = (hashCode * 9923) + this.Assertions.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -17,7 +15,10 @@ using Auth0.Fga.Exceptions.Parsers;
 
 namespace Auth0.Fga.Exceptions;
 
-public class Auth0FgaApiRateLimitExceededError : Auth0FgaApiError {
+/// <summary>
+/// FGA API Rate Limit Exceeded Error - Corresponding to HTTP Error Code 429
+/// </summary>
+public class FgaApiRateLimitExceededError : FgaApiError {
     /// <summary>
     /// The maximum number of requests the consumer is allowed to make.
     /// </summary>
@@ -49,13 +50,13 @@ public class Auth0FgaApiRateLimitExceededError : Auth0FgaApiError {
     public new string? Message { get; internal set; }
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="Auth0FgaApiRateLimitExceededError"/> class with a specified
+    /// Initializes a new instance of the <see cref="FgaApiRateLimitExceededError"/> class with a specified
     /// </summary>
     /// <param name="response"></param>
     /// <param name="request"></param>
     /// <param name="apiName"></param>
     /// <param name="apiError"></param>
-    public Auth0FgaApiRateLimitExceededError(HttpResponseMessage response, HttpRequestMessage request, string? apiName,
+    public FgaApiRateLimitExceededError(HttpResponseMessage response, HttpRequestMessage request, string? apiName,
         ApiErrorParser? apiError = null) : base(response, request, apiName, apiError) {
         var rateLimit = RateLimitParser.Parse(response.Headers,
             request.Method, apiName);
@@ -65,11 +66,11 @@ public class Auth0FgaApiRateLimitExceededError : Auth0FgaApiError {
         ResetInMs = rateLimit.ResetInMs;
         Reset = rateLimit.Reset;
         Message =
-            $"Auth0 FGA Rate Limit Error for {rateLimit.Method} {rateLimit.ApiName} with API limit of {rateLimit.Limit} requests per {rateLimit.LimitUnit}.";
+            $"Rate Limit Error for {rateLimit.Method} {rateLimit.ApiName} with API limit of {rateLimit.Limit} requests per {rateLimit.LimitUnit}.";
     }
 
-    internal new static async Task<Auth0FgaApiError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
-        return new Auth0FgaApiRateLimitExceededError(response, request, apiName,
+    internal new static async Task<FgaApiError> CreateAsync(HttpResponseMessage response, HttpRequestMessage request, string? apiName) {
+        return new FgaApiRateLimitExceededError(response, request, apiName,
             await ApiErrorParser.Parse(response).ConfigureAwait(false));
     }
 }

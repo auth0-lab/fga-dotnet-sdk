@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,25 +18,34 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// WriteTokenIssuersRequestParams
+    /// Difference
     /// </summary>
-    [DataContract(Name = "WriteTokenIssuersRequestParams")]
-    public partial class WriteTokenIssuersRequestParams : IEquatable<WriteTokenIssuersRequestParams>, IValidatableObject {
+    [DataContract(Name = "Difference")]
+    public partial class Difference : IEquatable<Difference>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteTokenIssuersRequestParams" /> class.
+        /// Initializes a new instance of the <see cref="Difference" /> class.
         /// </summary>
-        /// <param name="issuerUrl">issuerUrl.</param>
-        public WriteTokenIssuersRequestParams(string? issuerUrl = default(string)) {
-            this.IssuerUrl = issuerUrl;
+        /// <param name="_base">_base.</param>
+        /// <param name="subtract">subtract.</param>
+        public Difference(Userset? _base = default(Userset), Userset? subtract = default(Userset)) {
+            this.Base = _base;
+            this.Subtract = subtract;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets IssuerUrl
+        /// Gets or Sets Base
         /// </summary>
-        [DataMember(Name = "issuer_url", EmitDefaultValue = false)]
-        [JsonPropertyName("issuer_url")]
-        public string IssuerUrl { get; set; }
+        [DataMember(Name = "base", EmitDefaultValue = false)]
+        [JsonPropertyName("base")]
+        public Userset Base { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Subtract
+        /// </summary>
+        [DataMember(Name = "subtract", EmitDefaultValue = false)]
+        [JsonPropertyName("subtract")]
+        public Userset Subtract { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -56,11 +63,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a WriteTokenIssuersRequestParams from the JSON string presentation of the object
+        /// Builds a Difference from the JSON string presentation of the object
         /// </summary>
-        /// <returns>WriteTokenIssuersRequestParams</returns>
-        public static WriteTokenIssuersRequestParams FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<WriteTokenIssuersRequestParams>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>Difference</returns>
+        public static Difference FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<Difference>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -69,23 +76,28 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as WriteTokenIssuersRequestParams);
+            return this.Equals(input as Difference);
         }
 
         /// <summary>
-        /// Returns true if WriteTokenIssuersRequestParams instances are equal
+        /// Returns true if Difference instances are equal
         /// </summary>
-        /// <param name="input">Instance of WriteTokenIssuersRequestParams to be compared</param>
+        /// <param name="input">Instance of Difference to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(WriteTokenIssuersRequestParams input) {
+        public bool Equals(Difference input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.IssuerUrl == input.IssuerUrl ||
-                    (this.IssuerUrl != null &&
-                    this.IssuerUrl.Equals(input.IssuerUrl))
+                    this.Base == input.Base ||
+                    (this.Base != null &&
+                    this.Base.Equals(input.Base))
+                ) &&
+                (
+                    this.Subtract == input.Subtract ||
+                    (this.Subtract != null &&
+                    this.Subtract.Equals(input.Subtract))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -98,8 +110,11 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.IssuerUrl != null) {
-                    hashCode = (hashCode * 9923) + this.IssuerUrl.GetHashCode();
+                if (this.Base != null) {
+                    hashCode = (hashCode * 9923) + this.Base.GetHashCode();
+                }
+                if (this.Subtract != null) {
+                    hashCode = (hashCode * 9923) + this.Subtract.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

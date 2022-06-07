@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -33,7 +31,7 @@ namespace Auth0.Fga.Model {
         /// <param name="union">union.</param>
         /// <param name="intersection">intersection.</param>
         /// <param name="difference">difference.</param>
-        public Userset(Object? _this = default(Object), ObjectRelation? computedUserset = default(ObjectRelation), AuthorizationmodelTupleToUserset? tupleToUserset = default(AuthorizationmodelTupleToUserset), Usersets? union = default(Usersets), Usersets? intersection = default(Usersets), AuthorizationmodelDifference? difference = default(AuthorizationmodelDifference)) {
+        public Userset(Object? _this = default(Object), ObjectRelation? computedUserset = default(ObjectRelation), TupleToUserset? tupleToUserset = default(TupleToUserset), Usersets? union = default(Usersets), Usersets? intersection = default(Usersets), Difference? difference = default(Difference)) {
             this.This = _this;
             this.ComputedUserset = computedUserset;
             this.TupleToUserset = tupleToUserset;
@@ -63,7 +61,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tupleToUserset", EmitDefaultValue = false)]
         [JsonPropertyName("tupleToUserset")]
-        public AuthorizationmodelTupleToUserset TupleToUserset { get; set; }
+        public TupleToUserset TupleToUserset { get; set; }
 
         /// <summary>
         /// Gets or Sets Union
@@ -84,7 +82,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "difference", EmitDefaultValue = false)]
         [JsonPropertyName("difference")]
-        public AuthorizationmodelDifference Difference { get; set; }
+        public Difference Difference { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

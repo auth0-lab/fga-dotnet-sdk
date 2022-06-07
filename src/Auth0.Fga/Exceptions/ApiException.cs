@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -58,18 +56,19 @@ public class ApiException : Exception {
     /// <returns>An instance of a <see cref="ApiException"/> subclass containing the appropriate exception for this response.</returns>
     public static async Task<ApiException> CreateSpecificExceptionAsync(HttpResponseMessage response, HttpRequestMessage request,
         string? apiName = null) {
-        switch ((int) response.StatusCode) {
+        switch ((int)response.StatusCode) {
             case 401:
-                return await Auth0FgaAuthenticationError.CreateAsync(response, request, apiName).ConfigureAwait(false);
+            case 403:
+                return await FgaApiAuthenticationError.CreateAsync(response, request, apiName).ConfigureAwait(false);
             case 400:
             case 442:
-                return await Auth0FgaApiValidationError.CreateAsync(response, request, apiName).ConfigureAwait(false);
+                return await FgaApiValidationError.CreateAsync(response, request, apiName).ConfigureAwait(false);
             case 429:
-                return await Auth0FgaApiRateLimitExceededError.CreateAsync(response, request, apiName).ConfigureAwait(false);
+                return await FgaApiRateLimitExceededError.CreateAsync(response, request, apiName).ConfigureAwait(false);
             case 500:
-                return await Auth0FgaApiInternalError.CreateAsync(response, request, apiName).ConfigureAwait(false);
+                return await FgaApiInternalError.CreateAsync(response, request, apiName).ConfigureAwait(false);
             default:
-                return await Auth0FgaApiError.CreateAsync(response, request, apiName).ConfigureAwait(false);
+                return await FgaApiError.CreateAsync(response, request, apiName).ConfigureAwait(false);
         }
     }
 }

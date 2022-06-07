@@ -1,11 +1,11 @@
-# Auth0.Fga.Model.WriteSettingsResponse
+# Auth0.Fga.Model.ExpandRequest
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Environment** | **Environment** |  | [optional] 
-**TokenIssuers** | [**List&lt;TokenIssuer&gt;**](TokenIssuer.md) |  | [optional] 
+**TupleKey** | [**TupleKey**](TupleKey.md) |  | [optional] 
+**AuthorizationModelId** | **string** |  | [optional] 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
 

@@ -1,5 +1,5 @@
 # Auth0.Fga.Model.NotFoundErrorCode
-- no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - unimplemented: method is unimplemented
+- no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - resource_not_found: generic not found.  - unimplemented: method is unimplemented
 
 ## Properties
 

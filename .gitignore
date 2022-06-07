@@ -373,6 +373,7 @@ FodyWeavers.xsd
 .env
 credentials.json
 
+*.rej
 *.orig
 .DS_Store
 .local_feed

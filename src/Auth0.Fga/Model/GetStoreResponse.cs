@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,16 +18,22 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// WriteTokenIssuersResponse
+    /// GetStoreResponse
     /// </summary>
-    [DataContract(Name = "WriteTokenIssuersResponse")]
-    public partial class WriteTokenIssuersResponse : IEquatable<WriteTokenIssuersResponse>, IValidatableObject {
+    [DataContract(Name = "GetStoreResponse")]
+    public partial class GetStoreResponse : IEquatable<GetStoreResponse>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="WriteTokenIssuersResponse" /> class.
+        /// Initializes a new instance of the <see cref="GetStoreResponse" /> class.
         /// </summary>
         /// <param name="id">id.</param>
-        public WriteTokenIssuersResponse(string? id = default(string)) {
+        /// <param name="name">name.</param>
+        /// <param name="createdAt">createdAt.</param>
+        /// <param name="updatedAt">updatedAt.</param>
+        public GetStoreResponse(string? id = default(string), string? name = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime)) {
             this.Id = id;
+            this.Name = name;
+            this.CreatedAt = createdAt;
+            this.UpdatedAt = updatedAt;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -39,6 +43,27 @@ namespace Auth0.Fga.Model {
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [JsonPropertyName("id")]
         public string Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Name
+        /// </summary>
+        [DataMember(Name = "name", EmitDefaultValue = false)]
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or Sets CreatedAt
+        /// </summary>
+        [DataMember(Name = "created_at", EmitDefaultValue = false)]
+        [JsonPropertyName("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// Gets or Sets UpdatedAt
+        /// </summary>
+        [DataMember(Name = "updated_at", EmitDefaultValue = false)]
+        [JsonPropertyName("updated_at")]
+        public DateTime UpdatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -56,11 +81,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a WriteTokenIssuersResponse from the JSON string presentation of the object
+        /// Builds a GetStoreResponse from the JSON string presentation of the object
         /// </summary>
-        /// <returns>WriteTokenIssuersResponse</returns>
-        public static WriteTokenIssuersResponse FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<WriteTokenIssuersResponse>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>GetStoreResponse</returns>
+        public static GetStoreResponse FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<GetStoreResponse>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -69,15 +94,15 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as WriteTokenIssuersResponse);
+            return this.Equals(input as GetStoreResponse);
         }
 
         /// <summary>
-        /// Returns true if WriteTokenIssuersResponse instances are equal
+        /// Returns true if GetStoreResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of WriteTokenIssuersResponse to be compared</param>
+        /// <param name="input">Instance of GetStoreResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(WriteTokenIssuersResponse input) {
+        public bool Equals(GetStoreResponse input) {
             if (input == null) {
                 return false;
             }
@@ -86,6 +111,21 @@ namespace Auth0.Fga.Model {
                     this.Id == input.Id ||
                     (this.Id != null &&
                     this.Id.Equals(input.Id))
+                ) &&
+                (
+                    this.Name == input.Name ||
+                    (this.Name != null &&
+                    this.Name.Equals(input.Name))
+                ) &&
+                (
+                    this.CreatedAt == input.CreatedAt ||
+                    (this.CreatedAt != null &&
+                    this.CreatedAt.Equals(input.CreatedAt))
+                ) &&
+                (
+                    this.UpdatedAt == input.UpdatedAt ||
+                    (this.UpdatedAt != null &&
+                    this.UpdatedAt.Equals(input.UpdatedAt))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -100,6 +140,15 @@ namespace Auth0.Fga.Model {
                 int hashCode = 9661;
                 if (this.Id != null) {
                     hashCode = (hashCode * 9923) + this.Id.GetHashCode();
+                }
+                if (this.Name != null) {
+                    hashCode = (hashCode * 9923) + this.Name.GetHashCode();
+                }
+                if (this.CreatedAt != null) {
+                    hashCode = (hashCode * 9923) + this.CreatedAt.GetHashCode();
+                }
+                if (this.UpdatedAt != null) {
+                    hashCode = (hashCode * 9923) + this.UpdatedAt.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -13,9 +11,8 @@
 //
 
 
-using System.Text.Json.Serialization;
-
 using Auth0.Fga.Exceptions;
+using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Client;
 
@@ -40,7 +37,7 @@ public class OAuth2Client {
     /// <summary>
     /// Credentials Flow Response
     ///
-    /// https://auth0.com/docs/get-started/authentication-and-authorization-flow/call-your-api-using-the-client-credentials-flow#response
+    /// https://auth0.com/docs/get-started/authentication-and-authorization-flow/client-credentials-flow
     /// </summary>
     public class AccessTokenResponse {
         /// <summary>
@@ -81,7 +78,7 @@ public class OAuth2Client {
     private readonly BaseClient _httpClient;
     private AuthToken _authToken = new();
     private AuthRequestBody _authRequest { get; set; }
-    private string _apiIssuer { get; set; }
+    private string _apiTokenIssuer { get; set; }
 
     #endregion
 
@@ -93,17 +90,17 @@ public class OAuth2Client {
     /// <param name="config"></param>
     /// <param name="httpClient"></param>
     /// <exception cref="NullReferenceException"></exception>
-    public OAuth2Client(Configuration.Configuration config, BaseClient httpClient) {
+    public OAuth2Client(Configuration.BaseConfiguration config, BaseClient httpClient) {
         if (string.IsNullOrWhiteSpace(config.ClientId)) {
-            throw new Auth0FgaRequiredParamError("OAuth2Client", "config.ClientId");
+            throw new FgaRequiredParamError("OAuth2Client", "config.ClientId");
         }
 
         if (string.IsNullOrWhiteSpace(config.ClientSecret)) {
-            throw new Auth0FgaRequiredParamError("OAuth2Client", "config.ClientSecret");
+            throw new FgaRequiredParamError("OAuth2Client", "config.ClientSecret");
         }
 
         this._httpClient = httpClient;
-        this._apiIssuer = config.ApiIssuer;
+        this._apiTokenIssuer = config.ApiTokenIssuer;
         this._authRequest = new AuthRequestBody() {
             ClientId = config.ClientId,
             ClientSecret = config.ClientSecret,
@@ -120,7 +117,7 @@ public class OAuth2Client {
     private async Task ExchangeTokenAsync(CancellationToken cancellationToken = default) {
         var requestBuilder = new RequestBuilder {
             Method = HttpMethod.Post,
-            BasePath = $"https://{this._apiIssuer}",
+            BasePath = $"https://{this._apiTokenIssuer}",
             PathTemplate = "/oauth/token",
             Body = Utils.CreateJsonStringContent(this._authRequest)
         };

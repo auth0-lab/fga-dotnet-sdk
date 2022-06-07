@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,17 +18,19 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// CheckRequestParams
+    /// CheckRequest
     /// </summary>
-    [DataContract(Name = "CheckRequestParams")]
-    public partial class CheckRequestParams : IEquatable<CheckRequestParams>, IValidatableObject {
+    [DataContract(Name = "Check_request")]
+    public partial class CheckRequest : IEquatable<CheckRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckRequestParams" /> class.
+        /// Initializes a new instance of the <see cref="CheckRequest" /> class.
         /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
+        /// <param name="contextualTuples">contextualTuples.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
-        public CheckRequestParams(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string)) {
+        public CheckRequest(TupleKey? tupleKey = default(TupleKey), ContextualTupleKeys? contextualTuples = default(ContextualTupleKeys), string? authorizationModelId = default(string)) {
             this.TupleKey = tupleKey;
+            this.ContextualTuples = contextualTuples;
             this.AuthorizationModelId = authorizationModelId;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -41,6 +41,13 @@ namespace Auth0.Fga.Model {
         [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
         [JsonPropertyName("tuple_key")]
         public TupleKey TupleKey { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ContextualTuples
+        /// </summary>
+        [DataMember(Name = "contextual_tuples", EmitDefaultValue = false)]
+        [JsonPropertyName("contextual_tuples")]
+        public ContextualTupleKeys ContextualTuples { get; set; }
 
         /// <summary>
         /// Gets or Sets AuthorizationModelId
@@ -80,11 +87,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a CheckRequestParams from the JSON string presentation of the object
+        /// Builds a CheckRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>CheckRequestParams</returns>
-        public static CheckRequestParams FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<CheckRequestParams>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>CheckRequest</returns>
+        public static CheckRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<CheckRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -93,15 +100,15 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as CheckRequestParams);
+            return this.Equals(input as CheckRequest);
         }
 
         /// <summary>
-        /// Returns true if CheckRequestParams instances are equal
+        /// Returns true if CheckRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of CheckRequestParams to be compared</param>
+        /// <param name="input">Instance of CheckRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CheckRequestParams input) {
+        public bool Equals(CheckRequest input) {
             if (input == null) {
                 return false;
             }
@@ -110,6 +117,11 @@ namespace Auth0.Fga.Model {
                     this.TupleKey == input.TupleKey ||
                     (this.TupleKey != null &&
                     this.TupleKey.Equals(input.TupleKey))
+                ) &&
+                (
+                    this.ContextualTuples == input.ContextualTuples ||
+                    (this.ContextualTuples != null &&
+                    this.ContextualTuples.Equals(input.ContextualTuples))
                 ) &&
                 (
                     this.AuthorizationModelId == input.AuthorizationModelId ||
@@ -133,6 +145,9 @@ namespace Auth0.Fga.Model {
                 int hashCode = 9661;
                 if (this.TupleKey != null) {
                     hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
+                }
+                if (this.ContextualTuples != null) {
+                    hashCode = (hashCode * 9923) + this.ContextualTuples.GetHashCode();
                 }
                 if (this.AuthorizationModelId != null) {
                     hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();

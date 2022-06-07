@@ -1,13 +1,13 @@
-# Auth0.Fga.Model.ReadRequestParams
+# Auth0.Fga.Model.CheckRequest
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **TupleKey** | [**TupleKey**](TupleKey.md) |  | [optional] 
+**ContextualTuples** | [**ContextualTupleKeys**](ContextualTupleKeys.md) |  | [optional] 
 **AuthorizationModelId** | **string** |  | [optional] 
-**PageSize** | **int** |  | [optional] 
-**ContinuationToken** | **string** |  | [optional] 
+**Trace** | **bool** | Defaults to false. Making it true has performance implications. | [optional] [readonly] 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
 

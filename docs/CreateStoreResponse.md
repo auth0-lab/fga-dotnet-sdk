@@ -1,10 +1,13 @@
-# Auth0.Fga.Model.WriteAssertionsRequestParams
+# Auth0.Fga.Model.CreateStoreResponse
 
 ## Properties
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Assertions** | [**List&lt;Assertion&gt;**](Assertion.md) |  | 
+**Id** | **string** |  | [optional] 
+**Name** | **string** |  | [optional] 
+**CreatedAt** | **DateTime** |  | [optional] 
+**UpdatedAt** | **DateTime** |  | [optional] 
 
 [[Back to Model list]](../README.md#models) [[Back to API list]](../README.md#api-endpoints) [[Back to README]](../README.md)
 

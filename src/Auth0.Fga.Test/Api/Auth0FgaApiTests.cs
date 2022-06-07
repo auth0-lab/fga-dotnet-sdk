@@ -1,23 +1,31 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+//
+// Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
+//
+// API version: 0.1
+// Website: https://fga.dev
+// Documentation: https://docs.fga.dev
+// Support: https://discord.gg/8naAwJfWN6
+// License: [MIT](https://github.com/auth0-lab/fga-dotnet-sdk/blob/main/LICENSE)
+//
+// NOTE: This file was auto generated. DO NOT EDIT.
+//
 
 using Auth0.Fga.Api;
 using Auth0.Fga.Client;
 using Auth0.Fga.Exceptions;
 using Auth0.Fga.Exceptions.Parsers;
 using Auth0.Fga.Model;
-
 using Moq;
 using Moq.Protected;
-
+using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
-
-using Environment = Auth0.Fga.Model.Environment;
 
 namespace Auth0.Fga.Test.Api {
     /// <summary>
@@ -61,7 +69,7 @@ namespace Auth0.Fga.Test.Api {
         public void StoreIdRequired() {
             var storeIdRequiredConfig = new Configuration.Configuration(null, PlaygroundEnvironment);
             void ActionMissingStoreId() => storeIdRequiredConfig.IsValid();
-            var exception = Assert.Throws<Auth0FgaRequiredParamError>(ActionMissingStoreId);
+            var exception = Assert.Throws<FgaRequiredParamError>(ActionMissingStoreId);
             Assert.Equal("Required parameter StoreId was not defined when calling Configuration.", exception.Message);
         }
 
@@ -71,7 +79,7 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public void ValidEnvironmentRequired() {
             void ActionInvalidEnvironment() => new Configuration.Configuration(_storeId, "does-not-exist");
-            var exception = Assert.Throws<Auth0FgaInvalidEnvironmentError>(ActionInvalidEnvironment);
+            var exception = Assert.Throws<FgaInvalidEnvironmentError>(ActionInvalidEnvironment);
             Assert.Equal("does-not-exist is not a valid environment. Valid environments are: default, us, staging, playground", exception.Message);
         }
 
@@ -84,7 +92,7 @@ namespace Auth0.Fga.Test.Api {
             void ActionMissingClientIdClientSecretApiInit() =>
                 missingClientIdClientSecretConfigApiInit.IsValid();
             var exceptionMissingClientIdClientSecretApiInit =
-                Assert.Throws<Auth0FgaRequiredParamError>(ActionMissingClientIdClientSecretApiInit);
+                Assert.Throws<FgaRequiredParamError>(ActionMissingClientIdClientSecretApiInit);
             Assert.Equal("Required parameter ClientId was not defined when calling Configuration.",
                 exceptionMissingClientIdClientSecretApiInit.Message);
 
@@ -92,7 +100,7 @@ namespace Auth0.Fga.Test.Api {
             void ActionMissingClientIdClientSecret() =>
                 missingClientIdClientSecretConfig.IsValid();
             var exceptionMissingClientIdClientSecret =
-                Assert.Throws<Auth0FgaRequiredParamError>(ActionMissingClientIdClientSecret);
+                Assert.Throws<FgaRequiredParamError>(ActionMissingClientIdClientSecret);
             Assert.Equal("Required parameter ClientId was not defined when calling Configuration.",
                 exceptionMissingClientIdClientSecret.Message);
 
@@ -102,7 +110,7 @@ namespace Auth0.Fga.Test.Api {
             void ActionMissingClientId() =>
                 missingClientIdConfig.IsValid();
             var exceptionMissingClientId =
-                Assert.Throws<Auth0FgaRequiredParamError>(ActionMissingClientId);
+                Assert.Throws<FgaRequiredParamError>(ActionMissingClientId);
             Assert.Equal("Required parameter ClientId was not defined when calling Configuration.",
                 exceptionMissingClientId.Message);
 
@@ -112,7 +120,7 @@ namespace Auth0.Fga.Test.Api {
             void ActionMissingClientSecret() =>
                 missingClientSecretConfig.IsValid();
             var exceptionMissingClientSecret =
-                Assert.Throws<Auth0FgaRequiredParamError>(ActionMissingClientSecret);
+                Assert.Throws<FgaRequiredParamError>(ActionMissingClientSecret);
             Assert.Equal("Required parameter ClientSecret was not defined when calling Configuration.",
                 exceptionMissingClientSecret.Message);
         }
@@ -153,7 +161,7 @@ namespace Auth0.Fga.Test.Api {
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
                     ItExpr.Is<HttpRequestMessage>(req =>
-                        req.RequestUri == new Uri($"https://{config.ApiIssuer}/oauth/token") &&
+                        req.RequestUri == new Uri($"https://{config.ApiTokenIssuer}/oauth/token") &&
                         req.Method == HttpMethod.Post),
                     ItExpr.IsAny<CancellationToken>()
                 )
@@ -178,7 +186,7 @@ namespace Auth0.Fga.Test.Api {
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
                     Content = Utils.CreateJsonStringContent(
-                            new ReadAuthorizationModelsResponse() { AuthorizationModelIds = { } }),
+                            new ReadAuthorizationModelsResponse() { AuthorizationModels = { } }),
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
@@ -190,7 +198,7 @@ namespace Auth0.Fga.Test.Api {
                 "SendAsync",
                 Times.Exactly(1),
                 ItExpr.Is<HttpRequestMessage>(req =>
-                    req.RequestUri == new Uri($"https://{config.ApiIssuer}/oauth/token") &&
+                    req.RequestUri == new Uri($"https://{config.ApiTokenIssuer}/oauth/token") &&
                     req.Method == HttpMethod.Post),
                 ItExpr.IsAny<CancellationToken>()
             );
@@ -216,10 +224,10 @@ namespace Auth0.Fga.Test.Api {
          * Errors
          */
         /// <summary>
-        /// Test 400s return Auth0FgaApiValidationError
+        /// Test 400s return FgaApiValidationError
         /// </summary>
         [Fact]
-        public async Task Auth0FgaApiValidationErrorTest() {
+        public async Task FgaApiValidationErrorTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -238,10 +246,10 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
 
             Task<CheckResponse> BadRequestError() => auth0FgaApi.Check(body);
-            var error = await Assert.ThrowsAsync<Auth0FgaApiValidationError>(BadRequestError);
+            var error = await Assert.ThrowsAsync<FgaApiValidationError>(BadRequestError);
             Assert.Equal(error.Method, HttpMethod.Post);
             Assert.Equal("Check", error.ApiName);
             Assert.Equal(_config.StoreId, error.StoreId);
@@ -257,10 +265,10 @@ namespace Auth0.Fga.Test.Api {
         }
 
         /// <summary>
-        /// Test 500s return Auth0FgaApiInternalError
+        /// Test 500s return FgaApiInternalError
         /// </summary>
         [Fact]
-        public async Task Auth0FgaApiInternalErrorTest() {
+        public async Task FgaApiInternalErrorTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -278,10 +286,10 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
 
             Task<CheckResponse> InternalApiError() => auth0FgaApi.Check(body);
-            var error = await Assert.ThrowsAsync<Auth0FgaApiInternalError>(InternalApiError);
+            var error = await Assert.ThrowsAsync<FgaApiInternalError>(InternalApiError);
             Assert.Equal(error.Method, HttpMethod.Post);
             Assert.Equal("Check", error.ApiName);
             Assert.Equal($"{_config.BasePath}/stores/{_config.StoreId}/check", error.RequestUrl);
@@ -298,10 +306,10 @@ namespace Auth0.Fga.Test.Api {
         }
 
         /// <summary>
-        /// Test 500s return Auth0FgaApiError
+        /// Test 500s return FgaApiError
         /// </summary>
         [Fact]
-        public async Task Auth0FgaApiErrorTest() {
+        public async Task FgaApiErrorTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -319,10 +327,10 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
 
             Task<CheckResponse> ApiError() => auth0FgaApi.Check(body);
-            var error = await Assert.ThrowsAsync<Auth0FgaApiError>(ApiError);
+            var error = await Assert.ThrowsAsync<FgaApiError>(ApiError);
             Assert.Equal(error.Method, HttpMethod.Post);
             Assert.Equal("Check", error.ApiName);
             Assert.Equal($"{_config.BasePath}/stores/{_config.StoreId}/check", error.RequestUrl);
@@ -339,10 +347,10 @@ namespace Auth0.Fga.Test.Api {
         }
 
         /// <summary>
-        /// Test 429s return Auth0FgaApiRateLimitExceededError
+        /// Test 429s return FgaApiRateLimitExceededError
         /// </summary>
         [Fact]
-        public async Task Auth0FgaApiRateLimitExceededErrorTest() {
+        public async Task FgaApiRateLimitExceededErrorTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -358,11 +366,11 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
 
             Task<CheckResponse> RateLimitExceededError() => auth0FgaApi.Check(body);
-            var error = await Assert.ThrowsAsync<Auth0FgaApiRateLimitExceededError>(RateLimitExceededError);
-            Assert.Equal("Auth0 FGA Rate Limit Error for POST Check with API limit of 2 requests per Second.", error.Message);
+            var error = await Assert.ThrowsAsync<FgaApiRateLimitExceededError>(RateLimitExceededError);
+            Assert.Equal("Rate Limit Error for POST Check with API limit of 2 requests per Second.", error.Message);
             Assert.Equal(100, error.ResetInMs);
             Assert.Equal(2, error.Limit);
             Assert.Equal("Second", error.LimitUnit.ToString());
@@ -405,7 +413,7 @@ namespace Auth0.Fga.Test.Api {
             };
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
 
             await auth0FgaApi.Check(body);
 
@@ -442,7 +450,7 @@ namespace Auth0.Fga.Test.Api {
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
                     Content = Utils.CreateJsonStringContent(new ReadAuthorizationModelsResponse() {
-                        AuthorizationModelIds = new List<string>() { authorizationModelId }
+                        AuthorizationModels = new List<AuthorizationModel>() { new() { Id = authorizationModelId, TypeDefinitions = { } } }
                     }),
                 });
 
@@ -462,7 +470,7 @@ namespace Auth0.Fga.Test.Api {
             );
 
             Assert.IsType<ReadAuthorizationModelsResponse>(response);
-            Assert.Equal(authorizationModelId, response.AuthorizationModelIds[0]);
+            Assert.Equal(authorizationModelId, response.AuthorizationModels[0].Id);
         }
 
         /// <summary>
@@ -473,7 +481,7 @@ namespace Auth0.Fga.Test.Api {
             const string authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw";
             var relations = new Dictionary<string, Userset>() {
                 {"writer", new Userset(_this: new object())}, {
-                    "reader",
+                    "viewer",
                     new Userset(union: new Usersets(new List<Userset>() {
                         new(new object(), new ObjectRelation("", "writer"))
                     }))
@@ -579,7 +587,7 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
             var response = await auth0FgaApi.Check(body);
 
             mockHandler.Protected().Verify(
@@ -617,8 +625,8 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new WriteRequestParams(
-                new TupleKeys(new List<TupleKey> { new("repo:auth0/express-jwt", "reader", "anne") }));
+            var body = new WriteRequest(
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }));
             var response = await auth0FgaApi.Write(body);
 
             mockHandler.Protected().Verify(
@@ -653,8 +661,8 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new WriteRequestParams(new TupleKeys(new List<TupleKey> { }),
-                new TupleKeys(new List<TupleKey> { new("repo:auth0/express-jwt", "reader", "anne") }));
+            var body = new WriteRequest(new TupleKeys(new List<TupleKey> { }),
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }));
             var response = await auth0FgaApi.Write(body);
 
             mockHandler.Protected().Verify(
@@ -689,9 +697,9 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new WriteRequestParams(
-                new TupleKeys(new List<TupleKey> { new("repo:auth0/express-jwt", "writer", "anne") }),
-                new TupleKeys(new List<TupleKey> { new("repo:auth0/express-jwt", "reader", "anne") }),
+            var body = new WriteRequest(
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "writer", "anne") }),
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }),
                 "1uHxCSuTP0VKPYSnkq1pbb1jeZw");
             var response = await auth0FgaApi.Write(body);
 
@@ -711,8 +719,9 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public async Task ExpandTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+
             var jsonResponse =
-                "{\"tree\":{\"root\":{\"name\":\"repo:auth0/express-jwt#admin\", \"union\":{\"nodes\":[{\"name\":\"repo:auth0/express-jwt#admin\", \"leaf\":{\"users\":{\"users\":[\"team:auth0/iam#member\"]}}}, {\"name\":\"repo:auth0/express-jwt#admin\", \"leaf\":{\"tupleToUserset\":{\"tupleset\":\"repo:auth0/express-jwt#owner\", \"computed\":[{\"userset\":\"org:auth0#repo_admin\"}]}}}]}}}}";
+                "{\"tree\":{\"root\":{\"name\":\"document:roadmap#owner\", \"union\":{\"nodes\":[{\"name\":\"document:roadmap#owner\", \"leaf\":{\"users\":{\"users\":[\"team:product#member\"]}}}, {\"name\":\"document:roadmap#owner\", \"leaf\":{\"tupleToUserset\":{\"tupleset\":\"document:roadmap#owner\", \"computed\":[{\"userset\":\"org:contoso#admin\"}]}}}]}}}}";
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -729,7 +738,7 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new ExpandRequestParams(new TupleKey(_object: "repo:auth0/express-jwt", relation: "reader"));
+            var body = new ExpandRequest(new TupleKey(_object: "document:roadmap", relation: "viewer"));
             var response = await auth0FgaApi.Expand(body);
 
             mockHandler.Protected().Verify(
@@ -742,6 +751,71 @@ namespace Auth0.Fga.Test.Api {
             );
 
             Assert.IsType<ExpandResponse>(response);
+            ExpandResponse expectedResponse = JsonSerializer.Deserialize<ExpandResponse>(jsonResponse);
+            Assert.Equal(response, expectedResponse);
+        }
+
+        /// <summary>
+        /// Test Expand with Complex Response
+        /// </summary>
+        [Fact]
+        public async Task ExpandComplexResponseTest() {
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var mockResponse = new ExpandResponse(
+                tree: new UsersetTree(
+                root: new Node(name: "document:roadmap1#owner",
+                union: new Nodes(
+                    nodes: new List<Node>() {
+                        new Node(name: "document:roadmap2#owner", leaf: new Leaf(users: new Users(users: new List<string>(){"team:product#member"}))),
+                        new Node(name: "document:roadmap3#owner", leaf: new Leaf(tupleToUserset: new UsersetTreeTupleToUserset(tupleset: "document:roadmap#owner", computed: new List<Computed>(){
+                        new Computed(userset: "org:contoso#admin")
+                    }))),
+                }),
+                difference: new UsersetTreeDifference(
+                    _base: new Node(name: "document:roadmap3#owner", leaf: new Leaf(users: new Users(users: new List<string>() { "team:product#member" }))),
+                    subtract: new Node(name: "document:roadmap4#owner", leaf: new Leaf(users: new Users(users: new List<string>() { "team:product#member" })))
+                ),
+                intersection: new Nodes(
+                    nodes: new List<Node>() {
+                        new Node(name: "document:roadmap5#owner", leaf: new Leaf(users: new Users(users: new List<string>(){"team:product#commentor"}))),
+                        new Node(name: "document:roadmap6#owner", leaf: new Leaf(tupleToUserset: new UsersetTreeTupleToUserset(tupleset: "document:roadmap#viewer", computed: new List<Computed>(){
+                        new Computed(userset: "org:contoso#owner")
+                    }))),
+                }))
+            ));
+            var jsonResponse = JsonSerializer.Serialize(mockResponse);
+            //Console.Write(jsonResponse);
+
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req =>
+                        req.RequestUri == new Uri($"{_config.BasePath}/stores/{_config.StoreId}/expand") &&
+                        req.Method == HttpMethod.Post),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage() {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = new StringContent(jsonResponse, Encoding.UTF8, "application/json"),
+                });
+
+            var httpClient = new HttpClient(mockHandler.Object);
+            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
+
+            var body = new ExpandRequest(new TupleKey(_object: "document:roadmap", relation: "viewer"));
+            var response = await auth0FgaApi.Expand(body);
+
+            mockHandler.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri == new Uri($"{_config.BasePath}/stores/{_config.StoreId}/expand") &&
+                    req.Method == HttpMethod.Post),
+                ItExpr.IsAny<CancellationToken>()
+            );
+
+            Assert.IsType<ExpandResponse>(response);
+            Assert.Equal(response, mockResponse);
         }
 
         /// <summary>
@@ -750,6 +824,11 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public async Task ReadTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var expectedResponse = new ReadResponse() {
+                Tuples = new List<Model.Tuple>() {
+                                new(new TupleKey("document:roadmap", "viewer", "anne"), DateTime.Now)
+                            }
+            };
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -760,17 +839,13 @@ namespace Auth0.Fga.Test.Api {
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new ReadResponse() {
-                        Tuples = new List<Model.Tuple>() {
-                                new(new TupleKey("repo:auth0/express-jwt", "reader", "anne"), DateTime.Now)
-                            }
-                    }),
+                    Content = Utils.CreateJsonStringContent(expectedResponse),
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new ReadRequestParams(new TupleKey("repo:auth0/express-jwt", "reader", "anne"));
+            var body = new ReadRequest(new TupleKey("document:roadmap", "viewer", "anne"));
             var response = await auth0FgaApi.Read(body);
 
             mockHandler.Protected().Verify(
@@ -784,6 +859,7 @@ namespace Auth0.Fga.Test.Api {
 
             Assert.IsType<ReadResponse>(response);
             Assert.Single(response.Tuples);
+            Assert.Equal(response, expectedResponse);
         }
 
         /// <summary>
@@ -792,6 +868,12 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public async Task ReadChangesTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var expectedResponse = new ReadChangesResponse() {
+                Changes = new List<TupleChange>() {
+                            new(new TupleKey("document:roadmap", "viewer", "anne"), TupleOperation.WRITE, DateTime.Now),
+                        },
+                ContinuationToken = "eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ=="
+            };
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -803,12 +885,7 @@ namespace Auth0.Fga.Test.Api {
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new ReadChangesResponse() {
-                        Changes = new List<TupleChange>() {
-                            new(new TupleKey("repo:auth0/express-jwt", "reader", "anne"), TupleOperation.Write, DateTime.Now),
-                        },
-                        ContinuationToken = "eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ=="
-                    }),
+                    Content = Utils.CreateJsonStringContent(expectedResponse),
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
@@ -831,6 +908,7 @@ namespace Auth0.Fga.Test.Api {
 
             Assert.IsType<ReadChangesResponse>(response);
             Assert.Single(response.Changes);
+            Assert.Equal(response, expectedResponse);
         }
 
         /// <summary>
@@ -856,8 +934,8 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new WriteAssertionsRequestParams(assertions: new List<Assertion>() {
-                new(new TupleKey("repo:auth0/express-jwt", "reader", "anne"), true)
+            var body = new WriteAssertionsRequest(assertions: new List<Assertion>() {
+                new(new TupleKey("document:roadmap", "viewer", "anne"), true)
             });
             await auth0FgaApi.WriteAssertions(authorizationModelId, body);
 
@@ -913,168 +991,6 @@ namespace Auth0.Fga.Test.Api {
             Assert.IsType<ReadAssertionsResponse>(response);
             Assert.Equal(authorizationModelId, response.AuthorizationModelId);
             Assert.Empty(response.Assertions);
-        }
-
-        /// <summary>
-        /// Test WriteSettings
-        /// </summary>
-        [Fact]
-        public async Task WriteSettingsTest() {
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.Is<HttpRequestMessage>(req =>
-                        req.RequestUri ==
-                        new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings") &&
-                        req.Method == HttpMethod.Patch),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(
-                        new WriteSettingsResponse() { Environment = Environment.PRODUCTION }),
-                });
-
-            var httpClient = new HttpClient(mockHandler.Object);
-            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
-
-            var body = new WriteSettingsRequestParams(Environment.PRODUCTION);
-            var response = await auth0FgaApi.WriteSettings(body);
-
-            mockHandler.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req =>
-                    req.RequestUri ==
-                    new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings") &&
-                    req.Method == HttpMethod.Patch),
-                ItExpr.IsAny<CancellationToken>()
-            );
-
-            Assert.IsType<WriteSettingsResponse>(response);
-            Assert.Equal(Environment.PRODUCTION, response.Environment);
-        }
-
-        /// <summary>
-        /// Test ReadSettings
-        /// </summary>
-        [Fact]
-        public async Task ReadSettingsTest() {
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.Is<HttpRequestMessage>(req =>
-                        req.RequestUri ==
-                        new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings") &&
-                        req.Method == HttpMethod.Get),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new ReadSettingsResponse() { Environment = Environment.PRODUCTION }),
-                });
-
-            var httpClient = new HttpClient(mockHandler.Object);
-            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
-
-            var response = await auth0FgaApi.ReadSettings();
-
-            mockHandler.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req =>
-                    req.RequestUri ==
-                    new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings") &&
-                    req.Method == HttpMethod.Get),
-                ItExpr.IsAny<CancellationToken>()
-            );
-
-            Assert.IsType<ReadSettingsResponse>(response);
-            Assert.Equal(Environment.PRODUCTION, response.Environment);
-            Assert.IsType<ReadSettingsResponse>(response);
-        }
-
-        /// <summary>
-        /// Test WriteTokenIssuer
-        /// </summary>
-        [Fact]
-        public async Task WriteTokenIssuerTest() {
-            var tokenIssuer = new TokenIssuer() {
-                Id = "86331426-5422-42e1-be6d-fd52c352e364",
-                IssuerUrl = "https://fga.auth0.example"
-            };
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.Is<HttpRequestMessage>(req =>
-                        req.RequestUri ==
-                        new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings/token-issuers") &&
-                        req.Method == HttpMethod.Post),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(new WriteTokenIssuersResponse() { Id = tokenIssuer.Id }),
-                });
-
-            var httpClient = new HttpClient(mockHandler.Object);
-            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
-
-            var body = new WriteTokenIssuersRequestParams(tokenIssuer.IssuerUrl);
-            var response = await auth0FgaApi.WriteTokenIssuer(body);
-
-            mockHandler.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req =>
-                    req.RequestUri ==
-                    new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings/token-issuers") &&
-                    req.Method == HttpMethod.Post),
-                ItExpr.IsAny<CancellationToken>()
-            );
-
-            Assert.IsType<WriteTokenIssuersResponse>(response);
-            Assert.Equal(tokenIssuer.Id, response.Id);
-        }
-
-        /// <summary>
-        /// Test DeleteTokenIssuer
-        /// </summary>
-        [Fact]
-        public async Task DeleteTokenIssuerTest() {
-            const string issuerId = "86331426-5422-42e1-be6d-fd52c352e364";
-
-            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            mockHandler.Protected()
-                .Setup<Task<HttpResponseMessage>>(
-                    "SendAsync",
-                    ItExpr.Is<HttpRequestMessage>(req =>
-                        req.RequestUri ==
-                        new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings/token-issuers/{issuerId}") &&
-                        req.Method == HttpMethod.Delete),
-                    ItExpr.IsAny<CancellationToken>()
-                )
-                .ReturnsAsync(new HttpResponseMessage() {
-                    StatusCode = HttpStatusCode.NoContent,
-                });
-
-            var httpClient = new HttpClient(mockHandler.Object);
-            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
-
-            await auth0FgaApi.DeleteTokenIssuer(issuerId);
-
-            mockHandler.Protected().Verify(
-                "SendAsync",
-                Times.Exactly(1),
-                ItExpr.Is<HttpRequestMessage>(req =>
-                    req.RequestUri ==
-                    new Uri($"{_config.BasePath}/stores/{_config.StoreId}/settings/token-issuers/{issuerId}") &&
-                    req.Method == HttpMethod.Delete),
-                ItExpr.IsAny<CancellationToken>()
-            );
         }
     }
 }

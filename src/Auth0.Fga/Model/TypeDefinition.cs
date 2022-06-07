@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -37,6 +35,10 @@ namespace Auth0.Fga.Model {
         /// <param name="type">type (required).</param>
         /// <param name="relations">relations (required).</param>
         public TypeDefinition(string? type = default(string), Dictionary<string, Userset>? relations = default(Dictionary<string, Userset>)) {
+            // to ensure "type" is required (not null)
+            if (type == null) {
+                throw new ArgumentNullException("type is a required property for TypeDefinition and cannot be null");
+            }
             this.Type = type;
             // to ensure "relations" is required (not null)
             if (relations == null) {

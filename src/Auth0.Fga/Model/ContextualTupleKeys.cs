@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,34 +18,36 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// TokenIssuer
+    /// ContextualTupleKeys
     /// </summary>
-    [DataContract(Name = "TokenIssuer")]
-    public partial class TokenIssuer : IEquatable<TokenIssuer>, IValidatableObject {
+    [DataContract(Name = "ContextualTupleKeys")]
+    public partial class ContextualTupleKeys : IEquatable<ContextualTupleKeys>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TokenIssuer" /> class.
+        /// Initializes a new instance of the <see cref="ContextualTupleKeys" /> class.
         /// </summary>
-        /// <param name="id">id.</param>
-        /// <param name="issuerUrl">issuerUrl.</param>
-        public TokenIssuer(string? id = default(string), string? issuerUrl = default(string)) {
-            this.Id = id;
-            this.IssuerUrl = issuerUrl;
+        [JsonConstructor]
+        protected ContextualTupleKeys() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ContextualTupleKeys" /> class.
+        /// </summary>
+        /// <param name="tupleKeys">tupleKeys (required).</param>
+        public ContextualTupleKeys(List<TupleKey>? tupleKeys = default(List<TupleKey>)) {
+            // to ensure "tupleKeys" is required (not null)
+            if (tupleKeys == null) {
+                throw new ArgumentNullException("tupleKeys is a required property for ContextualTupleKeys and cannot be null");
+            }
+            this.TupleKeys = tupleKeys;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Id
+        /// Gets or Sets TupleKeys
         /// </summary>
-        [DataMember(Name = "id", EmitDefaultValue = false)]
-        [JsonPropertyName("id")]
-        public string Id { get; set; }
-
-        /// <summary>
-        /// Gets or Sets IssuerUrl
-        /// </summary>
-        [DataMember(Name = "issuer_url", EmitDefaultValue = false)]
-        [JsonPropertyName("issuer_url")]
-        public string IssuerUrl { get; set; }
+        [DataMember(Name = "tuple_keys", IsRequired = true, EmitDefaultValue = false)]
+        [JsonPropertyName("tuple_keys")]
+        public List<TupleKey> TupleKeys { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,11 +65,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a TokenIssuer from the JSON string presentation of the object
+        /// Builds a ContextualTupleKeys from the JSON string presentation of the object
         /// </summary>
-        /// <returns>TokenIssuer</returns>
-        public static TokenIssuer FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<TokenIssuer>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>ContextualTupleKeys</returns>
+        public static ContextualTupleKeys FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<ContextualTupleKeys>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -78,28 +78,24 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as TokenIssuer);
+            return this.Equals(input as ContextualTupleKeys);
         }
 
         /// <summary>
-        /// Returns true if TokenIssuer instances are equal
+        /// Returns true if ContextualTupleKeys instances are equal
         /// </summary>
-        /// <param name="input">Instance of TokenIssuer to be compared</param>
+        /// <param name="input">Instance of ContextualTupleKeys to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(TokenIssuer input) {
+        public bool Equals(ContextualTupleKeys input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Id == input.Id ||
-                    (this.Id != null &&
-                    this.Id.Equals(input.Id))
-                ) &&
-                (
-                    this.IssuerUrl == input.IssuerUrl ||
-                    (this.IssuerUrl != null &&
-                    this.IssuerUrl.Equals(input.IssuerUrl))
+                    this.TupleKeys == input.TupleKeys ||
+                    this.TupleKeys != null &&
+                    input.TupleKeys != null &&
+                    this.TupleKeys.SequenceEqual(input.TupleKeys)
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -112,11 +108,8 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.Id != null) {
-                    hashCode = (hashCode * 9923) + this.Id.GetHashCode();
-                }
-                if (this.IssuerUrl != null) {
-                    hashCode = (hashCode * 9923) + this.IssuerUrl.GetHashCode();
+                if (this.TupleKeys != null) {
+                    hashCode = (hashCode * 9923) + this.TupleKeys.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

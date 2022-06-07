@@ -18,26 +18,31 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// Node
+    /// CreateStoreResponse
     /// </summary>
-    [DataContract(Name = "Node")]
-    public partial class Node : IEquatable<Node>, IValidatableObject {
+    [DataContract(Name = "CreateStoreResponse")]
+    public partial class CreateStoreResponse : IEquatable<CreateStoreResponse>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="Node" /> class.
+        /// Initializes a new instance of the <see cref="CreateStoreResponse" /> class.
         /// </summary>
+        /// <param name="id">id.</param>
         /// <param name="name">name.</param>
-        /// <param name="leaf">leaf.</param>
-        /// <param name="difference">difference.</param>
-        /// <param name="union">union.</param>
-        /// <param name="intersection">intersection.</param>
-        public Node(string? name = default(string), Leaf? leaf = default(Leaf), UsersetTreeDifference? difference = default(UsersetTreeDifference), Nodes? union = default(Nodes), Nodes? intersection = default(Nodes)) {
+        /// <param name="createdAt">createdAt.</param>
+        /// <param name="updatedAt">updatedAt.</param>
+        public CreateStoreResponse(string? id = default(string), string? name = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime)) {
+            this.Id = id;
             this.Name = name;
-            this.Leaf = leaf;
-            this.Difference = difference;
-            this.Union = union;
-            this.Intersection = intersection;
+            this.CreatedAt = createdAt;
+            this.UpdatedAt = updatedAt;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
+        /// <summary>
+        /// Gets or Sets Id
+        /// </summary>
+        [DataMember(Name = "id", EmitDefaultValue = false)]
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
@@ -47,32 +52,18 @@ namespace Auth0.Fga.Model {
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or Sets Leaf
+        /// Gets or Sets CreatedAt
         /// </summary>
-        [DataMember(Name = "leaf", EmitDefaultValue = false)]
-        [JsonPropertyName("leaf")]
-        public Leaf Leaf { get; set; }
+        [DataMember(Name = "created_at", EmitDefaultValue = false)]
+        [JsonPropertyName("created_at")]
+        public DateTime CreatedAt { get; set; }
 
         /// <summary>
-        /// Gets or Sets Difference
+        /// Gets or Sets UpdatedAt
         /// </summary>
-        [DataMember(Name = "difference", EmitDefaultValue = false)]
-        [JsonPropertyName("difference")]
-        public UsersetTreeDifference Difference { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Union
-        /// </summary>
-        [DataMember(Name = "union", EmitDefaultValue = false)]
-        [JsonPropertyName("union")]
-        public Nodes Union { get; set; }
-
-        /// <summary>
-        /// Gets or Sets Intersection
-        /// </summary>
-        [DataMember(Name = "intersection", EmitDefaultValue = false)]
-        [JsonPropertyName("intersection")]
-        public Nodes Intersection { get; set; }
+        [DataMember(Name = "updated_at", EmitDefaultValue = false)]
+        [JsonPropertyName("updated_at")]
+        public DateTime UpdatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -90,11 +81,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a Node from the JSON string presentation of the object
+        /// Builds a CreateStoreResponse from the JSON string presentation of the object
         /// </summary>
-        /// <returns>Node</returns>
-        public static Node FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<Node>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>CreateStoreResponse</returns>
+        public static CreateStoreResponse FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<CreateStoreResponse>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -103,43 +94,38 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as Node);
+            return this.Equals(input as CreateStoreResponse);
         }
 
         /// <summary>
-        /// Returns true if Node instances are equal
+        /// Returns true if CreateStoreResponse instances are equal
         /// </summary>
-        /// <param name="input">Instance of Node to be compared</param>
+        /// <param name="input">Instance of CreateStoreResponse to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(Node input) {
+        public bool Equals(CreateStoreResponse input) {
             if (input == null) {
                 return false;
             }
             return
+                (
+                    this.Id == input.Id ||
+                    (this.Id != null &&
+                    this.Id.Equals(input.Id))
+                ) &&
                 (
                     this.Name == input.Name ||
                     (this.Name != null &&
                     this.Name.Equals(input.Name))
                 ) &&
                 (
-                    this.Leaf == input.Leaf ||
-                    (this.Leaf != null &&
-                    this.Leaf.Equals(input.Leaf))
+                    this.CreatedAt == input.CreatedAt ||
+                    (this.CreatedAt != null &&
+                    this.CreatedAt.Equals(input.CreatedAt))
                 ) &&
                 (
-                    this.Difference == input.Difference ||
-                    (this.Difference != null &&
-                    this.Difference.Equals(input.Difference))
-                ) &&
-                (
-                    this.Union == input.Union ||
-                    (this.Union != null &&
-                    this.Union.Equals(input.Union))
-                ) &&
-                (
-                    this.Intersection == input.Intersection ||
-                    (this.Intersection != null &&
-                    this.Intersection.Equals(input.Intersection))
+                    this.UpdatedAt == input.UpdatedAt ||
+                    (this.UpdatedAt != null &&
+                    this.UpdatedAt.Equals(input.UpdatedAt))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -152,20 +138,17 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
+                if (this.Id != null) {
+                    hashCode = (hashCode * 9923) + this.Id.GetHashCode();
+                }
                 if (this.Name != null) {
                     hashCode = (hashCode * 9923) + this.Name.GetHashCode();
                 }
-                if (this.Leaf != null) {
-                    hashCode = (hashCode * 9923) + this.Leaf.GetHashCode();
+                if (this.CreatedAt != null) {
+                    hashCode = (hashCode * 9923) + this.CreatedAt.GetHashCode();
                 }
-                if (this.Difference != null) {
-                    hashCode = (hashCode * 9923) + this.Difference.GetHashCode();
-                }
-                if (this.Union != null) {
-                    hashCode = (hashCode * 9923) + this.Union.GetHashCode();
-                }
-                if (this.Intersection != null) {
-                    hashCode = (hashCode * 9923) + this.Intersection.GetHashCode();
+                if (this.UpdatedAt != null) {
+                    hashCode = (hashCode * 9923) + this.UpdatedAt.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

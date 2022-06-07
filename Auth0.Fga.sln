@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 VisualStudioVersion = 12.0.0.0
 MinimumVisualStudioVersion = 10.0.0.1
-Project("{C69C281B-E235-4002-8DE4-318FBCE7F037}") = "Auth0.Fga", "src\Auth0.Fga\Auth0.Fga.csproj", "03762f5f-c523-4498-ae62-565559d56ad6"
+Project("{c69c281b-e235-4002-8de4-318fbce7f037}") = "Auth0.Fga", "src\Auth0.Fga\Auth0.Fga.csproj", "{03762f5f-c523-4498-ae62-565559d56ad6}"
 EndProject
-Project("{C69C281B-E235-4002-8DE4-318FBCE7F037}") = "Auth0.Fga.Test", "src\Auth0.Fga.Test\Auth0.Fga.Test.csproj", "b00c97a6-c236-451e-9301-0bda35ff1075"
+Project("{c69c281b-e235-4002-8de4-318fbce7f037}") = "Auth0.Fga.Test", "src\Auth0.Fga.Test\Auth0.Fga.Test.csproj", "{b00c97a6-c236-451e-9301-0bda35ff1075}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,14 +12,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		03762f5f-c523-4498-ae62-565559d56ad6.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		03762f5f-c523-4498-ae62-565559d56ad6.Debug|Any CPU.Build.0 = Debug|Any CPU
-		03762f5f-c523-4498-ae62-565559d56ad6.Release|Any CPU.ActiveCfg = Release|Any CPU
-		03762f5f-c523-4498-ae62-565559d56ad6.Release|Any CPU.Build.0 = Release|Any CPU
-		b00c97a6-c236-451e-9301-0bda35ff1075.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		b00c97a6-c236-451e-9301-0bda35ff1075.Debug|Any CPU.Build.0 = Debug|Any CPU
-		b00c97a6-c236-451e-9301-0bda35ff1075.Release|Any CPU.ActiveCfg = Release|Any CPU
-		b00c97a6-c236-451e-9301-0bda35ff1075.Release|Any CPU.Build.0 = Release|Any CPU
+		{03762f5f-c523-4498-ae62-565559d56ad6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03762f5f-c523-4498-ae62-565559d56ad6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03762f5f-c523-4498-ae62-565559d56ad6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03762f5f-c523-4498-ae62-565559d56ad6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{b00c97a6-c236-451e-9301-0bda35ff1075}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b00c97a6-c236-451e-9301-0bda35ff1075}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b00c97a6-c236-451e-9301-0bda35ff1075}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{b00c97a6-c236-451e-9301-0bda35ff1075}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

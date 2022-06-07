@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,34 +18,43 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// AuthorizationmodelTupleToUserset
+    /// WriteRequest
     /// </summary>
-    [DataContract(Name = "authorizationmodel.TupleToUserset")]
-    public partial class AuthorizationmodelTupleToUserset : IEquatable<AuthorizationmodelTupleToUserset>, IValidatableObject {
+    [DataContract(Name = "Write_request")]
+    public partial class WriteRequest : IEquatable<WriteRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="AuthorizationmodelTupleToUserset" /> class.
+        /// Initializes a new instance of the <see cref="WriteRequest" /> class.
         /// </summary>
-        /// <param name="tupleset">tupleset.</param>
-        /// <param name="computedUserset">computedUserset.</param>
-        public AuthorizationmodelTupleToUserset(ObjectRelation? tupleset = default(ObjectRelation), ObjectRelation? computedUserset = default(ObjectRelation)) {
-            this.Tupleset = tupleset;
-            this.ComputedUserset = computedUserset;
+        /// <param name="writes">writes.</param>
+        /// <param name="deletes">deletes.</param>
+        /// <param name="authorizationModelId">authorizationModelId.</param>
+        public WriteRequest(TupleKeys? writes = default(TupleKeys), TupleKeys? deletes = default(TupleKeys), string? authorizationModelId = default(string)) {
+            this.Writes = writes;
+            this.Deletes = deletes;
+            this.AuthorizationModelId = authorizationModelId;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Tupleset
+        /// Gets or Sets Writes
         /// </summary>
-        [DataMember(Name = "tupleset", EmitDefaultValue = false)]
-        [JsonPropertyName("tupleset")]
-        public ObjectRelation Tupleset { get; set; }
+        [DataMember(Name = "writes", EmitDefaultValue = false)]
+        [JsonPropertyName("writes")]
+        public TupleKeys Writes { get; set; }
 
         /// <summary>
-        /// Gets or Sets ComputedUserset
+        /// Gets or Sets Deletes
         /// </summary>
-        [DataMember(Name = "computedUserset", EmitDefaultValue = false)]
-        [JsonPropertyName("computedUserset")]
-        public ObjectRelation ComputedUserset { get; set; }
+        [DataMember(Name = "deletes", EmitDefaultValue = false)]
+        [JsonPropertyName("deletes")]
+        public TupleKeys Deletes { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AuthorizationModelId
+        /// </summary>
+        [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
+        [JsonPropertyName("authorization_model_id")]
+        public string AuthorizationModelId { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,11 +72,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a AuthorizationmodelTupleToUserset from the JSON string presentation of the object
+        /// Builds a WriteRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>AuthorizationmodelTupleToUserset</returns>
-        public static AuthorizationmodelTupleToUserset FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<AuthorizationmodelTupleToUserset>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>WriteRequest</returns>
+        public static WriteRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<WriteRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -78,28 +85,33 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as AuthorizationmodelTupleToUserset);
+            return this.Equals(input as WriteRequest);
         }
 
         /// <summary>
-        /// Returns true if AuthorizationmodelTupleToUserset instances are equal
+        /// Returns true if WriteRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of AuthorizationmodelTupleToUserset to be compared</param>
+        /// <param name="input">Instance of WriteRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(AuthorizationmodelTupleToUserset input) {
+        public bool Equals(WriteRequest input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Tupleset == input.Tupleset ||
-                    (this.Tupleset != null &&
-                    this.Tupleset.Equals(input.Tupleset))
+                    this.Writes == input.Writes ||
+                    (this.Writes != null &&
+                    this.Writes.Equals(input.Writes))
                 ) &&
                 (
-                    this.ComputedUserset == input.ComputedUserset ||
-                    (this.ComputedUserset != null &&
-                    this.ComputedUserset.Equals(input.ComputedUserset))
+                    this.Deletes == input.Deletes ||
+                    (this.Deletes != null &&
+                    this.Deletes.Equals(input.Deletes))
+                ) &&
+                (
+                    this.AuthorizationModelId == input.AuthorizationModelId ||
+                    (this.AuthorizationModelId != null &&
+                    this.AuthorizationModelId.Equals(input.AuthorizationModelId))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -112,11 +124,14 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.Tupleset != null) {
-                    hashCode = (hashCode * 9923) + this.Tupleset.GetHashCode();
+                if (this.Writes != null) {
+                    hashCode = (hashCode * 9923) + this.Writes.GetHashCode();
                 }
-                if (this.ComputedUserset != null) {
-                    hashCode = (hashCode * 9923) + this.ComputedUserset.GetHashCode();
+                if (this.Deletes != null) {
+                    hashCode = (hashCode * 9923) + this.Deletes.GetHashCode();
+                }
+                if (this.AuthorizationModelId != null) {
+                    hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

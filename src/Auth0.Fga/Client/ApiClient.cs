@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -23,19 +21,19 @@ namespace Auth0.Fga.Client;
 public class ApiClient : IDisposable {
     private readonly BaseClient _baseClient;
     private readonly OAuth2Client? _oauth2Client;
-    private readonly Configuration.Configuration _configuration;
+    private readonly Configuration.BaseConfiguration _configuration;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ApiClient"/> class.
     /// </summary>
     /// <param name="configuration">Client Configuration</param>
     /// <param name="userHttpClient">User Http Client - Allows Http Client reuse</param>
-    public ApiClient(Configuration.Configuration configuration, HttpClient? userHttpClient = null) {
+    public ApiClient(Configuration.BaseConfiguration configuration, HttpClient? userHttpClient = null) {
         configuration.IsValid();
         _configuration = configuration;
         _baseClient = new BaseClient(configuration, userHttpClient);
 
-        if (!string.IsNullOrEmpty(_configuration.ClientId) || !_configuration.AllowNoAuth) {
+        if (!string.IsNullOrEmpty(_configuration.ClientId)) {
             _oauth2Client = new OAuth2Client(configuration, _baseClient);
         }
     }
@@ -48,7 +46,7 @@ public class ApiClient : IDisposable {
     /// <param name="cancellationToken"></param>
     /// <typeparam name="T">Response Type</typeparam>
     /// <returns></returns>
-    /// <exception cref="Auth0FgaAuthenticationError"></exception>
+    /// <exception cref="FgaApiAuthenticationError"></exception>
     public async Task<T> SendRequestAsync<T>(RequestBuilder requestBuilder, string apiName,
         CancellationToken cancellationToken = default) {
         IDictionary<string, string> additionalHeaders = new Dictionary<string, string>();
@@ -60,8 +58,9 @@ public class ApiClient : IDisposable {
                 if (!string.IsNullOrEmpty(token)) {
                     additionalHeaders.Add("Authorization", $"Bearer {token}");
                 }
-            } catch (ApiException e) {
-                throw new Auth0FgaAuthenticationError("Invalid Client Credentials", apiName, e);
+            }
+            catch (ApiException e) {
+                throw new FgaApiAuthenticationError("Invalid Client Credentials", apiName, e);
             }
         }
 
@@ -74,7 +73,7 @@ public class ApiClient : IDisposable {
     /// <param name="requestBuilder"></param>
     /// <param name="apiName"></param>
     /// <param name="cancellationToken"></param>
-    /// <exception cref="Auth0FgaAuthenticationError"></exception>
+    /// <exception cref="FgaApiAuthenticationError"></exception>
     public async Task SendRequestAsync(RequestBuilder requestBuilder, string apiName,
         CancellationToken cancellationToken = default) {
         IDictionary<string, string> additionalHeaders = new Dictionary<string, string>();
@@ -86,8 +85,9 @@ public class ApiClient : IDisposable {
                 if (!string.IsNullOrEmpty(token)) {
                     additionalHeaders.Add("Authorization", $"Bearer {token}");
                 }
-            } catch (ApiException e) {
-                throw new Auth0FgaAuthenticationError("Invalid Client Credentials", apiName, e);
+            }
+            catch (ApiException e) {
+                throw new FgaApiAuthenticationError("Invalid Client Credentials", apiName, e);
             }
         }
 
@@ -101,11 +101,12 @@ public class ApiClient : IDisposable {
                 numRetries++;
 
                 return await retryable();
-            } catch (Auth0FgaApiRateLimitExceededError err) {
+            }
+            catch (FgaApiRateLimitExceededError err) {
                 if (numRetries > _configuration.MaxRetry) {
                     throw;
                 }
-                var waitInMs = (int) ((err.ResetInMs == null || err.ResetInMs < _configuration.MinWaitInMs)
+                var waitInMs = (int)((err.ResetInMs == null || err.ResetInMs < _configuration.MinWaitInMs)
                     ? _configuration.MinWaitInMs
                     : err.ResetInMs);
 
@@ -123,11 +124,12 @@ public class ApiClient : IDisposable {
                 await retryable();
 
                 return;
-            } catch (Auth0FgaApiRateLimitExceededError err) {
+            }
+            catch (FgaApiRateLimitExceededError err) {
                 if (numRetries > _configuration.MaxRetry) {
                     throw;
                 }
-                var waitInMs = (int) ((err.ResetInMs == null || err.ResetInMs < _configuration.MinWaitInMs)
+                var waitInMs = (int)((err.ResetInMs == null || err.ResetInMs < _configuration.MinWaitInMs)
                     ? _configuration.MinWaitInMs
                     : err.ResetInMs);
 

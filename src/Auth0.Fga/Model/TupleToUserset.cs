@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,34 +18,34 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// WriteSettingsResponse
+    /// TupleToUserset
     /// </summary>
-    [DataContract(Name = "WriteSettingsResponse")]
-    public partial class WriteSettingsResponse : IEquatable<WriteSettingsResponse>, IValidatableObject {
-
+    [DataContract(Name = "TupleToUserset")]
+    public partial class TupleToUserset : IEquatable<TupleToUserset>, IValidatableObject {
         /// <summary>
-        /// Gets or Sets Environment
+        /// Initializes a new instance of the <see cref="TupleToUserset" /> class.
         /// </summary>
-        [DataMember(Name = "environment", EmitDefaultValue = false)]
-        [JsonPropertyName("environment")]
-        public Environment? Environment { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="WriteSettingsResponse" /> class.
-        /// </summary>
-        /// <param name="environment">environment.</param>
-        /// <param name="tokenIssuers">tokenIssuers.</param>
-        public WriteSettingsResponse(Environment? environment = default(Environment?), List<TokenIssuer>? tokenIssuers = default(List<TokenIssuer>)) {
-            this.Environment = environment;
-            this.TokenIssuers = tokenIssuers;
+        /// <param name="tupleset">tupleset.</param>
+        /// <param name="computedUserset">computedUserset.</param>
+        public TupleToUserset(ObjectRelation? tupleset = default(ObjectRelation), ObjectRelation? computedUserset = default(ObjectRelation)) {
+            this.Tupleset = tupleset;
+            this.ComputedUserset = computedUserset;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets TokenIssuers
+        /// Gets or Sets Tupleset
         /// </summary>
-        [DataMember(Name = "token_issuers", EmitDefaultValue = false)]
-        [JsonPropertyName("token_issuers")]
-        public List<TokenIssuer> TokenIssuers { get; set; }
+        [DataMember(Name = "tupleset", EmitDefaultValue = false)]
+        [JsonPropertyName("tupleset")]
+        public ObjectRelation Tupleset { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ComputedUserset
+        /// </summary>
+        [DataMember(Name = "computedUserset", EmitDefaultValue = false)]
+        [JsonPropertyName("computedUserset")]
+        public ObjectRelation ComputedUserset { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,11 +63,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a WriteSettingsResponse from the JSON string presentation of the object
+        /// Builds a TupleToUserset from the JSON string presentation of the object
         /// </summary>
-        /// <returns>WriteSettingsResponse</returns>
-        public static WriteSettingsResponse FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<WriteSettingsResponse>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>TupleToUserset</returns>
+        public static TupleToUserset FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<TupleToUserset>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -78,28 +76,28 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as WriteSettingsResponse);
+            return this.Equals(input as TupleToUserset);
         }
 
         /// <summary>
-        /// Returns true if WriteSettingsResponse instances are equal
+        /// Returns true if TupleToUserset instances are equal
         /// </summary>
-        /// <param name="input">Instance of WriteSettingsResponse to be compared</param>
+        /// <param name="input">Instance of TupleToUserset to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(WriteSettingsResponse input) {
+        public bool Equals(TupleToUserset input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Environment == input.Environment ||
-                    this.Environment.Equals(input.Environment)
+                    this.Tupleset == input.Tupleset ||
+                    (this.Tupleset != null &&
+                    this.Tupleset.Equals(input.Tupleset))
                 ) &&
                 (
-                    this.TokenIssuers == input.TokenIssuers ||
-                    this.TokenIssuers != null &&
-                    input.TokenIssuers != null &&
-                    this.TokenIssuers.SequenceEqual(input.TokenIssuers)
+                    this.ComputedUserset == input.ComputedUserset ||
+                    (this.ComputedUserset != null &&
+                    this.ComputedUserset.Equals(input.ComputedUserset))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -112,9 +110,11 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                hashCode = (hashCode * 9923) + this.Environment.GetHashCode();
-                if (this.TokenIssuers != null) {
-                    hashCode = (hashCode * 9923) + this.TokenIssuers.GetHashCode();
+                if (this.Tupleset != null) {
+                    hashCode = (hashCode * 9923) + this.Tupleset.GetHashCode();
+                }
+                if (this.ComputedUserset != null) {
+                    hashCode = (hashCode * 9923) + this.ComputedUserset.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

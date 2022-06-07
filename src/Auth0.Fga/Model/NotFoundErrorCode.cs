@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -18,9 +16,9 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// - no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - unimplemented: method is unimplemented
+    /// - no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - resource_not_found: generic not found.  - unimplemented: method is unimplemented
     /// </summary>
-    /// <value>- no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - unimplemented: method is unimplemented</value>
+    /// <value>- no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - resource_not_found: generic not found.  - unimplemented: method is unimplemented</value>
     [JsonConverter(typeof(JsonStringEnumConverter))]
     public enum NotFoundErrorCode {
         /// <summary>
@@ -54,10 +52,16 @@ namespace Auth0.Fga.Model {
         StoreClientIdNotFound = 5,
 
         /// <summary>
+        /// Enum ResourceNotFound for value: resource_not_found
+        /// </summary>
+        [EnumMember(Value = "resource_not_found")]
+        ResourceNotFound = 6,
+
+        /// <summary>
         /// Enum Unimplemented for value: unimplemented
         /// </summary>
         [EnumMember(Value = "unimplemented")]
-        Unimplemented = 6
+        Unimplemented = 7
 
     }
 

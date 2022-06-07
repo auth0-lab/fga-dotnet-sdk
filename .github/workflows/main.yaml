@@ -6,6 +6,38 @@ on:
   workflow_dispatch:
 
 jobs:
+  fossa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        run: dotnet restore
+      - name: Run FOSSA scan and upload build data
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+          branch: ${{ github.ref_name }}
+      - name: Run FOSSA tests
+        uses: fossas/fossa-action@main
+        with:
+          api-key: ${{ secrets.FOSSA_API_KEY }}
+          run-tests: true
+
+  snyk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run Snyk to check for vulnerabilities
+        uses: snyk/actions/dotnet@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: src/Auth0.Fga/
+
   test:
     runs-on: ubuntu-latest
 
@@ -26,13 +58,6 @@ jobs:
       - name: Test
         run: dotnet test --no-build --verbosity normal
 
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/dotnet@master
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
-        with:
-          args: src/Auth0.Fga/
-
       - uses: actions/upload-artifact@v2
         with:
           name: nuget-package
@@ -41,7 +66,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: test
+    needs: [test, fossa, snyk]
 
     steps:
       - uses: actions/checkout@v2

@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -13,10 +11,9 @@
 //
 
 
+using Auth0.Fga.Exceptions;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
-
-using Auth0.Fga.Exceptions;
 
 namespace Auth0.Fga.Client;
 
@@ -38,7 +35,7 @@ public class BaseClient : IDisposable {
     /// If you do not supply a <see cref="HttpClient"/> one will be created automatically and disposed
     /// of when this object is disposed.
     /// </remarks>
-    public BaseClient(Configuration.Configuration configuration, HttpClient? httpClient = null) {
+    public BaseClient(Configuration.BaseConfiguration configuration, HttpClient? httpClient = null) {
         _shouldDisposeWhenDone = httpClient == null;
         this._httpClient = httpClient ?? new HttpClient();
         this._httpClient.DefaultRequestHeaders.Accept.Clear();
@@ -114,7 +111,7 @@ public class BaseClient : IDisposable {
             }
 
             return await response.Content.ReadFromJsonAsync<T>(cancellationToken: cancellationToken).ConfigureAwait(false) ??
-                throw new Auth0FgaError();
+                throw new FgaError();
         }
     }
 

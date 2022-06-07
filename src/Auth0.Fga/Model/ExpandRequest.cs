@@ -1,8 +1,6 @@
 //
 // Auth0 Fine Grained Authorization (FGA)/.NET SDK for Auth0 Fine Grained Authorization (FGA)
 //
-// Auth0 Fine Grained Authorization (FGA) is an early-stage product we are building at Auth0 as part of Auth0Lab to solve fine-grained authorization at scale. If you are interested in learning more about our plans, please reach out via our Discord chat.  The limits and information described in this document is subject to change.
-//
 // API version: 0.1
 // Website: https://fga.dev
 // Documentation: https://docs.fga.dev
@@ -20,34 +18,34 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// ReadSettingsResponse
+    /// ExpandRequest
     /// </summary>
-    [DataContract(Name = "ReadSettingsResponse")]
-    public partial class ReadSettingsResponse : IEquatable<ReadSettingsResponse>, IValidatableObject {
-
+    [DataContract(Name = "Expand_request")]
+    public partial class ExpandRequest : IEquatable<ExpandRequest>, IValidatableObject {
         /// <summary>
-        /// Gets or Sets Environment
+        /// Initializes a new instance of the <see cref="ExpandRequest" /> class.
         /// </summary>
-        [DataMember(Name = "environment", EmitDefaultValue = false)]
-        [JsonPropertyName("environment")]
-        public Environment? Environment { get; set; }
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReadSettingsResponse" /> class.
-        /// </summary>
-        /// <param name="environment">environment.</param>
-        /// <param name="tokenIssuers">tokenIssuers.</param>
-        public ReadSettingsResponse(Environment? environment = default(Environment?), List<TokenIssuer>? tokenIssuers = default(List<TokenIssuer>)) {
-            this.Environment = environment;
-            this.TokenIssuers = tokenIssuers;
+        /// <param name="tupleKey">tupleKey.</param>
+        /// <param name="authorizationModelId">authorizationModelId.</param>
+        public ExpandRequest(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string)) {
+            this.TupleKey = tupleKey;
+            this.AuthorizationModelId = authorizationModelId;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets TokenIssuers
+        /// Gets or Sets TupleKey
         /// </summary>
-        [DataMember(Name = "token_issuers", EmitDefaultValue = false)]
-        [JsonPropertyName("token_issuers")]
-        public List<TokenIssuer> TokenIssuers { get; set; }
+        [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
+        [JsonPropertyName("tuple_key")]
+        public TupleKey TupleKey { get; set; }
+
+        /// <summary>
+        /// Gets or Sets AuthorizationModelId
+        /// </summary>
+        [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
+        [JsonPropertyName("authorization_model_id")]
+        public string AuthorizationModelId { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -65,11 +63,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a ReadSettingsResponse from the JSON string presentation of the object
+        /// Builds a ExpandRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>ReadSettingsResponse</returns>
-        public static ReadSettingsResponse FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<ReadSettingsResponse>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>ExpandRequest</returns>
+        public static ExpandRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<ExpandRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -78,28 +76,28 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as ReadSettingsResponse);
+            return this.Equals(input as ExpandRequest);
         }
 
         /// <summary>
-        /// Returns true if ReadSettingsResponse instances are equal
+        /// Returns true if ExpandRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReadSettingsResponse to be compared</param>
+        /// <param name="input">Instance of ExpandRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ReadSettingsResponse input) {
+        public bool Equals(ExpandRequest input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Environment == input.Environment ||
-                    this.Environment.Equals(input.Environment)
+                    this.TupleKey == input.TupleKey ||
+                    (this.TupleKey != null &&
+                    this.TupleKey.Equals(input.TupleKey))
                 ) &&
                 (
-                    this.TokenIssuers == input.TokenIssuers ||
-                    this.TokenIssuers != null &&
-                    input.TokenIssuers != null &&
-                    this.TokenIssuers.SequenceEqual(input.TokenIssuers)
+                    this.AuthorizationModelId == input.AuthorizationModelId ||
+                    (this.AuthorizationModelId != null &&
+                    this.AuthorizationModelId.Equals(input.AuthorizationModelId))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -112,9 +110,11 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                hashCode = (hashCode * 9923) + this.Environment.GetHashCode();
-                if (this.TokenIssuers != null) {
-                    hashCode = (hashCode * 9923) + this.TokenIssuers.GetHashCode();
+                if (this.TupleKey != null) {
+                    hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
+                }
+                if (this.AuthorizationModelId != null) {
+                    hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();
