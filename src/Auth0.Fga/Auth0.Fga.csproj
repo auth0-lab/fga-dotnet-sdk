@@ -13,6 +13,7 @@
     <Copyright>Auth0® Inc.</Copyright>
     <RootNamespace>Auth0.Fga</RootNamespace>
     <Version>0.3.0</Version>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Auth0.Fga.xml</DocumentationFile>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <RepositoryUrl>https://github.com/auth0-lab/fga-dotnet-sdk.git</RepositoryUrl>
@@ -29,6 +30,7 @@
   <ItemGroup>
     <Folder Include="Models" />
     <None Include="../../assets/FGAIcon.png" Pack="true" Visible="false" PackagePath="" />
+    <None Include="../../README.md" Pack="true" PackagePath=""/>
   </ItemGroup>
 
 </Project>
