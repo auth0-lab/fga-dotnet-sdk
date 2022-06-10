@@ -26,9 +26,10 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="Assertion" /> class.
         /// </summary>
         [JsonConstructor]
-        protected Assertion() {
+        public Assertion() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="Assertion" /> class.
         /// </summary>

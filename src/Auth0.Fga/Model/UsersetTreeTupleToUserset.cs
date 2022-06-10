@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="UsersetTreeTupleToUserset" /> class.
         /// </summary>
+        [JsonConstructor]
+        public UsersetTreeTupleToUserset() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UsersetTreeTupleToUserset" /> class.
+        /// </summary>
         /// <param name="tupleset">tupleset.</param>
         /// <param name="computed">computed.</param>
         public UsersetTreeTupleToUserset(string? tupleset = default(string), List<Computed>? computed = default(List<Computed>)) {

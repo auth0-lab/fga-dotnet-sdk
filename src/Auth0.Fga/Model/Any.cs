@@ -25,6 +25,12 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Any" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Any() { }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Any" /> class.
+        /// </summary>
         /// <param name="type">type.</param>
         public Any(string? type = default(string)) : base() {
             this.Type = type;

@@ -32,6 +32,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceExhaustedErrorMessageResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ResourceExhaustedErrorMessageResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResourceExhaustedErrorMessageResponse" /> class.
+        /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
         public ResourceExhaustedErrorMessageResponse(ResourceExhaustedErrorCode? code = default(ResourceExhaustedErrorCode?), string? message = default(string)) {

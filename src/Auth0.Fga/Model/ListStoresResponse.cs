@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ListStoresResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ListStoresResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListStoresResponse" /> class.
+        /// </summary>
         /// <param name="stores">stores.</param>
         /// <param name="continuationToken">continuationToken.</param>
         public ListStoresResponse(List<Store>? stores = default(List<Store>), string? continuationToken = default(string)) {

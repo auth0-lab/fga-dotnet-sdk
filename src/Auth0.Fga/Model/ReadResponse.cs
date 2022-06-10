@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ReadResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadResponse" /> class.
+        /// </summary>
         /// <param name="tuples">tuples.</param>
         /// <param name="continuationToken">continuationToken.</param>
         public ReadResponse(List<Tuple>? tuples = default(List<Tuple>), string? continuationToken = default(string)) {

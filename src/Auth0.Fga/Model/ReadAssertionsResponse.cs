@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadAssertionsResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ReadAssertionsResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadAssertionsResponse" /> class.
+        /// </summary>
         /// <param name="authorizationModelId">authorizationModelId.</param>
         /// <param name="assertions">assertions.</param>
         public ReadAssertionsResponse(string? authorizationModelId = default(string), List<Assertion>? assertions = default(List<Assertion>)) {

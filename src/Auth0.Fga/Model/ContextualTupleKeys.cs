@@ -26,9 +26,10 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="ContextualTupleKeys" /> class.
         /// </summary>
         [JsonConstructor]
-        protected ContextualTupleKeys() {
+        public ContextualTupleKeys() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
+
         /// <summary>
         /// Initializes a new instance of the <see cref="ContextualTupleKeys" /> class.
         /// </summary>

@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Difference" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Difference() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Difference" /> class.
+        /// </summary>
         /// <param name="_base">_base.</param>
         /// <param name="subtract">subtract.</param>
         public Difference(Userset? _base = default(Userset), Userset? subtract = default(Userset)) {

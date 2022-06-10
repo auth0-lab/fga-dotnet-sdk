@@ -70,6 +70,7 @@ docs/WriteAuthorizationModelResponse.md
 docs/WriteRequest.md
 src/Auth0.Fga.Test/Api/Auth0FgaApiTests.cs
 src/Auth0.Fga.Test/Auth0.Fga.Test.csproj
+src/Auth0.Fga.Test/Models/Models.cs
 src/Auth0.Fga/Api/Auth0FgaApi.cs
 src/Auth0.Fga/Auth0.Fga.csproj
 src/Auth0.Fga/Client/ApiClient.cs

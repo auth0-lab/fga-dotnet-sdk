@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="TypeDefinitions" /> class.
         /// </summary>
+        [JsonConstructor]
+        public TypeDefinitions() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TypeDefinitions" /> class.
+        /// </summary>
         /// <param name="typeDefinitions">typeDefinitions.</param>
         public TypeDefinitions(List<TypeDefinition>? typeDefinitions = default(List<TypeDefinition>)) {
             this._TypeDefinitions = typeDefinitions;

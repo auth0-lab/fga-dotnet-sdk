@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="WriteAuthorizationModelResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public WriteAuthorizationModelResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WriteAuthorizationModelResponse" /> class.
+        /// </summary>
         /// <param name="authorizationModelId">authorizationModelId.</param>
         public WriteAuthorizationModelResponse(string? authorizationModelId = default(string)) {
             this.AuthorizationModelId = authorizationModelId;

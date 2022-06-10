@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ReadRequest" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ReadRequest() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ReadRequest" /> class.
+        /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
         /// <param name="pageSize">pageSize.</param>

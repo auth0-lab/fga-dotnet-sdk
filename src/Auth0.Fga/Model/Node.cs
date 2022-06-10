@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Node" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Node() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Node" /> class.
+        /// </summary>
         /// <param name="name">name.</param>
         /// <param name="leaf">leaf.</param>
         /// <param name="difference">difference.</param>

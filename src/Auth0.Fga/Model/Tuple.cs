@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Tuple" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Tuple() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Tuple" /> class.
+        /// </summary>
         /// <param name="key">key.</param>
         /// <param name="timestamp">timestamp.</param>
         public Tuple(TupleKey? key = default(TupleKey), DateTime timestamp = default(DateTime)) {

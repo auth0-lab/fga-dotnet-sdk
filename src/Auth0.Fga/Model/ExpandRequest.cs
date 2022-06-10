@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="ExpandRequest" /> class.
         /// </summary>
+        [JsonConstructor]
+        public ExpandRequest() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExpandRequest" /> class.
+        /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
         public ExpandRequest(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string)) {

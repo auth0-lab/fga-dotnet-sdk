@@ -783,8 +783,6 @@ namespace Auth0.Fga.Test.Api {
                     }))),
                 }))
             ));
-            var jsonResponse = JsonSerializer.Serialize(mockResponse);
-            //Console.Write(jsonResponse);
 
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
@@ -796,7 +794,7 @@ namespace Auth0.Fga.Test.Api {
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
-                    Content = new StringContent(jsonResponse, Encoding.UTF8, "application/json"),
+                    Content = Utils.CreateJsonStringContent(mockResponse)
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);

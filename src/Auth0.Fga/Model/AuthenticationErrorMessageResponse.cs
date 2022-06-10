@@ -32,6 +32,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthenticationErrorMessageResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public AuthenticationErrorMessageResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthenticationErrorMessageResponse" /> class.
+        /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
         public AuthenticationErrorMessageResponse(AuthErrorCode? code = default(AuthErrorCode?), string? message = default(string)) {

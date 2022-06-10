@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="Status" /> class.
         /// </summary>
+        [JsonConstructor]
+        public Status() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Status" /> class.
+        /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
         /// <param name="details">details.</param>

@@ -19,7 +19,17 @@ namespace Auth0.Fga.Configuration;
 /// Setup Auth0 Fine Grained Authorization (FGA) Configuration
 /// </summary>
 public class Configuration : BaseConfiguration {
+    #region Constants
+
     public static readonly string DefaultEnvironment = EnvironmentConfiguration.DefaultEnvironment;
+
+    /// <summary>
+    ///     Version of the package.
+    /// </summary>
+    /// <value>Version of the package.</value>
+    public new const string Version = "0.3.1";
+
+    #endregion Constants
 
     #region Methods
 
@@ -84,7 +94,7 @@ public class Configuration : BaseConfiguration {
         if (string.IsNullOrEmpty(Environment)) {
             Environment = DefaultEnvironment;
         }
-        UserAgent = "auth0-fga-sdk {sdkId}/{packageVersion}".Replace("{sdkId}", "dotnet").Replace("{packageVersion}", "0.3.0");
+        UserAgent = "auth0-fga-sdk {sdkId}/{packageVersion}".Replace("{sdkId}", "dotnet").Replace("{packageVersion}", Version);
         DefaultHeaders ??= new Dictionary<string, string>();
 
         if (!DefaultHeaders.ContainsKey("User-Agent")) {

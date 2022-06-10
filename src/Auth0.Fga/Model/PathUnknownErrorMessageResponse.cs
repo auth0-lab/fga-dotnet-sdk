@@ -32,6 +32,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="PathUnknownErrorMessageResponse" /> class.
         /// </summary>
+        [JsonConstructor]
+        public PathUnknownErrorMessageResponse() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PathUnknownErrorMessageResponse" /> class.
+        /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
         public PathUnknownErrorMessageResponse(NotFoundErrorCode? code = default(NotFoundErrorCode?), string? message = default(string)) {

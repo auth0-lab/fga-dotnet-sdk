@@ -25,6 +25,14 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Initializes a new instance of the <see cref="AuthorizationModel" /> class.
         /// </summary>
+        [JsonConstructor]
+        public AuthorizationModel() {
+            this.AdditionalProperties = new Dictionary<string, object>();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AuthorizationModel" /> class.
+        /// </summary>
         /// <param name="id">id.</param>
         /// <param name="typeDefinitions">typeDefinitions.</param>
         public AuthorizationModel(string? id = default(string), List<TypeDefinition>? typeDefinitions = default(List<TypeDefinition>)) {

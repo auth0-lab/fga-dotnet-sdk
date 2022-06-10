@@ -1,5 +1,15 @@
 # Changelog
 
+## v0.3.1
+
+### [0.3.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.3.0...v0.3.1) (2022-06-10)
+
+#### Changes
+- fix: resolve issue deserializing API responses
+
+#### Known Issues
+- An issue still remains in deserializing `ReadChangesResponse` specifically because of an issue in deserializing the `TupleOperation` enum
+
 ## v0.3.0
 
 ### [0.3.0](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.2.4...v0.3.0) (2022-06-07)
