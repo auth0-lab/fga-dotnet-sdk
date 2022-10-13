@@ -1,5 +1,32 @@
 # Changelog
 
+## v0.4.0
+
+### [0.4.0](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.3.1...v0.4.0) (2022-10-13)
+- BREAKING: exported type `TypeDefinitions` is now `WriteAuthorizationModelRequest`
+    Note: This is only a breaking change on the SDK, not the API.
+- Support ListObjects
+    Support for [ListObjects API](https://docs.fga.dev/api/service#/Relationship%20Queries/ListObjects)
+
+    You call the API and receive the list of object ids from a particular type that the user has a certain relation with.
+
+    For example, to find the list of documents that Anne can read:
+
+    ```csharp
+    var body = new ListObjectsRequest{
+        AuthorizationModelId = "01GAHCE4YVKPQEKZQHT2R89MQV",
+        User = "user:anne",
+        Relation = "can_read",
+        Type = "document"
+    };
+    var response = await auth0FgaApi.ListObjects(body);
+
+    // response.ObjectIds = ["roadmap"]
+    ```
+- fix: issue in deserializing nullable DateTime
+- fix: issue in deserializing enums (e.g. deserializing `ReadChangesResponse`)
+- chore(deps): upgrade dependencies
+
 ## v0.3.1
 
 ### [0.3.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.3.0...v0.3.1) (2022-06-10)

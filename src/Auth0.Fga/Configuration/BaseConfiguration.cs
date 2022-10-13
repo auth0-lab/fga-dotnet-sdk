@@ -85,7 +85,7 @@ public class BaseConfiguration {
     ///     Version of the package.
     /// </summary>
     /// <value>Version of the package.</value>
-    public const string Version = "0.3.1";
+    public const string Version = "0.4.0";
 
     #endregion Constants
 
