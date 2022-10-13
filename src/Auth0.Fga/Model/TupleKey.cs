@@ -36,7 +36,7 @@ namespace Auth0.Fga.Model {
         /// <param name="_object">_object.</param>
         /// <param name="relation">relation.</param>
         /// <param name="user">user.</param>
-        public TupleKey(string? _object = default(string), string? relation = default(string), string? user = default(string)) {
+        public TupleKey(string _object = default(string), string relation = default(string), string user = default(string)) {
             this.Object = _object;
             this.Relation = relation;
             this.User = user;
@@ -48,21 +48,21 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "object", EmitDefaultValue = false)]
         [JsonPropertyName("object")]
-        public string Object { get; set; }
+        public string? Object { get; set; }
 
         /// <summary>
         /// Gets or Sets Relation
         /// </summary>
         [DataMember(Name = "relation", EmitDefaultValue = false)]
         [JsonPropertyName("relation")]
-        public string Relation { get; set; }
+        public string? Relation { get; set; }
 
         /// <summary>
         /// Gets or Sets User
         /// </summary>
         [DataMember(Name = "user", EmitDefaultValue = false)]
         [JsonPropertyName("user")]
-        public string User { get; set; }
+        public string? User { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

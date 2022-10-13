@@ -18,39 +18,34 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// ReadRequest
+    /// ListObjectsRequest
     /// </summary>
-    [DataContract(Name = "Read_request")]
-    public partial class ReadRequest : IEquatable<ReadRequest>, IValidatableObject {
+    [DataContract(Name = "ListObjects_request")]
+    public partial class ListObjectsRequest : IEquatable<ListObjectsRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadRequest" /> class.
+        /// Initializes a new instance of the <see cref="ListObjectsRequest" /> class.
         /// </summary>
         [JsonConstructor]
-        public ReadRequest() {
+        public ListObjectsRequest() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ReadRequest" /> class.
+        /// Initializes a new instance of the <see cref="ListObjectsRequest" /> class.
         /// </summary>
-        /// <param name="tupleKey">tupleKey.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
-        /// <param name="pageSize">pageSize.</param>
-        /// <param name="continuationToken">continuationToken.</param>
-        public ReadRequest(TupleKey tupleKey = default(TupleKey), string authorizationModelId = default(string), int pageSize = default(int), string continuationToken = default(string)) {
-            this.TupleKey = tupleKey;
+        /// <param name="type">type.</param>
+        /// <param name="relation">relation.</param>
+        /// <param name="user">user.</param>
+        /// <param name="contextualTuples">contextualTuples.</param>
+        public ListObjectsRequest(string authorizationModelId = default(string), string type = default(string), string relation = default(string), string user = default(string), ContextualTupleKeys contextualTuples = default(ContextualTupleKeys)) {
             this.AuthorizationModelId = authorizationModelId;
-            this.PageSize = pageSize;
-            this.ContinuationToken = continuationToken;
+            this.Type = type;
+            this.Relation = relation;
+            this.User = user;
+            this.ContextualTuples = contextualTuples;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
-
-        /// <summary>
-        /// Gets or Sets TupleKey
-        /// </summary>
-        [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
-        [JsonPropertyName("tuple_key")]
-        public TupleKey? TupleKey { get; set; }
 
         /// <summary>
         /// Gets or Sets AuthorizationModelId
@@ -60,18 +55,32 @@ namespace Auth0.Fga.Model {
         public string? AuthorizationModelId { get; set; }
 
         /// <summary>
-        /// Gets or Sets PageSize
+        /// Gets or Sets Type
         /// </summary>
-        [DataMember(Name = "page_size", EmitDefaultValue = false)]
-        [JsonPropertyName("page_size")]
-        public int? PageSize { get; set; }
+        [DataMember(Name = "type", EmitDefaultValue = false)]
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
 
         /// <summary>
-        /// Gets or Sets ContinuationToken
+        /// Gets or Sets Relation
         /// </summary>
-        [DataMember(Name = "continuation_token", EmitDefaultValue = false)]
-        [JsonPropertyName("continuation_token")]
-        public string? ContinuationToken { get; set; }
+        [DataMember(Name = "relation", EmitDefaultValue = false)]
+        [JsonPropertyName("relation")]
+        public string? Relation { get; set; }
+
+        /// <summary>
+        /// Gets or Sets User
+        /// </summary>
+        [DataMember(Name = "user", EmitDefaultValue = false)]
+        [JsonPropertyName("user")]
+        public string? User { get; set; }
+
+        /// <summary>
+        /// Gets or Sets ContextualTuples
+        /// </summary>
+        [DataMember(Name = "contextual_tuples", EmitDefaultValue = false)]
+        [JsonPropertyName("contextual_tuples")]
+        public ContextualTupleKeys? ContextualTuples { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -89,11 +98,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a ReadRequest from the JSON string presentation of the object
+        /// Builds a ListObjectsRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>ReadRequest</returns>
-        public static ReadRequest FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<ReadRequest>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>ListObjectsRequest</returns>
+        public static ListObjectsRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<ListObjectsRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -102,37 +111,43 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as ReadRequest);
+            return this.Equals(input as ListObjectsRequest);
         }
 
         /// <summary>
-        /// Returns true if ReadRequest instances are equal
+        /// Returns true if ListObjectsRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of ReadRequest to be compared</param>
+        /// <param name="input">Instance of ListObjectsRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(ReadRequest input) {
+        public bool Equals(ListObjectsRequest input) {
             if (input == null) {
                 return false;
             }
             return
-                (
-                    this.TupleKey == input.TupleKey ||
-                    (this.TupleKey != null &&
-                    this.TupleKey.Equals(input.TupleKey))
-                ) &&
                 (
                     this.AuthorizationModelId == input.AuthorizationModelId ||
                     (this.AuthorizationModelId != null &&
                     this.AuthorizationModelId.Equals(input.AuthorizationModelId))
                 ) &&
                 (
-                    this.PageSize == input.PageSize ||
-                    this.PageSize.Equals(input.PageSize)
+                    this.Type == input.Type ||
+                    (this.Type != null &&
+                    this.Type.Equals(input.Type))
                 ) &&
                 (
-                    this.ContinuationToken == input.ContinuationToken ||
-                    (this.ContinuationToken != null &&
-                    this.ContinuationToken.Equals(input.ContinuationToken))
+                    this.Relation == input.Relation ||
+                    (this.Relation != null &&
+                    this.Relation.Equals(input.Relation))
+                ) &&
+                (
+                    this.User == input.User ||
+                    (this.User != null &&
+                    this.User.Equals(input.User))
+                ) &&
+                (
+                    this.ContextualTuples == input.ContextualTuples ||
+                    (this.ContextualTuples != null &&
+                    this.ContextualTuples.Equals(input.ContextualTuples))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -145,15 +160,20 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this.TupleKey != null) {
-                    hashCode = (hashCode * 9923) + this.TupleKey.GetHashCode();
-                }
                 if (this.AuthorizationModelId != null) {
                     hashCode = (hashCode * 9923) + this.AuthorizationModelId.GetHashCode();
                 }
-                hashCode = (hashCode * 9923) + this.PageSize.GetHashCode();
-                if (this.ContinuationToken != null) {
-                    hashCode = (hashCode * 9923) + this.ContinuationToken.GetHashCode();
+                if (this.Type != null) {
+                    hashCode = (hashCode * 9923) + this.Type.GetHashCode();
+                }
+                if (this.Relation != null) {
+                    hashCode = (hashCode * 9923) + this.Relation.GetHashCode();
+                }
+                if (this.User != null) {
+                    hashCode = (hashCode * 9923) + this.User.GetHashCode();
+                }
+                if (this.ContextualTuples != null) {
+                    hashCode = (hashCode * 9923) + this.ContextualTuples.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

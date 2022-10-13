@@ -19,7 +19,7 @@ namespace Auth0.Fga.Model {
     /// - no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - resource_not_found: generic not found.  - unimplemented: method is unimplemented
     /// </summary>
     /// <value>- no_not_found_error: no error  - undefined_endpoint: undefined endpoint.  - customer_id_not_found: customer ID is not found.  - store_id_not_found: store ID not found  - store_client_id_not_found: store client ID not found.  - resource_not_found: generic not found.  - unimplemented: method is unimplemented</value>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumMemberConverter<NotFoundErrorCode>))]
     public enum NotFoundErrorCode {
         /// <summary>
         /// Enum NoNotFoundError for value: no_not_found_error

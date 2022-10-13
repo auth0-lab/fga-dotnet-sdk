@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
         /// <param name="authorizationModelId">authorizationModelId.</param>
-        public ExpandRequest(TupleKey? tupleKey = default(TupleKey), string? authorizationModelId = default(string)) {
+        public ExpandRequest(TupleKey tupleKey = default(TupleKey), string authorizationModelId = default(string)) {
             this.TupleKey = tupleKey;
             this.AuthorizationModelId = authorizationModelId;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
         [JsonPropertyName("tuple_key")]
-        public TupleKey TupleKey { get; set; }
+        public TupleKey? TupleKey { get; set; }
 
         /// <summary>
         /// Gets or Sets AuthorizationModelId
         /// </summary>
         [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
         [JsonPropertyName("authorization_model_id")]
-        public string AuthorizationModelId { get; set; }
+        public string? AuthorizationModelId { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

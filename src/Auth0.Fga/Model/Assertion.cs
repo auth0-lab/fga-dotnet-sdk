@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="tupleKey">tupleKey.</param>
         /// <param name="expectation">expectation (required).</param>
-        public Assertion(TupleKey? tupleKey = default(TupleKey), bool expectation = default(bool)) {
+        public Assertion(TupleKey tupleKey = default(TupleKey), bool expectation = default(bool)) {
             this.Expectation = expectation;
             this.TupleKey = tupleKey;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,7 +46,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
         [JsonPropertyName("tuple_key")]
-        public TupleKey TupleKey { get; set; }
+        public TupleKey? TupleKey { get; set; }
 
         /// <summary>
         /// Gets or Sets Expectation

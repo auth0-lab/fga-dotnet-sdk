@@ -19,7 +19,7 @@ namespace Auth0.Fga.Model {
     /// - no_resource_exhausted_error: no error  - rate_limit_exceeded: operation failed due to exceeding rate limit.  - auth_rate_limit_exceeded: rate limit error during authentication.
     /// </summary>
     /// <value>- no_resource_exhausted_error: no error  - rate_limit_exceeded: operation failed due to exceeding rate limit.  - auth_rate_limit_exceeded: rate limit error during authentication.</value>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    [JsonConverter(typeof(JsonStringEnumMemberConverter<ResourceExhaustedErrorCode>))]
     public enum ResourceExhaustedErrorCode {
         /// <summary>
         /// Enum NoResourceExhaustedError for value: no_resource_exhausted_error

@@ -246,7 +246,7 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:anne"));
 
             Task<CheckResponse> BadRequestError() => auth0FgaApi.Check(body);
             var error = await Assert.ThrowsAsync<FgaApiValidationError>(BadRequestError);
@@ -286,7 +286,7 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
             Task<CheckResponse> InternalApiError() => auth0FgaApi.Check(body);
             var error = await Assert.ThrowsAsync<FgaApiInternalError>(InternalApiError);
@@ -327,7 +327,7 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
             Task<CheckResponse> ApiError() => auth0FgaApi.Check(body);
             var error = await Assert.ThrowsAsync<FgaApiError>(ApiError);
@@ -366,7 +366,7 @@ namespace Auth0.Fga.Test.Api {
 
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
             Task<CheckResponse> RateLimitExceededError() => auth0FgaApi.Check(body);
             var error = await Assert.ThrowsAsync<FgaApiRateLimitExceededError>(RateLimitExceededError);
@@ -413,7 +413,7 @@ namespace Auth0.Fga.Test.Api {
             };
             var auth0FgaApi = new Auth0FgaApi(config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
             await auth0FgaApi.Check(body);
 
@@ -487,7 +487,7 @@ namespace Auth0.Fga.Test.Api {
                     }))
                 }
             };
-            var body = new TypeDefinitions(new List<TypeDefinition>() { new("repo", relations) });
+            var body = new WriteAuthorizationModelRequest(new List<TypeDefinition>() { new("repo", relations) });
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
 
             mockHandler.Protected()
@@ -587,7 +587,7 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new CheckRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
             var response = await auth0FgaApi.Check(body);
 
             mockHandler.Protected().Verify(
@@ -626,7 +626,7 @@ namespace Auth0.Fga.Test.Api {
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
             var body = new WriteRequest(
-                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }));
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b") }));
             var response = await auth0FgaApi.Write(body);
 
             mockHandler.Protected().Verify(
@@ -662,7 +662,7 @@ namespace Auth0.Fga.Test.Api {
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
             var body = new WriteRequest(new TupleKeys(new List<TupleKey> { }),
-                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }));
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b") }));
             var response = await auth0FgaApi.Write(body);
 
             mockHandler.Protected().Verify(
@@ -698,8 +698,8 @@ namespace Auth0.Fga.Test.Api {
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
             var body = new WriteRequest(
-                new TupleKeys(new List<TupleKey> { new("document:roadmap", "writer", "anne") }),
-                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "anne") }),
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "writer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b") }),
+                new TupleKeys(new List<TupleKey> { new("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b") }),
                 "1uHxCSuTP0VKPYSnkq1pbb1jeZw");
             var response = await auth0FgaApi.Write(body);
 
@@ -794,7 +794,7 @@ namespace Auth0.Fga.Test.Api {
                 )
                 .ReturnsAsync(new HttpResponseMessage() {
                     StatusCode = HttpStatusCode.OK,
-                    Content = Utils.CreateJsonStringContent(mockResponse)
+                    Content = Utils.CreateJsonStringContent(mockResponse),
                 });
 
             var httpClient = new HttpClient(mockHandler.Object);
@@ -817,6 +817,57 @@ namespace Auth0.Fga.Test.Api {
         }
 
         /// <summary>
+        /// Test ListObjects
+        /// </summary>
+        [Fact]
+        public async Task ListObjectsTest() {
+            var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
+            var expectedResponse = new ListObjectsResponse { ObjectIds = new List<string> { "roadmap" } };
+            mockHandler.Protected()
+                .Setup<Task<HttpResponseMessage>>(
+                    "SendAsync",
+                    ItExpr.Is<HttpRequestMessage>(req =>
+                        req.RequestUri == new Uri($"{_config.BasePath}/stores/{_config.StoreId}/list-objects") &&
+                        req.Method == HttpMethod.Post),
+                    ItExpr.IsAny<CancellationToken>()
+                )
+                .ReturnsAsync(new HttpResponseMessage() {
+                    StatusCode = HttpStatusCode.OK,
+                    Content = Utils.CreateJsonStringContent(expectedResponse),
+                });
+
+            var httpClient = new HttpClient(mockHandler.Object);
+            var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
+
+            var body = new ListObjectsRequest {
+                AuthorizationModelId = "01GAHCE4YVKPQEKZQHT2R89MQV",
+                User = "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+                Relation = "can_read",
+                Type = "document",
+                ContextualTuples = new ContextualTupleKeys() {
+                    TupleKeys = new List<TupleKey> {
+                        new("folder:product", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"),
+                        new("document:roadmap", "parent", "folder:product")
+                    }
+                }
+            };
+            var response = await auth0FgaApi.ListObjects(body);
+
+            mockHandler.Protected().Verify(
+                "SendAsync",
+                Times.Exactly(1),
+                ItExpr.Is<HttpRequestMessage>(req =>
+                    req.RequestUri == new Uri($"{_config.BasePath}/stores/{_config.StoreId}/list-objects") &&
+                    req.Method == HttpMethod.Post),
+                ItExpr.IsAny<CancellationToken>()
+            );
+
+            Assert.IsType<ListObjectsResponse>(response);
+            Assert.Single(response.ObjectIds);
+            Assert.Equal(response, expectedResponse);
+        }
+
+        /// <summary>
         /// Test Read
         /// </summary>
         [Fact]
@@ -824,7 +875,7 @@ namespace Auth0.Fga.Test.Api {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var expectedResponse = new ReadResponse() {
                 Tuples = new List<Model.Tuple>() {
-                                new(new TupleKey("document:roadmap", "viewer", "anne"), DateTime.Now)
+                                new(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"), DateTime.Now)
                             }
             };
             mockHandler.Protected()
@@ -843,7 +894,7 @@ namespace Auth0.Fga.Test.Api {
             var httpClient = new HttpClient(mockHandler.Object);
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
-            var body = new ReadRequest(new TupleKey("document:roadmap", "viewer", "anne"));
+            var body = new ReadRequest(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
             var response = await auth0FgaApi.Read(body);
 
             mockHandler.Protected().Verify(
@@ -868,7 +919,7 @@ namespace Auth0.Fga.Test.Api {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
             var expectedResponse = new ReadChangesResponse() {
                 Changes = new List<TupleChange>() {
-                            new(new TupleKey("document:roadmap", "viewer", "anne"), TupleOperation.WRITE, DateTime.Now),
+                            new(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"), TupleOperation.WRITE, DateTime.Now),
                         },
                 ContinuationToken = "eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ=="
             };
@@ -933,7 +984,7 @@ namespace Auth0.Fga.Test.Api {
             var auth0FgaApi = new Auth0FgaApi(_config, httpClient);
 
             var body = new WriteAssertionsRequest(assertions: new List<Assertion>() {
-                new(new TupleKey("document:roadmap", "viewer", "anne"), true)
+                new(new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"), true)
             });
             await auth0FgaApi.WriteAssertions(authorizationModelId, body);
 

@@ -38,7 +38,7 @@ namespace Auth0.Fga.Model {
         /// <param name="difference">difference.</param>
         /// <param name="union">union.</param>
         /// <param name="intersection">intersection.</param>
-        public Node(string? name = default(string), Leaf? leaf = default(Leaf), UsersetTreeDifference? difference = default(UsersetTreeDifference), Nodes? union = default(Nodes), Nodes? intersection = default(Nodes)) {
+        public Node(string name = default(string), Leaf leaf = default(Leaf), UsersetTreeDifference difference = default(UsersetTreeDifference), Nodes union = default(Nodes), Nodes intersection = default(Nodes)) {
             this.Name = name;
             this.Leaf = leaf;
             this.Difference = difference;
@@ -52,35 +52,35 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets Leaf
         /// </summary>
         [DataMember(Name = "leaf", EmitDefaultValue = false)]
         [JsonPropertyName("leaf")]
-        public Leaf Leaf { get; set; }
+        public Leaf? Leaf { get; set; }
 
         /// <summary>
         /// Gets or Sets Difference
         /// </summary>
         [DataMember(Name = "difference", EmitDefaultValue = false)]
         [JsonPropertyName("difference")]
-        public UsersetTreeDifference Difference { get; set; }
+        public UsersetTreeDifference? Difference { get; set; }
 
         /// <summary>
         /// Gets or Sets Union
         /// </summary>
         [DataMember(Name = "union", EmitDefaultValue = false)]
         [JsonPropertyName("union")]
-        public Nodes Union { get; set; }
+        public Nodes? Union { get; set; }
 
         /// <summary>
         /// Gets or Sets Intersection
         /// </summary>
         [DataMember(Name = "intersection", EmitDefaultValue = false)]
         [JsonPropertyName("intersection")]
-        public Nodes Intersection { get; set; }
+        public Nodes? Intersection { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

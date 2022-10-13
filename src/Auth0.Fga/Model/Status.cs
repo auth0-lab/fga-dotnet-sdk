@@ -36,7 +36,7 @@ namespace Auth0.Fga.Model {
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
         /// <param name="details">details.</param>
-        public Status(int code = default(int), string? message = default(string), List<Any>? details = default(List<Any>)) {
+        public Status(int code = default(int), string message = default(string), List<Any> details = default(List<Any>)) {
             this.Code = code;
             this.Message = message;
             this.Details = details;
@@ -48,21 +48,21 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "code", EmitDefaultValue = false)]
         [JsonPropertyName("code")]
-        public int Code { get; set; }
+        public int? Code { get; set; }
 
         /// <summary>
         /// Gets or Sets Message
         /// </summary>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or Sets Details
         /// </summary>
         [DataMember(Name = "details", EmitDefaultValue = false)]
         [JsonPropertyName("details")]
-        public List<Any> Details { get; set; }
+        public List<Any>? Details { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

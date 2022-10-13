@@ -34,7 +34,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="Usersets" /> class.
         /// </summary>
         /// <param name="child">child.</param>
-        public Usersets(List<Userset>? child = default(List<Userset>)) {
+        public Usersets(List<Userset> child = default(List<Userset>)) {
             this.Child = child;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -44,7 +44,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "child", EmitDefaultValue = false)]
         [JsonPropertyName("child")]
-        public List<Userset> Child { get; set; }
+        public List<Userset>? Child { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

@@ -34,7 +34,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="WriteAuthorizationModelResponse" /> class.
         /// </summary>
         /// <param name="authorizationModelId">authorizationModelId.</param>
-        public WriteAuthorizationModelResponse(string? authorizationModelId = default(string)) {
+        public WriteAuthorizationModelResponse(string authorizationModelId = default(string)) {
             this.AuthorizationModelId = authorizationModelId;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -44,7 +44,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
         [JsonPropertyName("authorization_model_id")]
-        public string AuthorizationModelId { get; set; }
+        public string? AuthorizationModelId { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

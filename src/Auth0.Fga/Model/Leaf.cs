@@ -36,7 +36,7 @@ namespace Auth0.Fga.Model {
         /// <param name="users">users.</param>
         /// <param name="computed">computed.</param>
         /// <param name="tupleToUserset">tupleToUserset.</param>
-        public Leaf(Users? users = default(Users), Computed? computed = default(Computed), UsersetTreeTupleToUserset? tupleToUserset = default(UsersetTreeTupleToUserset)) {
+        public Leaf(Users users = default(Users), Computed computed = default(Computed), UsersetTreeTupleToUserset tupleToUserset = default(UsersetTreeTupleToUserset)) {
             this.Users = users;
             this.Computed = computed;
             this.TupleToUserset = tupleToUserset;
@@ -48,21 +48,21 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "users", EmitDefaultValue = false)]
         [JsonPropertyName("users")]
-        public Users Users { get; set; }
+        public Users? Users { get; set; }
 
         /// <summary>
         /// Gets or Sets Computed
         /// </summary>
         [DataMember(Name = "computed", EmitDefaultValue = false)]
         [JsonPropertyName("computed")]
-        public Computed Computed { get; set; }
+        public Computed? Computed { get; set; }
 
         /// <summary>
         /// Gets or Sets TupleToUserset
         /// </summary>
         [DataMember(Name = "tupleToUserset", EmitDefaultValue = false)]
         [JsonPropertyName("tupleToUserset")]
-        public UsersetTreeTupleToUserset TupleToUserset { get; set; }
+        public UsersetTreeTupleToUserset? TupleToUserset { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

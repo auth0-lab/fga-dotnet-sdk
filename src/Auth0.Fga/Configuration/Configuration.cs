@@ -37,7 +37,7 @@ public class Configuration : BaseConfiguration {
     ///     Checks if the configuration is valid
     /// </summary>
     /// <exception cref="FgaRequiredParamError"></exception>
-    public new void IsValid() {
+    public void IsValid() {
         if (string.IsNullOrWhiteSpace(StoreId)) {
             throw new FgaRequiredParamError("Configuration", nameof(StoreId));
         }

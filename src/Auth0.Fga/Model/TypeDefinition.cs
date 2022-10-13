@@ -34,18 +34,16 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="TypeDefinition" /> class.
         /// </summary>
         /// <param name="type">type (required).</param>
-        /// <param name="relations">relations (required).</param>
-        public TypeDefinition(string? type = default(string), Dictionary<string, Userset>? relations = default(Dictionary<string, Userset>)) {
+        /// <param name="relations">relations.</param>
+        /// <param name="metadata">metadata.</param>
+        public TypeDefinition(string type = default(string), Dictionary<string, Userset> relations = default(Dictionary<string, Userset>), Metadata metadata = default(Metadata)) {
             // to ensure "type" is required (not null)
             if (type == null) {
                 throw new ArgumentNullException("type is a required property for TypeDefinition and cannot be null");
             }
             this.Type = type;
-            // to ensure "relations" is required (not null)
-            if (relations == null) {
-                throw new ArgumentNullException("relations is a required property for TypeDefinition and cannot be null");
-            }
             this.Relations = relations;
+            this.Metadata = metadata;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
@@ -59,9 +57,16 @@ namespace Auth0.Fga.Model {
         /// <summary>
         /// Gets or Sets Relations
         /// </summary>
-        [DataMember(Name = "relations", IsRequired = true, EmitDefaultValue = false)]
+        [DataMember(Name = "relations", EmitDefaultValue = false)]
         [JsonPropertyName("relations")]
-        public Dictionary<string, Userset> Relations { get; set; }
+        public Dictionary<string, Userset>? Relations { get; set; }
+
+        /// <summary>
+        /// Gets or Sets Metadata
+        /// </summary>
+        [DataMember(Name = "metadata", EmitDefaultValue = false)]
+        [JsonPropertyName("metadata")]
+        public Metadata? Metadata { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -115,6 +120,11 @@ namespace Auth0.Fga.Model {
                     this.Relations != null &&
                     input.Relations != null &&
                     this.Relations.SequenceEqual(input.Relations)
+                ) &&
+                (
+                    this.Metadata == input.Metadata ||
+                    (this.Metadata != null &&
+                    this.Metadata.Equals(input.Metadata))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -132,6 +142,9 @@ namespace Auth0.Fga.Model {
                 }
                 if (this.Relations != null) {
                     hashCode = (hashCode * 9923) + this.Relations.GetHashCode();
+                }
+                if (this.Metadata != null) {
+                    hashCode = (hashCode * 9923) + this.Metadata.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

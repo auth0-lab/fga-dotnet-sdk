@@ -42,7 +42,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="code">code.</param>
         /// <param name="message">message.</param>
-        public AuthenticationErrorMessageResponse(AuthErrorCode? code = default(AuthErrorCode?), string? message = default(string)) {
+        public AuthenticationErrorMessageResponse(AuthErrorCode? code = default(AuthErrorCode?), string message = default(string)) {
             this.Code = code;
             this.Message = message;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -53,7 +53,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "message", EmitDefaultValue = false)]
         [JsonPropertyName("message")]
-        public string Message { get; set; }
+        public string? Message { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

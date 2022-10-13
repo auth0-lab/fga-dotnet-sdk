@@ -34,7 +34,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="Computed" /> class.
         /// </summary>
         /// <param name="userset">userset.</param>
-        public Computed(string? userset = default(string)) {
+        public Computed(string userset = default(string)) {
             this.Userset = userset;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -44,7 +44,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "userset", EmitDefaultValue = false)]
         [JsonPropertyName("userset")]
-        public string Userset { get; set; }
+        public string? Userset { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

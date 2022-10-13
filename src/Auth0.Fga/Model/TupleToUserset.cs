@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="tupleset">tupleset.</param>
         /// <param name="computedUserset">computedUserset.</param>
-        public TupleToUserset(ObjectRelation? tupleset = default(ObjectRelation), ObjectRelation? computedUserset = default(ObjectRelation)) {
+        public TupleToUserset(ObjectRelation tupleset = default(ObjectRelation), ObjectRelation computedUserset = default(ObjectRelation)) {
             this.Tupleset = tupleset;
             this.ComputedUserset = computedUserset;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tupleset", EmitDefaultValue = false)]
         [JsonPropertyName("tupleset")]
-        public ObjectRelation Tupleset { get; set; }
+        public ObjectRelation? Tupleset { get; set; }
 
         /// <summary>
         /// Gets or Sets ComputedUserset
         /// </summary>
         [DataMember(Name = "computedUserset", EmitDefaultValue = false)]
         [JsonPropertyName("computedUserset")]
-        public ObjectRelation ComputedUserset { get; set; }
+        public ObjectRelation? ComputedUserset { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

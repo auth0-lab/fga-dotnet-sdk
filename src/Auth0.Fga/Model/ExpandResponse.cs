@@ -34,7 +34,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="ExpandResponse" /> class.
         /// </summary>
         /// <param name="tree">tree.</param>
-        public ExpandResponse(UsersetTree? tree = default(UsersetTree)) {
+        public ExpandResponse(UsersetTree tree = default(UsersetTree)) {
             this.Tree = tree;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -44,7 +44,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tree", EmitDefaultValue = false)]
         [JsonPropertyName("tree")]
-        public UsersetTree Tree { get; set; }
+        public UsersetTree? Tree { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

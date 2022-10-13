@@ -18,43 +18,33 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// CheckResponse
+    /// RelationMetadata
     /// </summary>
-    [DataContract(Name = "CheckResponse")]
-    public partial class CheckResponse : IEquatable<CheckResponse>, IValidatableObject {
+    [DataContract(Name = "RelationMetadata")]
+    public partial class RelationMetadata : IEquatable<RelationMetadata>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckResponse" /> class.
+        /// Initializes a new instance of the <see cref="RelationMetadata" /> class.
         /// </summary>
         [JsonConstructor]
-        public CheckResponse() {
+        public RelationMetadata() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckResponse" /> class.
+        /// Initializes a new instance of the <see cref="RelationMetadata" /> class.
         /// </summary>
-        /// <param name="allowed">allowed.</param>
-        /// <param name="resolution">For internal use only..</param>
-        public CheckResponse(bool allowed = default(bool), string resolution = default(string)) {
-            this.Allowed = allowed;
-            this.Resolution = resolution;
+        /// <param name="directlyRelatedUserTypes">directlyRelatedUserTypes.</param>
+        public RelationMetadata(List<RelationReference> directlyRelatedUserTypes = default(List<RelationReference>)) {
+            this.DirectlyRelatedUserTypes = directlyRelatedUserTypes;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Allowed
+        /// Gets or Sets DirectlyRelatedUserTypes
         /// </summary>
-        [DataMember(Name = "allowed", EmitDefaultValue = true)]
-        [JsonPropertyName("allowed")]
-        public bool? Allowed { get; set; }
-
-        /// <summary>
-        /// For internal use only.
-        /// </summary>
-        /// <value>For internal use only.</value>
-        [DataMember(Name = "resolution", EmitDefaultValue = false)]
-        [JsonPropertyName("resolution")]
-        public string? Resolution { get; set; }
+        [DataMember(Name = "directly_related_user_types", EmitDefaultValue = false)]
+        [JsonPropertyName("directly_related_user_types")]
+        public List<RelationReference>? DirectlyRelatedUserTypes { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,11 +62,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a CheckResponse from the JSON string presentation of the object
+        /// Builds a RelationMetadata from the JSON string presentation of the object
         /// </summary>
-        /// <returns>CheckResponse</returns>
-        public static CheckResponse FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<CheckResponse>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>RelationMetadata</returns>
+        public static RelationMetadata FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<RelationMetadata>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -85,27 +75,24 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as CheckResponse);
+            return this.Equals(input as RelationMetadata);
         }
 
         /// <summary>
-        /// Returns true if CheckResponse instances are equal
+        /// Returns true if RelationMetadata instances are equal
         /// </summary>
-        /// <param name="input">Instance of CheckResponse to be compared</param>
+        /// <param name="input">Instance of RelationMetadata to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CheckResponse input) {
+        public bool Equals(RelationMetadata input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Allowed == input.Allowed ||
-                    this.Allowed.Equals(input.Allowed)
-                ) &&
-                (
-                    this.Resolution == input.Resolution ||
-                    (this.Resolution != null &&
-                    this.Resolution.Equals(input.Resolution))
+                    this.DirectlyRelatedUserTypes == input.DirectlyRelatedUserTypes ||
+                    this.DirectlyRelatedUserTypes != null &&
+                    input.DirectlyRelatedUserTypes != null &&
+                    this.DirectlyRelatedUserTypes.SequenceEqual(input.DirectlyRelatedUserTypes)
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -118,9 +105,8 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                hashCode = (hashCode * 9923) + this.Allowed.GetHashCode();
-                if (this.Resolution != null) {
-                    hashCode = (hashCode * 9923) + this.Resolution.GetHashCode();
+                if (this.DirectlyRelatedUserTypes != null) {
+                    hashCode = (hashCode * 9923) + this.DirectlyRelatedUserTypes.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

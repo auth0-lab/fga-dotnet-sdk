@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="_base">_base.</param>
         /// <param name="subtract">subtract.</param>
-        public UsersetTreeDifference(Node? _base = default(Node), Node? subtract = default(Node)) {
+        public UsersetTreeDifference(Node _base = default(Node), Node subtract = default(Node)) {
             this.Base = _base;
             this.Subtract = subtract;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "base", EmitDefaultValue = false)]
         [JsonPropertyName("base")]
-        public Node Base { get; set; }
+        public Node? Base { get; set; }
 
         /// <summary>
         /// Gets or Sets Subtract
         /// </summary>
         [DataMember(Name = "subtract", EmitDefaultValue = false)]
         [JsonPropertyName("subtract")]
-        public Node Subtract { get; set; }
+        public Node? Subtract { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

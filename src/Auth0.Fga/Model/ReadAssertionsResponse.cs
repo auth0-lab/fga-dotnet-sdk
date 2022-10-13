@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="authorizationModelId">authorizationModelId.</param>
         /// <param name="assertions">assertions.</param>
-        public ReadAssertionsResponse(string? authorizationModelId = default(string), List<Assertion>? assertions = default(List<Assertion>)) {
+        public ReadAssertionsResponse(string authorizationModelId = default(string), List<Assertion> assertions = default(List<Assertion>)) {
             this.AuthorizationModelId = authorizationModelId;
             this.Assertions = assertions;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "authorization_model_id", EmitDefaultValue = false)]
         [JsonPropertyName("authorization_model_id")]
-        public string AuthorizationModelId { get; set; }
+        public string? AuthorizationModelId { get; set; }
 
         /// <summary>
         /// Gets or Sets Assertions
         /// </summary>
         [DataMember(Name = "assertions", EmitDefaultValue = false)]
         [JsonPropertyName("assertions")]
-        public List<Assertion> Assertions { get; set; }
+        public List<Assertion>? Assertions { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

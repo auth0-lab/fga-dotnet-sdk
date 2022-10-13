@@ -32,7 +32,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="Any" /> class.
         /// </summary>
         /// <param name="type">type.</param>
-        public Any(string? type = default(string)) : base() {
+        public Any(string type = default(string)) : base() {
             this.Type = type;
         }
 
@@ -41,7 +41,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "@type", EmitDefaultValue = false)]
         [JsonPropertyName("@type")]
-        public string Type { get; set; }
+        public string? Type { get; set; }
 
 
         /// <summary>

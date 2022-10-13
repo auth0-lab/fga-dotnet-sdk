@@ -37,7 +37,7 @@ namespace Auth0.Fga.Model {
         /// <param name="name">name.</param>
         /// <param name="createdAt">createdAt.</param>
         /// <param name="updatedAt">updatedAt.</param>
-        public GetStoreResponse(string? id = default(string), string? name = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime)) {
+        public GetStoreResponse(string id = default(string), string name = default(string), DateTime createdAt = default(DateTime), DateTime updatedAt = default(DateTime)) {
             this.Id = id;
             this.Name = name;
             this.CreatedAt = createdAt;
@@ -50,28 +50,28 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
 
         /// <summary>
         /// Gets or Sets Name
         /// </summary>
         [DataMember(Name = "name", EmitDefaultValue = false)]
         [JsonPropertyName("name")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Gets or Sets CreatedAt
         /// </summary>
         [DataMember(Name = "created_at", EmitDefaultValue = false)]
         [JsonPropertyName("created_at")]
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets UpdatedAt
         /// </summary>
         [DataMember(Name = "updated_at", EmitDefaultValue = false)]
         [JsonPropertyName("updated_at")]
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

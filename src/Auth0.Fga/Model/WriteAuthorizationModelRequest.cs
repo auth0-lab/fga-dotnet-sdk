@@ -18,33 +18,42 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// TypeDefinitions
+    /// WriteAuthorizationModelRequest
     /// </summary>
-    [DataContract(Name = "TypeDefinitions")]
-    public partial class TypeDefinitions : IEquatable<TypeDefinitions>, IValidatableObject {
+    [DataContract(Name = "WriteAuthorizationModel_request")]
+    public partial class WriteAuthorizationModelRequest : IEquatable<WriteAuthorizationModelRequest>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeDefinitions" /> class.
+        /// Initializes a new instance of the <see cref="WriteAuthorizationModelRequest" /> class.
         /// </summary>
         [JsonConstructor]
-        public TypeDefinitions() {
+        public WriteAuthorizationModelRequest() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TypeDefinitions" /> class.
+        /// Initializes a new instance of the <see cref="WriteAuthorizationModelRequest" /> class.
         /// </summary>
         /// <param name="typeDefinitions">typeDefinitions.</param>
-        public TypeDefinitions(List<TypeDefinition>? typeDefinitions = default(List<TypeDefinition>)) {
-            this._TypeDefinitions = typeDefinitions;
+        /// <param name="schemaVersion">schemaVersion.</param>
+        public WriteAuthorizationModelRequest(List<TypeDefinition> typeDefinitions = default(List<TypeDefinition>), string schemaVersion = default(string)) {
+            this.TypeDefinitions = typeDefinitions;
+            this.SchemaVersion = schemaVersion;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets _TypeDefinitions
+        /// Gets or Sets TypeDefinitions
         /// </summary>
         [DataMember(Name = "type_definitions", EmitDefaultValue = false)]
         [JsonPropertyName("type_definitions")]
-        public List<TypeDefinition> _TypeDefinitions { get; set; }
+        public List<TypeDefinition>? TypeDefinitions { get; set; }
+
+        /// <summary>
+        /// Gets or Sets SchemaVersion
+        /// </summary>
+        [DataMember(Name = "schema_version", EmitDefaultValue = false)]
+        [JsonPropertyName("schema_version")]
+        public string? SchemaVersion { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -62,11 +71,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a TypeDefinitions from the JSON string presentation of the object
+        /// Builds a WriteAuthorizationModelRequest from the JSON string presentation of the object
         /// </summary>
-        /// <returns>TypeDefinitions</returns>
-        public static TypeDefinitions FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<TypeDefinitions>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>WriteAuthorizationModelRequest</returns>
+        public static WriteAuthorizationModelRequest FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<WriteAuthorizationModelRequest>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -75,24 +84,29 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as TypeDefinitions);
+            return this.Equals(input as WriteAuthorizationModelRequest);
         }
 
         /// <summary>
-        /// Returns true if TypeDefinitions instances are equal
+        /// Returns true if WriteAuthorizationModelRequest instances are equal
         /// </summary>
-        /// <param name="input">Instance of TypeDefinitions to be compared</param>
+        /// <param name="input">Instance of WriteAuthorizationModelRequest to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(TypeDefinitions input) {
+        public bool Equals(WriteAuthorizationModelRequest input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this._TypeDefinitions == input._TypeDefinitions ||
-                    this._TypeDefinitions != null &&
-                    input._TypeDefinitions != null &&
-                    this._TypeDefinitions.SequenceEqual(input._TypeDefinitions)
+                    this.TypeDefinitions == input.TypeDefinitions ||
+                    this.TypeDefinitions != null &&
+                    input.TypeDefinitions != null &&
+                    this.TypeDefinitions.SequenceEqual(input.TypeDefinitions)
+                ) &&
+                (
+                    this.SchemaVersion == input.SchemaVersion ||
+                    (this.SchemaVersion != null &&
+                    this.SchemaVersion.Equals(input.SchemaVersion))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -105,8 +119,11 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                if (this._TypeDefinitions != null) {
-                    hashCode = (hashCode * 9923) + this._TypeDefinitions.GetHashCode();
+                if (this.TypeDefinitions != null) {
+                    hashCode = (hashCode * 9923) + this.TypeDefinitions.GetHashCode();
+                }
+                if (this.SchemaVersion != null) {
+                    hashCode = (hashCode * 9923) + this.SchemaVersion.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

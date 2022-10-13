@@ -34,7 +34,7 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="Users" /> class.
         /// </summary>
         /// <param name="users">users.</param>
-        public Users(List<string>? users = default(List<string>)) {
+        public Users(List<string> users = default(List<string>)) {
             this._Users = users;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -44,7 +44,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "users", EmitDefaultValue = false)]
         [JsonPropertyName("users")]
-        public List<string> _Users { get; set; }
+        public List<string>? _Users { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

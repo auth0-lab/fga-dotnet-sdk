@@ -69,7 +69,7 @@ namespace Auth0.Fga.Test.Models {
         /// <summary>
         /// Deserialize ReadChangesResponse
         /// </summary>
-        [Fact(Skip = "Known issue deserializing TUPLE_OPERATION_WRITE")]
+        [Fact]
         public void DeserializeReadChangesResponse() {
             var jsonResponse =
                 "{\"changes\":[{\"tuple_key\":{\"object\":\"document:planning\",\"relation\":\"viewer\",\"user\":\"user:jane\"},\"operation\":\"TUPLE_OPERATION_WRITE\",\"timestamp\":\"2022-01-01T00:00:00.000000000Z\"},{\"tuple_key\":{\"object\":\"document:roadmap\",\"relation\":\"owner\",\"user\":\"user:anna\"},\"operation\":\"TUPLE_OPERATION_DELETE\",\"timestamp\":\"2022-01-01T00:00:00.000000000Z\"}],\"continuation_token\":\"abcxyz==\"}";
@@ -108,6 +108,17 @@ namespace Auth0.Fga.Test.Models {
                 "{\"tree\":{\"root\":{\"name\":\"document:roadmap#owner\", \"union\":{\"nodes\":[{\"name\":\"document:roadmap#owner\", \"leaf\":{\"users\":{\"users\":[\"team:product#member\"]}}}, {\"name\":\"document:roadmap#owner\", \"leaf\":{\"tupleToUserset\":{\"tupleset\":\"document:roadmap#owner\", \"computed\":[{\"userset\":\"org:contoso#admin\"}]}}}]}}}}";
 
             JsonSerializer.Deserialize<ExpandResponse>(jsonResponse);
+        }
+
+        /// <summary>
+        /// Deserialize ListObjectsResponse
+        /// </summary>
+        [Fact]
+        public void DeserializeListObjectsResponse() {
+            var jsonResponse =
+                "{\"object_ids\":[\"roadmap\"]}";
+
+            JsonSerializer.Deserialize<ListObjectsResponse>(jsonResponse);
         }
     }
 }

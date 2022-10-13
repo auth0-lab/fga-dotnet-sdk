@@ -34,9 +34,11 @@ namespace Auth0.Fga.Model {
         /// Initializes a new instance of the <see cref="AuthorizationModel" /> class.
         /// </summary>
         /// <param name="id">id.</param>
+        /// <param name="schemaVersion">schemaVersion.</param>
         /// <param name="typeDefinitions">typeDefinitions.</param>
-        public AuthorizationModel(string? id = default(string), List<TypeDefinition>? typeDefinitions = default(List<TypeDefinition>)) {
+        public AuthorizationModel(string id = default(string), string schemaVersion = default(string), List<TypeDefinition> typeDefinitions = default(List<TypeDefinition>)) {
             this.Id = id;
+            this.SchemaVersion = schemaVersion;
             this.TypeDefinitions = typeDefinitions;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
@@ -46,14 +48,21 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "id", EmitDefaultValue = false)]
         [JsonPropertyName("id")]
-        public string Id { get; set; }
+        public string? Id { get; set; }
+
+        /// <summary>
+        /// Gets or Sets SchemaVersion
+        /// </summary>
+        [DataMember(Name = "schema_version", EmitDefaultValue = false)]
+        [JsonPropertyName("schema_version")]
+        public string? SchemaVersion { get; set; }
 
         /// <summary>
         /// Gets or Sets TypeDefinitions
         /// </summary>
         [DataMember(Name = "type_definitions", EmitDefaultValue = false)]
         [JsonPropertyName("type_definitions")]
-        public List<TypeDefinition> TypeDefinitions { get; set; }
+        public List<TypeDefinition>? TypeDefinitions { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -103,6 +112,11 @@ namespace Auth0.Fga.Model {
                     this.Id.Equals(input.Id))
                 ) &&
                 (
+                    this.SchemaVersion == input.SchemaVersion ||
+                    (this.SchemaVersion != null &&
+                    this.SchemaVersion.Equals(input.SchemaVersion))
+                ) &&
+                (
                     this.TypeDefinitions == input.TypeDefinitions ||
                     this.TypeDefinitions != null &&
                     input.TypeDefinitions != null &&
@@ -121,6 +135,9 @@ namespace Auth0.Fga.Model {
                 int hashCode = 9661;
                 if (this.Id != null) {
                     hashCode = (hashCode * 9923) + this.Id.GetHashCode();
+                }
+                if (this.SchemaVersion != null) {
+                    hashCode = (hashCode * 9923) + this.SchemaVersion.GetHashCode();
                 }
                 if (this.TypeDefinitions != null) {
                     hashCode = (hashCode * 9923) + this.TypeDefinitions.GetHashCode();

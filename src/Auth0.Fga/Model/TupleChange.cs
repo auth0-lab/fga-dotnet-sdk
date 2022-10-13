@@ -43,7 +43,7 @@ namespace Auth0.Fga.Model {
         /// <param name="tupleKey">tupleKey.</param>
         /// <param name="operation">operation.</param>
         /// <param name="timestamp">timestamp.</param>
-        public TupleChange(TupleKey? tupleKey = default(TupleKey), TupleOperation? operation = default(TupleOperation?), DateTime timestamp = default(DateTime)) {
+        public TupleChange(TupleKey tupleKey = default(TupleKey), TupleOperation? operation = default(TupleOperation?), DateTime timestamp = default(DateTime)) {
             this.TupleKey = tupleKey;
             this.Operation = operation;
             this.Timestamp = timestamp;
@@ -55,14 +55,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tuple_key", EmitDefaultValue = false)]
         [JsonPropertyName("tuple_key")]
-        public TupleKey TupleKey { get; set; }
+        public TupleKey? TupleKey { get; set; }
 
         /// <summary>
         /// Gets or Sets Timestamp
         /// </summary>
         [DataMember(Name = "timestamp", EmitDefaultValue = false)]
         [JsonPropertyName("timestamp")]
-        public DateTime Timestamp { get; set; }
+        public DateTime? Timestamp { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

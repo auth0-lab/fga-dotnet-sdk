@@ -16,10 +16,10 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// - no_auth_error: no error  - auth_failure: generic authentication error. Details available via message field.  - auth_failed_invalid_subject: authentication failure due to invalid subject.  - auth_failed_invalid_audience: authentication failure due to invalid audience.  - auth_failed_invalid_issuer: authentication failure due to invalid issuer.  - invalid_claims: authentication failure due to invalid claims.  - auth_failed_invalid_bearer_token: authentication failure due to invalid bearer token.  - missing_customer_in_bearer_token: authentication failure with customer id missing in bearer token.  - missing_store_in_bearer_token: authentication failure with store id missing in bearer token.  - store_mismatch_in_bearer_token: authentication failure due to store mismatch from bearer token.  - customer_mismatch_in_bearer_token: authentication failure due to customer id in the request being different from the customer id in the bearer token.  - bearer_token_missing: bearer token missing in request.  - unauthenticated: unauthenticated.  - insufficient_permissions: insufficient permissions.  - unauthorized_principal: authentication denial due to unauthorized principal.
+    /// - no_auth_error: no error  - auth_failure: generic authentication error. Details available via message field.  - auth_failed_invalid_subject: authentication failure due to invalid subject.  - auth_failed_invalid_audience: authentication failure due to invalid audience.  - auth_failed_invalid_issuer: authentication failure due to invalid issuer.  - invalid_claims: authentication failure due to invalid claims.  - auth_failed_invalid_bearer_token: authentication failure due to invalid bearer token.  - missing_customer_in_bearer_token: authentication failure with customer id missing in bearer token.  - missing_store_in_bearer_token: authentication failure with store id missing in bearer token.  - store_mismatch_in_bearer_token: authentication failure due to store mismatch from bearer token.  - customer_mismatch_in_bearer_token: authentication failure due to customer id in the request being different from the customer id in the bearer token.  - bearer_token_missing: bearer token missing in request.  - missing_user_in_bearer_token: authentication failure with user id missing in bearer token.  - unauthenticated: unauthenticated.  - insufficient_permissions: insufficient permissions.  - unauthorized_principal: authentication denial due to unauthorized principal.
     /// </summary>
-    /// <value>- no_auth_error: no error  - auth_failure: generic authentication error. Details available via message field.  - auth_failed_invalid_subject: authentication failure due to invalid subject.  - auth_failed_invalid_audience: authentication failure due to invalid audience.  - auth_failed_invalid_issuer: authentication failure due to invalid issuer.  - invalid_claims: authentication failure due to invalid claims.  - auth_failed_invalid_bearer_token: authentication failure due to invalid bearer token.  - missing_customer_in_bearer_token: authentication failure with customer id missing in bearer token.  - missing_store_in_bearer_token: authentication failure with store id missing in bearer token.  - store_mismatch_in_bearer_token: authentication failure due to store mismatch from bearer token.  - customer_mismatch_in_bearer_token: authentication failure due to customer id in the request being different from the customer id in the bearer token.  - bearer_token_missing: bearer token missing in request.  - unauthenticated: unauthenticated.  - insufficient_permissions: insufficient permissions.  - unauthorized_principal: authentication denial due to unauthorized principal.</value>
-    [JsonConverter(typeof(JsonStringEnumConverter))]
+    /// <value>- no_auth_error: no error  - auth_failure: generic authentication error. Details available via message field.  - auth_failed_invalid_subject: authentication failure due to invalid subject.  - auth_failed_invalid_audience: authentication failure due to invalid audience.  - auth_failed_invalid_issuer: authentication failure due to invalid issuer.  - invalid_claims: authentication failure due to invalid claims.  - auth_failed_invalid_bearer_token: authentication failure due to invalid bearer token.  - missing_customer_in_bearer_token: authentication failure with customer id missing in bearer token.  - missing_store_in_bearer_token: authentication failure with store id missing in bearer token.  - store_mismatch_in_bearer_token: authentication failure due to store mismatch from bearer token.  - customer_mismatch_in_bearer_token: authentication failure due to customer id in the request being different from the customer id in the bearer token.  - bearer_token_missing: bearer token missing in request.  - missing_user_in_bearer_token: authentication failure with user id missing in bearer token.  - unauthenticated: unauthenticated.  - insufficient_permissions: insufficient permissions.  - unauthorized_principal: authentication denial due to unauthorized principal.</value>
+    [JsonConverter(typeof(JsonStringEnumMemberConverter<AuthErrorCode>))]
     public enum AuthErrorCode {
         /// <summary>
         /// Enum NoAuthError for value: no_auth_error
@@ -94,22 +94,28 @@ namespace Auth0.Fga.Model {
         BearerTokenMissing = 12,
 
         /// <summary>
+        /// Enum MissingUserInBearerToken for value: missing_user_in_bearer_token
+        /// </summary>
+        [EnumMember(Value = "missing_user_in_bearer_token")]
+        MissingUserInBearerToken = 13,
+
+        /// <summary>
         /// Enum Unauthenticated for value: unauthenticated
         /// </summary>
         [EnumMember(Value = "unauthenticated")]
-        Unauthenticated = 13,
+        Unauthenticated = 14,
 
         /// <summary>
         /// Enum InsufficientPermissions for value: insufficient_permissions
         /// </summary>
         [EnumMember(Value = "insufficient_permissions")]
-        InsufficientPermissions = 14,
+        InsufficientPermissions = 15,
 
         /// <summary>
         /// Enum UnauthorizedPrincipal for value: unauthorized_principal
         /// </summary>
         [EnumMember(Value = "unauthorized_principal")]
-        UnauthorizedPrincipal = 15
+        UnauthorizedPrincipal = 16
 
     }
 

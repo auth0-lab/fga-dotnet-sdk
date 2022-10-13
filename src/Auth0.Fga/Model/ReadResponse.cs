@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="tuples">tuples.</param>
         /// <param name="continuationToken">continuationToken.</param>
-        public ReadResponse(List<Tuple>? tuples = default(List<Tuple>), string? continuationToken = default(string)) {
+        public ReadResponse(List<Tuple> tuples = default(List<Tuple>), string continuationToken = default(string)) {
             this.Tuples = tuples;
             this.ContinuationToken = continuationToken;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "tuples", EmitDefaultValue = false)]
         [JsonPropertyName("tuples")]
-        public List<Tuple> Tuples { get; set; }
+        public List<Tuple>? Tuples { get; set; }
 
         /// <summary>
         /// Gets or Sets ContinuationToken
         /// </summary>
         [DataMember(Name = "continuation_token", EmitDefaultValue = false)]
         [JsonPropertyName("continuation_token")]
-        public string ContinuationToken { get; set; }
+        public string? ContinuationToken { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties

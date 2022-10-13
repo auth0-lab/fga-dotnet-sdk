@@ -18,43 +18,46 @@ using System.Text.Json.Serialization;
 
 namespace Auth0.Fga.Model {
     /// <summary>
-    /// CheckResponse
+    /// RelationReference represents a relation of a particular object type (e.g. &#39;document#viewer&#39;).
     /// </summary>
-    [DataContract(Name = "CheckResponse")]
-    public partial class CheckResponse : IEquatable<CheckResponse>, IValidatableObject {
+    [DataContract(Name = "RelationReference")]
+    public partial class RelationReference : IEquatable<RelationReference>, IValidatableObject {
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckResponse" /> class.
+        /// Initializes a new instance of the <see cref="RelationReference" /> class.
         /// </summary>
         [JsonConstructor]
-        public CheckResponse() {
+        public RelationReference() {
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="CheckResponse" /> class.
+        /// Initializes a new instance of the <see cref="RelationReference" /> class.
         /// </summary>
-        /// <param name="allowed">allowed.</param>
-        /// <param name="resolution">For internal use only..</param>
-        public CheckResponse(bool allowed = default(bool), string resolution = default(string)) {
-            this.Allowed = allowed;
-            this.Resolution = resolution;
+        /// <param name="type">type (required).</param>
+        /// <param name="relation">relation.</param>
+        public RelationReference(string type = default(string), string relation = default(string)) {
+            // to ensure "type" is required (not null)
+            if (type == null) {
+                throw new ArgumentNullException("type is a required property for RelationReference and cannot be null");
+            }
+            this.Type = type;
+            this.Relation = relation;
             this.AdditionalProperties = new Dictionary<string, object>();
         }
 
         /// <summary>
-        /// Gets or Sets Allowed
+        /// Gets or Sets Type
         /// </summary>
-        [DataMember(Name = "allowed", EmitDefaultValue = true)]
-        [JsonPropertyName("allowed")]
-        public bool? Allowed { get; set; }
+        [DataMember(Name = "type", IsRequired = true, EmitDefaultValue = false)]
+        [JsonPropertyName("type")]
+        public string Type { get; set; }
 
         /// <summary>
-        /// For internal use only.
+        /// Gets or Sets Relation
         /// </summary>
-        /// <value>For internal use only.</value>
-        [DataMember(Name = "resolution", EmitDefaultValue = false)]
-        [JsonPropertyName("resolution")]
-        public string? Resolution { get; set; }
+        [DataMember(Name = "relation", EmitDefaultValue = false)]
+        [JsonPropertyName("relation")]
+        public string? Relation { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
@@ -72,11 +75,11 @@ namespace Auth0.Fga.Model {
         }
 
         /// <summary>
-        /// Builds a CheckResponse from the JSON string presentation of the object
+        /// Builds a RelationReference from the JSON string presentation of the object
         /// </summary>
-        /// <returns>CheckResponse</returns>
-        public static CheckResponse FromJson(string jsonString) {
-            return JsonSerializer.Deserialize<CheckResponse>(jsonString) ?? throw new InvalidOperationException();
+        /// <returns>RelationReference</returns>
+        public static RelationReference FromJson(string jsonString) {
+            return JsonSerializer.Deserialize<RelationReference>(jsonString) ?? throw new InvalidOperationException();
         }
 
         /// <summary>
@@ -85,27 +88,28 @@ namespace Auth0.Fga.Model {
         /// <param name="input">Object to be compared</param>
         /// <returns>Boolean</returns>
         public override bool Equals(object input) {
-            return this.Equals(input as CheckResponse);
+            return this.Equals(input as RelationReference);
         }
 
         /// <summary>
-        /// Returns true if CheckResponse instances are equal
+        /// Returns true if RelationReference instances are equal
         /// </summary>
-        /// <param name="input">Instance of CheckResponse to be compared</param>
+        /// <param name="input">Instance of RelationReference to be compared</param>
         /// <returns>Boolean</returns>
-        public bool Equals(CheckResponse input) {
+        public bool Equals(RelationReference input) {
             if (input == null) {
                 return false;
             }
             return
                 (
-                    this.Allowed == input.Allowed ||
-                    this.Allowed.Equals(input.Allowed)
+                    this.Type == input.Type ||
+                    (this.Type != null &&
+                    this.Type.Equals(input.Type))
                 ) &&
                 (
-                    this.Resolution == input.Resolution ||
-                    (this.Resolution != null &&
-                    this.Resolution.Equals(input.Resolution))
+                    this.Relation == input.Relation ||
+                    (this.Relation != null &&
+                    this.Relation.Equals(input.Relation))
                 )
                 && (this.AdditionalProperties.Count == input.AdditionalProperties.Count && !this.AdditionalProperties.Except(input.AdditionalProperties).Any());
         }
@@ -118,9 +122,11 @@ namespace Auth0.Fga.Model {
             unchecked // Overflow is fine, just wrap
             {
                 int hashCode = 9661;
-                hashCode = (hashCode * 9923) + this.Allowed.GetHashCode();
-                if (this.Resolution != null) {
-                    hashCode = (hashCode * 9923) + this.Resolution.GetHashCode();
+                if (this.Type != null) {
+                    hashCode = (hashCode * 9923) + this.Type.GetHashCode();
+                }
+                if (this.Relation != null) {
+                    hashCode = (hashCode * 9923) + this.Relation.GetHashCode();
                 }
                 if (this.AdditionalProperties != null) {
                     hashCode = (hashCode * 9923) + this.AdditionalProperties.GetHashCode();

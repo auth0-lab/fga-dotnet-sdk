@@ -35,7 +35,7 @@ namespace Auth0.Fga.Model {
         /// </summary>
         /// <param name="_object">_object.</param>
         /// <param name="relation">relation.</param>
-        public ObjectRelation(string? _object = default(string), string? relation = default(string)) {
+        public ObjectRelation(string _object = default(string), string relation = default(string)) {
             this.Object = _object;
             this.Relation = relation;
             this.AdditionalProperties = new Dictionary<string, object>();
@@ -46,14 +46,14 @@ namespace Auth0.Fga.Model {
         /// </summary>
         [DataMember(Name = "object", EmitDefaultValue = false)]
         [JsonPropertyName("object")]
-        public string Object { get; set; }
+        public string? Object { get; set; }
 
         /// <summary>
         /// Gets or Sets Relation
         /// </summary>
         [DataMember(Name = "relation", EmitDefaultValue = false)]
         [JsonPropertyName("relation")]
-        public string Relation { get; set; }
+        public string? Relation { get; set; }
 
         /// <summary>
         /// Gets or Sets additional properties
