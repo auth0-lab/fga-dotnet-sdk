@@ -140,16 +140,20 @@ In the playground environment, you do not need to provide a client id and client
 > Learn more about [the Auth0 Fine Grained Authorization (FGA) configuration language](https://docs.fga.dev/modeling/configuration-language).
 
 ```csharp
-var relations = new Dictionary<string, Userset>()
+var documentRelations = new Dictionary<string, Userset>()
 {
     {"writer", new Userset(_this: new object())},
     {
-        "reader",
+        "viewer",
         new Userset(union: new Usersets(new List<Userset>()
             {new(new object(), new ObjectRelation("", "writer"))}))
     }
 };
-var body = new WriteAuthorizationModelRequest(new List<TypeDefinition>() {new("repo", relations)});
+var userRelations = new Dictionary<string, Userset>()
+{
+};
+
+var body = new WriteAuthorizationModelRequest(new List<TypeDefinition>() {new("document", documentRelations), new("user", userRelations)});
 var response = await auth0FgaApi.WriteAuthorizationModel(body);
 
 // response.AuthorizationModelId = 1uHxCSuTP0VKPYSnkq1pbb1jeZw
@@ -164,7 +168,7 @@ string authorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"; // Assuming `1uHxCS
 var response = await auth0FgaApi.ReadAuthorizationModel(authorizationModelId);
 
 // response.AuthorizationModel.Id = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"
-// response.AuthorizationModel.TypeDefinitions = [{ "type": "repo", "relations": { ... } }]
+// response.AuthorizationModel.TypeDefinitions = [{ "type": "document", "relations": { ... } }, { "type": "user", "relations": { ... }}]
 ```
 
 #### Read Authorization Model IDs
@@ -183,7 +187,7 @@ var response = await auth0FgaApi.ReadAuthorizationModels();
 
 ```csharp
 var body =
-    new CheckRequest(tupleKey: new TupleKey("document:project-roadmap", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
+    new CheckRequest{tupleKey: new TupleKey("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"), AuthorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"};
 var response = await auth0FgaApi.Check(body);
 // response.Allowed = true
 ```
@@ -193,8 +197,8 @@ var response = await auth0FgaApi.Check(body);
 [API Documentation](https://docs.fga.dev/api/service#/Relationship%20Tuples/Write)
 
 ```csharp
-var body = new WriteRequest(new TupleKeys(new List<TupleKey>
-    {new("document:project-roadmap", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b")}));
+var body = new WriteRequest{Writes = new TupleKeys(new List<TupleKey>
+    {new("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b")}), AuthorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"};
 var response = await auth0FgaApi.Write(body);
 ```
 
@@ -203,8 +207,8 @@ var response = await auth0FgaApi.Write(body);
 [API Documentation](https://docs.fga.dev/api/service#/Relationship%20Tuples/Write)
 
 ```csharp
-var body = new WriteRequest(new TupleKeys(new List<TupleKey> { }),
-    new TupleKeys(new List<TupleKey> {new("document:project-roadmap", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b")}));
+var body = new WriteRequest{Deletes = new TupleKeys(new List<TupleKey>
+    {new("document:roadmap", "viewer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b")}), AuthorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"};
 var response = await auth0FgaApi.Write(body);
 ```
 
@@ -213,10 +217,10 @@ var response = await auth0FgaApi.Write(body);
 [API Documentation](https://docs.fga.dev/api/service#/Relationship%20Queries/Expand)
 
 ```csharp
-var body = new ExpandRequest(new TupleKey("document:project-roadmap", "editor"));
+var body = new ExpandRequest{TupleKey = new TupleKey("document:roadmap", "viewer"), AuthorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw"};
 var response = await auth0FgaApi.Expand(body);
 
-// response.Tree.Root = {"name":"workspace:675bcac4-ad38-4fb1-a19a-94a5648c91d6#admin","leaf":{"users":{"users":["user:81684243-9356-4421-8fbf-a4f8d36aa31b","user:f52a4f7a-054d-47ff-bb6e-3ac81269988f"]}}}
+// response.Tree.Root = {"name":"document:roadmap#viewer","leaf":{"users":{"users":["user:81684243-9356-4421-8fbf-a4f8d36aa31b","user:f52a4f7a-054d-47ff-bb6e-3ac81269988f"]}}}
 ```
 
 #### Read Changes
@@ -224,28 +228,30 @@ var response = await auth0FgaApi.Expand(body);
 [API Documentation](https://docs.fga.dev/api/service#/Relationship%20Tuples/Read)
 
 ```csharp
-// Find if a relationship tuple stating that a certain user is an admin on a certain workspace
+// Find if a relationship tuple stating that a certain user is a viewer of a certain document
 var body = new ReadRequest(new TupleKey(
-    _object: "workspace:675bcac4-ad38-4fb1-a19a-94a5648c91d6",
-    relation: "admin",
+    _object: "document:roadmap",
+    relation: "viewer",
+    user: "user:81684243-9356-4421-8fbf-a4f8d36aa31b");
+
+// Find all relationship tuples where a certain user has a relationship as any relation to a certain document
+var body = new ReadRequest(new TupleKey(
+    _object: "document:roadmap",
     user: "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
-// Find all relationship tuples where a certain user has a relationship as any relation to a certain workspace
+// Find all relationship tuples where a certain user is a viewer of any document
 var body = new ReadRequest(new TupleKey(
-    _object: "workspace:675bcac4-ad38-4fb1-a19a-94a5648c91d6",
+    _object: "document:",
+    relation: "viewer",
     user: "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 
-// Find all relationship tuples where a certain user is an admin on any workspace
+// Find all relationship tuples where any user has a relationship as any relation with a particular document
 var body = new ReadRequest(new TupleKey(
-    _object: "workspace:",
-    relation: "admin",
-    user: "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
+    _object: "document:roadmap"));
 
-// Find all relationship tuples where any user has a relationship as any relation with a particular workspace
-var body = new ReadRequest(new TupleKey(
-    _object: "workspace:675bcac4-ad38-4fb1-a19a-94a5648c91d6"));
+// Read all stored relationship tuples
+body := ReadRequest()
 
-var body = new ReadRequest(new TupleKey("document:project-roadmap", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"));
 var response = await auth0FgaApi.Read(body);
 
 // In all the above situations, the response will be of the form:
@@ -257,7 +263,7 @@ var response = await auth0FgaApi.Read(body);
 [API Documentation](https://docs.fga.dev/api/service#/Relationship%20Tuples/ReadChanges)
 
 ```csharp
-var type = 'workspace';
+var type = 'document';
 var pageSize = 25;
 var continuationToken = 'eyJwayI6IkxBVEVTVF9OU0NPTkZJR19hdXRoMHN0b3JlIiwic2siOiIxem1qbXF3MWZLZExTcUoyN01MdTdqTjh0cWgifQ==';
 
@@ -265,8 +271,8 @@ var response = await auth0FgaApi.ReadChanges(type, pageSize, continuationToken);
 
 // response.continuation_token = ...
 // response.changes = [
-//   { tuple_key: { user, relation, object }, operation: "write", timestamp: ... },
-//   { tuple_key: { user, relation, object }, operation: "delete", timestamp: ... }
+//   { tuple_key: { user, relation, object }, operation: "writer", timestamp: ... },
+//   { tuple_key: { user, relation, object }, operation: "viewer", timestamp: ... }
 // ]
 ```
 
@@ -276,20 +282,19 @@ var response = await auth0FgaApi.ReadChanges(type, pageSize, continuationToken);
 
 ```csharp
 var body = new ListObjectsRequest{
-    AuthorizationModelId = "01GAHCE4YVKPQEKZQHT2R89MQV",
-    User = "user:anne",
-    Relation = "can_read",
+    AuthorizationModelId = "1uHxCSuTP0VKPYSnkq1pbb1jeZw",
+    User = "user:81684243-9356-4421-8fbf-a4f8d36aa31b",
+    Relation = "viewer",
     Type = "document",
     ContextualTuples = new ContextualTupleKeys() {
         TupleKeys = new List<TupleKey> {
-            new("folder:product", "editor", "user:81684243-9356-4421-8fbf-a4f8d36aa31b"),
-            new("document:roadmap", "parent", "folder:product")
+            new("document:budget", "writer", "user:81684243-9356-4421-8fbf-a4f8d36aa31b")
         }
     }
 };
 var response = await auth0FgaApi.ListObjects(body);
 
-// response.ObjectIds = ["roadmap"]
+// response.Objects = ["document:roadmap"]
 ```
 
 
@@ -299,7 +304,7 @@ var response = await auth0FgaApi.ListObjects(body);
 | ------------- | ------------- | ------------- |
 | [**Check**](docs/Auth0FgaApi.md#check) | **POST** /stores/{store_id}/check | Check whether a user is authorized to access an object |
 | [**Expand**](docs/Auth0FgaApi.md#expand) | **POST** /stores/{store_id}/expand | Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship |
-| [**ListObjects**](docs/Auth0FgaApi.md#listobjects) | **POST** /stores/{store_id}/list-objects | [EXPERIMENTAL] Returns a list of all of the object IDs of the provided type that the given user has a specific relation with |
+| [**ListObjects**](docs/Auth0FgaApi.md#listobjects) | **POST** /stores/{store_id}/list-objects | [EXPERIMENTAL] Get all objects of the given type that the user has a relation with |
 | [**Read**](docs/Auth0FgaApi.md#read) | **POST** /stores/{store_id}/read | Get tuples from the store that matches a query, without following userset rewrite rules |
 | [**ReadAssertions**](docs/Auth0FgaApi.md#readassertions) | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID |
 | [**ReadAuthorizationModel**](docs/Auth0FgaApi.md#readauthorizationmodel) | **GET** /stores/{store_id}/authorization-models/{id} | Return a particular version of an authorization model |
@@ -322,18 +327,15 @@ var response = await auth0FgaApi.ListObjects(body);
  - [Model.CheckResponse](docs/CheckResponse.md)
  - [Model.Computed](docs/Computed.md)
  - [Model.ContextualTupleKeys](docs/ContextualTupleKeys.md)
- - [Model.CreateStoreResponse](docs/CreateStoreResponse.md)
  - [Model.Difference](docs/Difference.md)
  - [Model.ErrorCode](docs/ErrorCode.md)
  - [Model.ExpandRequest](docs/ExpandRequest.md)
  - [Model.ExpandResponse](docs/ExpandResponse.md)
- - [Model.GetStoreResponse](docs/GetStoreResponse.md)
  - [Model.InternalErrorCode](docs/InternalErrorCode.md)
  - [Model.InternalErrorMessageResponse](docs/InternalErrorMessageResponse.md)
  - [Model.Leaf](docs/Leaf.md)
  - [Model.ListObjectsRequest](docs/ListObjectsRequest.md)
  - [Model.ListObjectsResponse](docs/ListObjectsResponse.md)
- - [Model.ListStoresResponse](docs/ListStoresResponse.md)
  - [Model.Metadata](docs/Metadata.md)
  - [Model.Node](docs/Node.md)
  - [Model.Nodes](docs/Nodes.md)
@@ -351,7 +353,6 @@ var response = await auth0FgaApi.ListObjects(body);
  - [Model.ResourceExhaustedErrorCode](docs/ResourceExhaustedErrorCode.md)
  - [Model.ResourceExhaustedErrorMessageResponse](docs/ResourceExhaustedErrorMessageResponse.md)
  - [Model.Status](docs/Status.md)
- - [Model.Store](docs/Store.md)
  - [Model.Tuple](docs/Tuple.md)
  - [Model.TupleChange](docs/TupleChange.md)
  - [Model.TupleKey](docs/TupleKey.md)

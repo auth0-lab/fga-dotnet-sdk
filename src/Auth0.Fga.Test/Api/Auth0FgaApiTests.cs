@@ -822,7 +822,7 @@ namespace Auth0.Fga.Test.Api {
         [Fact]
         public async Task ListObjectsTest() {
             var mockHandler = new Mock<HttpMessageHandler>(MockBehavior.Strict);
-            var expectedResponse = new ListObjectsResponse { ObjectIds = new List<string> { "roadmap" } };
+            var expectedResponse = new ListObjectsResponse { Objects = new List<string> { "document:roadmap" } };
             mockHandler.Protected()
                 .Setup<Task<HttpResponseMessage>>(
                     "SendAsync",
@@ -863,7 +863,7 @@ namespace Auth0.Fga.Test.Api {
             );
 
             Assert.IsType<ListObjectsResponse>(response);
-            Assert.Single(response.ObjectIds);
+            Assert.Single(response.Objects);
             Assert.Equal(response, expectedResponse);
         }
 
