@@ -39,7 +39,7 @@ Warning: This SDK comes with no SLAs and is not production-ready!
 
 ## About
 
-[Auth0 Fine Grained Authorization (FGA)](https://fga.dev) is an open source Fine-Grained Authorization solution inspired by [Google's Zanzibar paper](https://research.google/pubs/pub48190/). It was created by the FGA team at [Auth0](https://auth0.com) based on [Auth0 Fine-Grained Authorization (FGA)](https://fga.dev), available under [a permissive license (Apache-2)](https://github.com/auth0-lab/rfcs/blob/main/LICENSE) and welcomes community contributions.
+[Auth0 Fine Grained Authorization (FGA)](https://fga.dev) is Auth0's Fine-Grained Authorization at scale SaaS based on Google's Zanzibar.
 
 Auth0 Fine Grained Authorization (FGA) is designed to make it easy for application builders to model their permission layer, and to add and integrate fine-grained authorization into their applications. Auth0 Fine Grained Authorization (FGA)’s design is optimized for reliability and low latency at a high scale.
 
@@ -304,11 +304,11 @@ var response = await auth0FgaApi.ListObjects(body);
 | ------------- | ------------- | ------------- |
 | [**Check**](docs/Auth0FgaApi.md#check) | **POST** /stores/{store_id}/check | Check whether a user is authorized to access an object |
 | [**Expand**](docs/Auth0FgaApi.md#expand) | **POST** /stores/{store_id}/expand | Expand all relationships in userset tree format, and following userset rewrite rules.  Useful to reason about and debug a certain relationship |
-| [**ListObjects**](docs/Auth0FgaApi.md#listobjects) | **POST** /stores/{store_id}/list-objects | [EXPERIMENTAL] Get all objects of the given type that the user has a relation with |
+| [**ListObjects**](docs/Auth0FgaApi.md#listobjects) | **POST** /stores/{store_id}/list-objects | Get all objects of the given type that the user has a relation with |
 | [**Read**](docs/Auth0FgaApi.md#read) | **POST** /stores/{store_id}/read | Get tuples from the store that matches a query, without following userset rewrite rules |
 | [**ReadAssertions**](docs/Auth0FgaApi.md#readassertions) | **GET** /stores/{store_id}/assertions/{authorization_model_id} | Read assertions for an authorization model ID |
 | [**ReadAuthorizationModel**](docs/Auth0FgaApi.md#readauthorizationmodel) | **GET** /stores/{store_id}/authorization-models/{id} | Return a particular version of an authorization model |
-| [**ReadAuthorizationModels**](docs/Auth0FgaApi.md#readauthorizationmodels) | **GET** /stores/{store_id}/authorization-models | Return all the authorization model IDs for a particular store |
+| [**ReadAuthorizationModels**](docs/Auth0FgaApi.md#readauthorizationmodels) | **GET** /stores/{store_id}/authorization-models | Return all the authorization models for a particular store |
 | [**ReadChanges**](docs/Auth0FgaApi.md#readchanges) | **GET** /stores/{store_id}/changes | Return a list of all the tuple changes |
 | [**Write**](docs/Auth0FgaApi.md#write) | **POST** /stores/{store_id}/write | Add or delete tuples from the store |
 | [**WriteAssertions**](docs/Auth0FgaApi.md#writeassertions) | **PUT** /stores/{store_id}/assertions/{authorization_model_id} | Upsert assertions for an authorization model ID |
