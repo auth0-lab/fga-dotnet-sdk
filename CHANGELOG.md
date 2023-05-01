@@ -1,5 +1,11 @@
 # Changelog
 
+## v0.5.1
+
+### [0.5.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.5.0...v0.5.1) (2023-05-01)
+- fix: client credentials token expiry period was being evaluated as ms instead of seconds, leading to token refreshes on every call
+- chore(deps): upgrade dependencies
+
 ## v0.5.0
 
 ### [0.5.0](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.4.0...v0.5.0) (2022-12-16)
