@@ -13,6 +13,10 @@ assignees: ''
 
 By submitting an Issue to this repository, you agree to the terms within the [Auth0 Code of Conduct](https://github.com/auth0/open-source-template/blob/master/CODE-OF-CONDUCT.md).
 
+### Deprecation Notice
+
+Please note that this SDK is deprecated and is no longer maintained.
+
 ### Description
 
 > Provide a clear and concise description of the issue, including what you expected to happen.

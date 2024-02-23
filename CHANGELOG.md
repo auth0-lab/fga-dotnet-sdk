@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.6.0
+
+### [0.6.0](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.5.1...v0.6.0) (2024-02-23)
+
+[Breaking]
+
+As of this point this SDK is deprecated and should no longer be used. Please use [OpenFga.Sdk](https://www.nuget.org/packages/OpenFga.Sdk) instead.
+
+We strongly recommend you use the [OpenFGA .NET SDK](https://github.com/openfga/dotnet-sdk) directly instead with the following configuration:
+
+For US1 (Production US) environment, use the following values:
+- API URL: `https://api.us1.fga.dev`
+- Credential Method: ClientCredentials
+- API Token Issuer: `fga.us.auth0.com`
+- API Audience: `https://api.us1.fga.dev/`
+
+You can get the rest of the necessary variables from the FGA Dashboard. See [here](https://docs.fga.dev/intro/dashboard#create-api-credentials).
+
+
 ## v0.5.1
 
 ### [0.5.1](https://github.com/auth0-lab/fga-dotnet-sdk/compare/v0.5.0...v0.5.1) (2023-05-01)
